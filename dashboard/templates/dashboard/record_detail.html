@@ -136,6 +136,26 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
+                                <p class="mb-0">Supervisor Team</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+
+                                    {% for supervisor_obj in dashboardmodel.supervisor.all %}
+                                    {% if not forloop.first %}
+                                        ,
+                                    {% endif %}
+
+                                    {{supervisor_obj}}
+                            
+                                    {% endfor %}
+
+                                </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
                                 <p class="mb-0">Person Responsible</p>
                                 </div>
                                 <div class="col-sm-9">
