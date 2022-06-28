@@ -1,0 +1,17 @@
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+<h1>Delete record</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ dashboardmodel.job_reference_number }}"?</p>
+    <input type="submit" value="Confirm">
+    <a class="btn btn-primary" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+</form>
+
+
+
+
+{% endblock content %}
