@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    
     'dashboard.apps.DashboardConfig', # Dashboard app added
     # "sequences.apps.SequencesConfig", # https://pypi.org/project/django-sequences/
     
@@ -112,14 +114,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 USE_L10N = False
+
 DATE_INPUT_FORMATS = [
     "%d/%m/%Y",
+    '%Y-%m-%d'
 ]
 DATE_FORMAT = "d/m/Y"
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-GB'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Dublin'
 
 USE_I18N = True
 
@@ -130,6 +134,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

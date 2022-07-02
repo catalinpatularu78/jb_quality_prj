@@ -17,12 +17,12 @@
     <table class="table table-striped table-hover table-bordered align-middle table-responsive ">
 
         <tr class="table-info">
-            <th scope="col"> # </th>
+
             <th scope="col">Issue Date</th>
             <th scope="col">NCR Number</th>
             <th scope="col">Job Reference Number</th>
-            <th scope="col">Location</th>
-            <th scope="col">Area</th>
+            <th scope="col" class="d-none d-md-table-cell ">Location</th>
+            <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
@@ -34,10 +34,13 @@
         {% for dash in dashboardmodel_list %}
 
         <tr class="align-top">
-            <th scope="row">{{ forloop.counter }}</th>
+            <!-- <th scope="row">{{ forloop.counter }}</th> -->
             
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
-            <td>{{ dash.ncr_number }}</td>
+            <td>
+
+                <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
+            </td>
             <td>{{ dash.job_reference_number }}</td>
 
 
@@ -45,7 +48,7 @@
                 {{ dash.description |slice:":50"  }}
             </td> -->
 
-            <td>
+            <td class="d-none d-md-table-cell ">
                 {% for location in dash.location.all %}
 
                 {{location}}
@@ -53,8 +56,12 @@
                 {% endfor %}
             </td>
 
-            <td>
+            <td class="d-none d-md-table-cell ">
                 {% for area in dash.area.all %}
+                
+                {% if not forloop.first %}
+                    ,
+                {% endif %}
 
                 {{area}}
         
@@ -98,7 +105,25 @@
 
     </table>
 
+    <div class="row">
+        <div class="col-12">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
 
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
 
 
 </div>

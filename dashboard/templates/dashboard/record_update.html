@@ -3,10 +3,13 @@
 
 {% block content %}
 <h1>Edit post</h1>
-<form action="" method="post">{% csrf_token %}
+<form action="" method="post">
+    
+    {% csrf_token %}
     {{ form.as_p }}
     <input class="btn btn-primary" type="submit" value="Update">
     <a class="btn btn-warning" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+
 </form>
 
 

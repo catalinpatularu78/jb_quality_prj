@@ -56,12 +56,18 @@ class DashboardModel(models.Model):
     
     ncr_hyperlink = models.CharField(max_length =300 , null=True, blank = True)
     
-    # def __str__(self) -> str:
-    #     return self.job_reference_number
+    
+    
+    def __str__(self) -> str:
+        if self.job_reference_number:
+            return self.job_reference_number
+        return str(self.id)
+    
     
     def get_absolute_url(self):
         return reverse("record_detail", args=[str(self.id)])
     
+
 
     
 

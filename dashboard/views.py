@@ -1,22 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render , redirect
 from django.http import HttpResponseRedirect
 
-from django.views.generic import View
-from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView  # new
+
+from django.views.generic import View 
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
 
 from dashboard.models import DashboardModel
+from dashboard.forms import RecordForm
 
 
 
 
 # Create your views here.
 
-class HomePage(View):
+class HomePage(TemplateView):
     
-    def get(self, request, *args, **kwargs): 
-        return render(request, 'index.html')
+    template_name = 'index.html'
+
 
 
 class DashboardPage(ListView):
@@ -32,18 +34,31 @@ class DashboardPage(ListView):
         "issue_resolved", 
         "closure_date"
         ]
-    
+    paginate_by = 20
     
 class RecordDetailPage(DetailView):
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
+    context_object_name = 'record'
 
 
-class RecordCreatePage(CreateView):
-    model = DashboardModel
+    
+class RecordCreatePage(FormView):
+    
     template_name = "dashboard/record_create.html"
-    fields = '__all__'
+    form_class = RecordForm
     success_url = reverse_lazy("dashboard")
+        
+        
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    
+    def form_invalid(self, form):
+        # print (form['issue_date'].value())
+        return redirect('main_page')
+
 
 
 class RecordUpdatePage(UpdateView):
@@ -51,6 +66,8 @@ class RecordUpdatePage(UpdateView):
     template_name = "dashboard/record_update.html"
     fields = '__all__'
     success_url = reverse_lazy("dashboard")
+    
+
 
 
 class RecordDeletePage(DeleteView):

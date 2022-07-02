@@ -1,17 +1,79 @@
 
+
 {% extends 'main.html' %}
 
 {% block content %}
 
-    <h1>Create record</h1>
 
-    <form action="" method="post">
+<div class="container-fluid">
+        <div class="row flex-nowrap">
+                <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white " id="menu">
+                        <li class="text-white">
+                                <a href="{% url 'main_page' %}"" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                                <i class="bi bi-house-fill"></i> <span class="ms-1 d-none d-sm-inline text-white ">Home</span> </a>
 
-        {% csrf_token %}
-        
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-        <a class="btn btn-primary" href="{% url 'dashboard' %}" role="button">CANCEL</a>
-    </form>
+                        </li>
+                        <li class="text-white">
+                                <a href="{% url 'dashboard' %}"" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
+                                <i class="bi bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline text-white ">Dashboard</span> </a>
+
+                        </li>
+                        <li>
+                                <a href="#" class="nav-link px-0 align-middle text-white">
+                                <i class="bi bi-person-plus-fill"></i> <span class="ms-1 d-none d-sm-inline text-white">Create Record</span></a>
+                        </li>
+                        <li>
+                                <a href="#" class="nav-link px-0 align-middle text-white">
+                                <i class="bi bi-x-circle"></i> <span class="ms-1 d-none d-sm-inline text-white">Logout</span> </a>
+                        </li>
+                        </u>
+                        <hr>
+
+                </div>
+                </div>
+                <div class="col py-3">
+
+                <div class="col-4  ">
+                        <div class="card-body p-md-5">
+                                <form action="" method="post">
+                                        
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                                {{ form.ncr_number}}
+                                        </div>
+                                        <div class="mb-3">
+                                                {{ form.job_reference_number}}
+                                        </div>
+                                        <div class="mb-3">
+                                                {{ form.issue_date}}
+                                        </div>
+                                        <div class="mb-3 input-group">
+
+                                                <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="Text1" name="TextBox1" oninput="add_number()">
+                                                <span class="input-group-text"> : </span>
+                                                <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="Text2" name="TextBox2" oninput="add_number()">
+                                                <span class="input-group-text"> : </span>
+                                                <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="Text3" name="TextBox3" oninput="add_number()">
+                                        </div>
+
+                                        <div class="input-group mb-3">        
+                                                {{ form.downtime_time}}
+                                                <span class="input-group-text">total minutes</span>
+                                        </div>
+
+                                        <input class="btn btn-primary" type="submit" value="SUBMIT">
+
+                                        <a class="btn btn-danger" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                                </form>
+                        </div>
+                </div>
+                </div>
+        </div>
+</div>
+
+
+
 
 {% endblock content %}

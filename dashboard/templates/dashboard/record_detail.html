@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="dashboardmodel-entry">
+<div class="record-entry">
 
     <section style="background-color: #eee;">
         <div class="container py-5">
@@ -12,8 +12,8 @@
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                 <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">DASHBOARD</a></li>
-                <!-- <li class="breadcrumb-item"><a href="{% url 'record_update' dashboardmodel.pk%}">UPDATE</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page">Job Reference - {{ dashboardmodel.job_reference_number}}</li>
+                <!-- <li class="breadcrumb-item"><a href="{% url 'record_update' record.pk%}">UPDATE</a></li> -->
+                <li class="breadcrumb-item active" aria-current="page">Job Reference - {{ record.job_reference_number}}</li>
                 </ol>
             </nav>
             </div>
@@ -23,12 +23,12 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center">
-                        <h5 class="my-3">Job Reference Number: {{ dashboardmodel.job_reference_number}}</h5>
+                        <h5 class="my-3">Job Reference Number: {{ record.job_reference_number}}</h5>
                         <hr>
                         <p class="text-muted mb-1">
-                            {% if dashboardmodel.issue_solved == "yes"  %}
+                            {% if record.issue_solved == "yes"  %}
                                 <button type="button" class="btn btn-success p-5 fw-bolder">ISSUE OPEN</button>
-                            {% elif dashboardmodel.issue_solved == "no" %}
+                            {% elif record.issue_solved == "no" %}
                                 <button type="button" class="btn btn-danger p-5 fw-bolder " >ISSUE CLOSED</button>
                             {% else %}
                                 <h1>----</h1>
@@ -38,10 +38,10 @@
                         <hr>
 
                         <div class="d-flex justify-content-evenly mb-2">
-                            <a class="btn btn-info " href="{% url 'record_update' dashboardmodel.pk %}" role="button">
+                            <a class="btn btn-info " href="{% url 'record_update' record.pk %}" role="button">
                                 UPDATE
                             </a>
-                            <a class="btn btn-secondary" href="{% url 'record_delete' dashboardmodel.pk %}"  role="button">
+                            <a class="btn btn-secondary" href="{% url 'record_delete' record.pk %}"  role="button">
                                 <!-- style=" background-color: #68889E; color:#FFF; border-color: #2F3E48;" -->
                                 DELETE
                             </a>
@@ -51,40 +51,52 @@
                     </div>
                 </div>
             <div class="card mb-4 mb-lg-0">
-                <div class="card-body p-3">
+                <div class="card-body p-3 text-center">
                     <div class="row">
-                        <div class="col-sm-4">
-                        <p class="mb-0">NCR-Number :</p>
+                        <div class="col-sm-5 ">
+                            <p class="mb-0 font-weight-bold ">NCR-Number</>
                         </div>
-                        <div class="col-sm-8">
-                        <p class="text-muted mb-0">{{ dashboardmodel.ncr_number}}</p>
+                        <div class="col-sm-1 ">
+                            <h5 class="mb-0 font-weight-bold ">:</>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">{{ record.ncr_number}}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-4">
-                        <p class="mb-0">Cost :</p>
+                        <div class="col-sm-5">
+                            <p class="mb-0 font-weight-bold ">Cost</>
                         </div>
-                        <div class="col-sm-8">
-                        <p class="text-muted mb-0">£{{ dashboardmodel.cost}}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-4">
-                        <p class="mb-0">Issue Date :</p>
-                        </div>
-                        <div class="col-sm-8">
-                        <p class="text-muted mb-0">{{ dashboardmodel.issue_date }}</p>
+                        <div class="col-sm-1 ">
+                            <h5 class="mb-0 font-weight-bold ">:</>
+                            </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">{{ record.cost }}</p>
                         </div>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-sm-4">
-                        <p class="mb-0">Closure Date :</p>
+                        <div class="col-sm-5">
+                            <p class="mb-0 font-weight-bold ">Issue Date</>
                         </div>
-                        <div class="col-sm-8">
-                        <p class="text-muted mb-0">{{ dashboardmodel.closure_date}}</p>
+                        <div class="col-sm-1 ">
+                            <h5 class="mb-0 font-weight-bold ">:</>
+                            </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">{{ record.issue_date }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <p class="mb-0 font-weight-bold ">Closure Date</>
+                        </div>
+                        <div class="col-sm-1 ">
+                            <h5 class="mb-0 font-weight-bold ">:</>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">{{ record.closure_date}}</p>
                         </div>
                     </div>
                 </div>
@@ -101,7 +113,7 @@
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
 
-                                    {% for location in dashboardmodel.location.all %}
+                                    {% for location in record.location.all %}
                                     {% if not forloop.first %}
                                     ,
                                     {% endif %}
@@ -121,7 +133,7 @@
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
 
-                                    {% for area in dashboardmodel.area.all %}
+                                    {% for area in record.area.all %}
                                     {% if not forloop.first %}
                                         ,
                                     {% endif %}
@@ -141,7 +153,7 @@
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
 
-                                    {% for supervisor_obj in dashboardmodel.supervisor.all %}
+                                    {% for supervisor_obj in record.supervisor.all %}
                                     {% if not forloop.first %}
                                         ,
                                     {% endif %}
@@ -161,7 +173,7 @@
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
 
-                                    {% for employee_obj in dashboardmodel.employee.all %}
+                                    {% for employee_obj in record.employee.all %}
 
                                             {% if not forloop.first %}
                                                 ,
@@ -177,82 +189,109 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">description</p>
+                                <p class="mb-0">Description</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ dashboardmodel.description }}</p>
+                                <p class="text-muted mb-0">{{ record.description }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Phone</p>
+                                <p class="mb-0">Estimated Completion Time</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">(097) 234-5678</p>
+                                <p class="text-muted mb-0">{{ record.estimated_completion_time }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Mobile</p>
+                                <p class="mb-0">Downtime Time</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">(098) 765-4321</p>
+                                <p class="text-muted mb-0">{{ record.downtime_time }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Address</p>
+                                <p class="mb-0">Root Cause</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                <p class="text-muted mb-0">{{ record.root_cause }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Full Name</p>
+                                <p class="mb-0">Interim containment Action</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">Johnatan Smith</p>
+                                <p class="text-muted mb-0">{{ record.interim_containment_action }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Email</p>
+                                <p class="mb-0">Corrective Action</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">example@example.com</p>
+                                <p class="text-muted mb-0">{{ record.corrective_action }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Phone</p>
+                                <p class="mb-0">Result Validation Action</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">(097) 234-5678</p>
+                                <p class="text-muted mb-0">{{ record.result_validation_action }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Mobile</p>
+                                <p class="mb-0">Issue Affect Other Areas</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">(098) 765-4321</p>
+                                <p class="text-muted mb-0">{{ record.issue_affect_other_areas }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Address</p>
+                                <p class="mb-0">Issue Affect Other Areas Description</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                <p class="text-muted mb-0">{{ record.issue_affect_other_areas_description }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Prevented Reoccurrence</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.prevented_reoccurrence }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">images</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.images }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Ncr Hyperlink</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.ncr_hyperlink }}</p>
                                 </div>
                             </div>
                         </div>
