@@ -22,39 +22,43 @@ class DashboardModel(models.Model):
         editable=False)
 
     # Fields displayed on dashboard page
-    issue_date = models.DateField(null=True, blank = True)
-    closure_date = models.DateField(null=True, blank = True)
     
+    area = models.ManyToManyField('AreaOfIssue',blank=True)
+    
+    closure_date = models.DateField(null=True, blank = True)
+    cost = models.FloatField(null=True ,blank = True)
+    issue_date = models.DateField(null=True, blank = True)
+    issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
+    location = models.ManyToManyField('Locations' ,blank=True)
     ncr_number =  models.CharField(max_length =100 , null=True, blank = True )
     
-    cost = models.FloatField(null=True ,blank = True)
-    issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     
+    # additional fields displayed on create + detail + update 
+    advice_number =  models.CharField(max_length =100 , null=True, blank = True )
+    corrective_action = models.TextField(null=True , blank = True)
+    description = models.TextField(null=True , blank = True)
+    downtime_time = models.IntegerField (null=True, blank = True)
+    employee = models.ManyToManyField('Employees' ,blank=True)
+    estimated_completion_time = models.IntegerField (null=True, blank = True)
+    images = models.CharField(max_length =300 , null=True, blank = True) # hyperlink
+    interim_containment_action = models.TextField(null=True , blank = True)
+    issue_affect_other_areas = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
+    issue_affect_other_areas_description = models.TextField(null=True , blank = True)
+    ncr_hyperlink = models.CharField(max_length =300 , null=True, blank = True)
+    prevented_reoccurrence = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
+    result_validation_action = models.TextField(null=True , blank = True)
+    root_cause = models.TextField(null=True , blank = True)
+    supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     
     
 
-    area = models.ManyToManyField('AreaOfIssue',blank=True)
-    location = models.ManyToManyField('Locations' ,blank=True)
+
     
-    # additional fields displayed on create + detail + update 
     
-    estimated_completion_time = models.IntegerField (null=True, blank = True)
-    downtime_time = models.IntegerField (null=True, blank = True)
-    employee = models.ManyToManyField('Employees' ,blank=True)
-    supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
-    description = models.TextField(null=True , blank = True)
-    root_cause = models.TextField(null=True , blank = True)
-    interim_containment_action = models.TextField(null=True , blank = True)
-    corrective_action = models.TextField(null=True , blank = True)
-    result_validation_action = models.TextField(null=True , blank = True)
-    issue_affect_other_areas = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
-    issue_affect_other_areas_description = models.TextField(null=True , blank = True)
-    prevented_reoccurrence = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     
-    images = models.CharField(max_length =300 , null=True, blank = True) # hyperlink
     
-    ncr_hyperlink = models.CharField(max_length =300 , null=True, blank = True)
+    
     
     
     

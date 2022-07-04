@@ -43,22 +43,22 @@ class RecordDetailPage(DetailView):
 
 
     
-class RecordCreatePage(FormView):
-    
+class RecordCreatePage(CreateView):
+    model = DashboardModel
     template_name = "dashboard/record_create.html"
     form_class = RecordForm
     success_url = reverse_lazy("dashboard")
 
         
         
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     form.save()
+    #     return super().form_valid(form)
 
     
-    def form_invalid(self, form):
-        # print (form['issue_date'].value())
-        return redirect('main_page')
+    # def form_invalid(self, form):
+    #     # print (form['issue_date'].value())
+    #     return redirect('main_page')
 
 
 
