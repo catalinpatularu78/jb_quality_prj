@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.urls import reverse_lazy  # new
 
 from dashboard.models import DashboardModel
-from dashboard.forms import RecordForm
+from dashboard.forms import RecordForm , UpdateCrispyForm
 
 
 
@@ -31,7 +31,7 @@ class DashboardPage(ListView):
         "location", 
         "area",
         "cost",
-        "issue_resolved", 
+        "issue_solved", 
         "closure_date"
         ]
     paginate_by = 20
@@ -48,6 +48,7 @@ class RecordCreatePage(FormView):
     template_name = "dashboard/record_create.html"
     form_class = RecordForm
     success_url = reverse_lazy("dashboard")
+
         
         
     def form_valid(self, form):
@@ -62,10 +63,13 @@ class RecordCreatePage(FormView):
 
 
 class RecordUpdatePage(UpdateView):
+    
     model = DashboardModel
+    form_class = UpdateCrispyForm
     template_name = "dashboard/record_update.html"
-    fields = '__all__'
+
     success_url = reverse_lazy("dashboard")
+    
     
 
 

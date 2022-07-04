@@ -8,42 +8,51 @@
 <div class="container-fluid">
         <div class="row flex-nowrap">
                 <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white " id="menu">
-                        <li class="text-white">
-                                <a href="{% url 'main_page' %}"" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-house-fill"></i> <span class="ms-1 d-none d-sm-inline text-white ">Home</span> </a>
+                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-white " id="menu">
+                                        <li class="text-white">
+                                                <a href="{% url 'main_page' %}" class="nav-link px-0 align-middle text-white data-bs-toggle="collapse">
+                                                        <i class="bi bi-house-fill"></i>
+                                                        <span class="ms-1 d-none d-sm-inline text-white ">
+                                                                Home
+                                                        </span> 
+                                                </a>
 
-                        </li>
-                        <li class="text-white">
-                                <a href="{% url 'dashboard' %}"" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline text-white ">Dashboard</span> </a>
+                                        </li>
+                                        <li class="text-white">
+                                                <a href="{% url 'dashboard' %}"  class="nav-link px-0 align-middle text-white data-bs-toggle="collapse">
+                                                <i class="bi bi-speedometer2"></i> 
+                                                <span class="ms-1 d-none d-sm-inline text-white ">
+                                                        Dashboard
+                                                </span>
+                                                </a>
+                                                
+                                        </li>
+                                        <li>
+                                                <a href="#" class="nav-link px-0 align-middle text-white">
+                                                <i class="bi bi-x-circle"></i> <span class="ms-1 d-none d-sm-inline text-white">Logout</span> </a>
+                                        </li>
+                                </ul>
 
-                        </li>
-                        <li>
-                                <a href="#" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-person-plus-fill"></i> <span class="ms-1 d-none d-sm-inline text-white">Create Record</span></a>
-                        </li>
-                        <li>
-                                <a href="#" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-x-circle"></i> <span class="ms-1 d-none d-sm-inline text-white">Logout</span> </a>
-                        </li>
-                        </u>
-                        <hr>
-
-                </div>
+                        </div>
                 </div>
                 <div class="col py-3">
 
-                <div class="col-4  ">
+                <div class="col-sm-9  ">
                         <div class="card-body p-md-5">
                                 <form action="" method="post">
-                                        
                                         {% csrf_token %}
-                                        <div class="mb-3">
-                                                {{ form.ncr_number}}
+                                        
+                                        <div class="d-flex">
+                                                <div class="d-inline-block col-3  mt-2">
+                                                        {{ form.ncr_number.label }} : 
+                                                </div>
+                                                <div class="d-inline-block col-9 mb-3">
+                                                        {{ form.ncr_number}}
+                                                </div>
                                         </div>
-                                        <div class="mb-3">
+
+                                        <div class="mb-3" >
                                                 {{ form.job_reference_number}}
                                         </div>
                                         <div class="mb-3">
@@ -51,11 +60,12 @@
                                         </div>
                                         <div class="mb-3 input-group">
 
-                                                <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="Text1" name="TextBox1" oninput="add_number()">
+                                                <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="DayConversion"  oninput="add_number()">
                                                 <span class="input-group-text"> : </span>
-                                                <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="Text2" name="TextBox2" oninput="add_number()">
+                                                <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="HourConversion"  oninput="add_number()">
                                                 <span class="input-group-text"> : </span>
-                                                <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="Text3" name="TextBox3" oninput="add_number()">
+                                                <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="MinuteConversion"  oninput="add_number()">
+
                                         </div>
 
                                         <div class="input-group mb-3">        

@@ -74,7 +74,6 @@ class DashboardModel(models.Model):
 
 class AreaOfIssue(models.Model):
     name = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid4, unique=True,
                         primary_key=True, editable=False)
 
@@ -84,7 +83,6 @@ class AreaOfIssue(models.Model):
     
 class Locations(models.Model):
     name = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid4, unique=True,
                         primary_key=True, editable=False)
 
@@ -93,7 +91,6 @@ class Locations(models.Model):
     
 class Employees(models.Model):
     name = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid4, unique=True,
                         primary_key=True, editable=False)
 

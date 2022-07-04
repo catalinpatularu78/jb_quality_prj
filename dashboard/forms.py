@@ -3,6 +3,9 @@ from django.db.models.base import Model
 from django.forms import ModelForm, widgets
 from django import forms
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, HTML, Submit
+
 
 from dashboard.models import DashboardModel
 
@@ -65,7 +68,13 @@ class RecordForm(ModelForm):
         
         
         widgets = {
-            "issue_date" : forms.DateInput( attrs={'class':'form-control' ,'id':'inputDate' , 'type':'date' , 'placeholder':'Issue Date' }), 
+            "issue_date" : forms.DateInput( attrs={
+                    'class':'form-control' ,
+                    'id':'inputDate' , 
+                    'type':'date' , 
+                    'placeholder':'Issue Date' , 
+                    'onclick' : 'showPicker()'
+                    }), 
             "ncr_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'NCR Number'}),
             "job_reference_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Job Reference Number'}),
             'location': forms.CheckboxSelectMultiple(),
@@ -89,3 +98,25 @@ class RecordForm(ModelForm):
             "ncr_hyperlink" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'ncr_hyperlink'}),
             }
         
+        
+class UpdateCrispyForm(ModelForm):
+    
+    class Meta:
+        model = DashboardModel
+        
+        fields = (
+            "issue_date", 
+            "ncr_number", 
+            "job_reference_number",
+        )
+        
+    @property
+    def helper(self):
+        helper = FormHelper()
+        helper.layout= Layout(
+            
+            HTML('<h1>Edit post</h1>')
+
+
+        )
+        return helper

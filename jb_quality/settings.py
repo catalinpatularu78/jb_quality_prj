@@ -39,10 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     
+    'crispy_forms', # package for custom form rendering https://django-crispy-forms.readthedocs.io/en/latest/
+    "crispy_bootstrap5",
+    
     'dashboard.apps.DashboardConfig', # Dashboard app added
-    # "sequences.apps.SequencesConfig", # https://pypi.org/project/django-sequences/
     
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

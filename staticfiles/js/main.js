@@ -9,23 +9,12 @@
 
 // function to convert DD:HH:MM to minutes 
 
-
-
 function add_number() {
-    let text1 = document.getElementById("Text1");
-    let text2 = document.getElementById("Text2");
-    let text3 = document.getElementById("Text3");
 
-    let first_number = parseInt(text1.value);
-    if (isNaN(first_number)) first_number = 0;
-    let second_number = parseInt(text2.value);
-    if (isNaN(second_number)) second_number = 0;
-    let third_number = parseInt(text3.value);
-    if (isNaN(third_number)) third_number = 0;
-    var result = (first_number * 1440)  + (second_number * 60 ) + third_number;
+    const day_number = parseInt((document.getElementById("DayConversion").value)* 1440 || 0) ;  // 0 or get day value multiplied by minutes per day 
+    const hour_number = parseInt(document.getElementById("HourConversion").value * 60 || 0);    // 0 or get hour value multiplied by minutes per hour
+    const minute_number = parseInt(document.getElementById("MinuteConversion").value) || 0;     // 0 or get minutes value
 
-
-    document.getElementById("id_downtime_time").value = result;
+    document.getElementById("id_downtime_time").value = day_number + hour_number + minute_number; // total value -> html element 
 }
-
 
