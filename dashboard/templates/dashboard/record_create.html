@@ -1,0 +1,53 @@
+
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+                <div class="card-body p-md-5">
+                        <form action="" method="post">
+                                {% csrf_token %}
+                                
+                                <div class="d-flex">
+                                        <div class="d-inline-block col-3  mt-2 text-truncate">
+                                                {{ form.ncr_number.label }} : 
+                                        </div>
+                                        <div class="d-inline-block col-9 mb-3">
+                                                {{ form.ncr_number}}
+                                        </div>
+                                </div>
+
+                                <div class="mb-3" >
+                                        {{ form.job_reference_number}}
+                                </div>
+                                <div class="mb-3">
+                                        {{ form.issue_date}}
+                                </div>
+                                <div class="mb-3 input-group">
+
+                                        <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="DayConversion"  oninput="add_number()">
+                                        <span class="input-group-text"> : </span>
+                                        <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="HourConversion"  oninput="add_number()">
+                                        <span class="input-group-text"> : </span>
+                                        <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="MinuteConversion"  oninput="add_number()">
+
+                                </div>
+
+                                <div class="input-group mb-3">        
+                                        {{ form.downtime_time}}
+                                        <span class="input-group-text">total minutes</span>
+                                </div>
+
+                                <input class="btn btn-primary" type="submit" value="SUBMIT">
+
+                                <a class="btn btn-danger" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                        </form>
+                </div>
+
+
+        
+
+
+
+{% endblock content %}
