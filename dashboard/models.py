@@ -1,13 +1,39 @@
 from django.db import models
 from django.urls import reverse
-
+from django.db.models import CharField
+import math
 from uuid import uuid4
 
 
 
 # Register dashboard models in dashboard/admin.py
 
+
 # Create your models here.
+class CustomDurationField(CharField):
+
+    def to_python(self, value):
+
+        duration = super().to_python(value)
+        return str(duration)
+
+    def get_prep_value(self, value):
+
+        total_minutes = int(value)   
+        days_in_minutes = 1440  
+
+        minutes_entered = total_minutes % 60 
+   
+        days_entered =  total_minutes // days_in_minutes
+        entered_days_in_minutes = days_entered * days_in_minutes
+        hours_entered = ((total_minutes - entered_days_in_minutes) - minutes_entered) // 60
+
+        str = "{}D {}H {}M".format(days_entered, hours_entered, minutes_entered)
+
+        str = super(CustomDurationField,self).get_prep_value(str)
+        return self.to_python(str)
+	
+
 class DashboardModel(models.Model):
 
     
@@ -38,7 +64,7 @@ class DashboardModel(models.Model):
     advice_number =  models.CharField(max_length =100 , null=True, blank = True )
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True)
-    downtime_time = models.IntegerField (null=True, blank = True)
+    downtime_time = CustomDurationField (max_length =100, null=True)
     employee = models.ManyToManyField('Employees' ,blank=True)
     estimated_completion_time = models.IntegerField (null=True, blank = True)
     images = models.CharField(max_length =300 , null=True, blank = True) # hyperlink
