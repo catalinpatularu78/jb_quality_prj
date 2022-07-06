@@ -18,20 +18,19 @@ class CustomDurationField(CharField):
         return str(duration)
 
     def get_prep_value(self, value):
+  
+        total_minutes = int(value)  #should be 4 days 2 hours 12 minutes
 
-        total_minutes = int(value)   
-        days_in_minutes = 1440  
-
-        minutes_entered = total_minutes % 60 
+        days = total_minutes // 1440
+        daysInMinutes = days * 1440     
+        hours = (total_minutes - daysInMinutes) // 60
+        hoursInMinutes = hours * 60
+        minutes = total_minutes - (daysInMinutes + hoursInMinutes)
    
-        days_entered =  total_minutes // days_in_minutes
-        entered_days_in_minutes = days_entered * days_in_minutes
-        hours_entered = ((total_minutes - entered_days_in_minutes) - minutes_entered) // 60
+        s = (f'{math.floor(days)} D {math.floor(hours)} H {math.floor(minutes)} M') 
 
-        str = "{}D {}H {}M".format(days_entered, hours_entered, minutes_entered)
-
-        str = super(CustomDurationField,self).get_prep_value(str)
-        return self.to_python(str)
+        s = super(CustomDurationField,self).get_prep_value(s)
+        return self.to_python(s)
 	
 
 class DashboardModel(models.Model):
