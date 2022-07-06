@@ -19,7 +19,7 @@ class CustomDurationField(CharField):
 
     def get_prep_value(self, value):
   
-        total_minutes = int(value)  #should be 4 days 2 hours 12 minutes
+        total_minutes = int(value)
 
         days = total_minutes // 1440
         daysInMinutes = days * 1440     
