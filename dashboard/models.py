@@ -20,13 +20,13 @@ class CustomDuration(CharField):
 
     def get_prep_value(self, value):
 
-        total_minutes = int(value)        
-        days_in_minutes = 1440    
-        days =  total_minutes // days_in_minutes
-        entered_days_in_minutes = days * days_in_minutes
+        total_minutes = int(value)
 
-        hours = (total_minutes - entered_days_in_minutes) // 60
-        minutes = total_minutes % 60
+        days = total_minutes // 1440
+        daysInMinutes = days * 1440     
+        hours = (total_minutes - daysInMinutes) // 60
+        hoursInMinutes = hours * 60
+        minutes = total_minutes - (daysInMinutes + hoursInMinutes)
 
         str = "{:02d}{:02d}{:02d}".format(days, hours, minutes)
 
