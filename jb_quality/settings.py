@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    
+     
     'crispy_forms', # package for custom form rendering https://django-crispy-forms.readthedocs.io/en/latest/
-    "crispy_bootstrap5",
-    
-    'dashboard.apps.DashboardConfig', # Dashboard app added
+    'crispy_bootstrap5',
+    'dashboard',
+    'dashboard.templatetags',
+  
+
+ #   'dashboard.apps.DashboardConfig', # Dashboard app added
     
 ]
 
@@ -62,14 +64,41 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'jb_quality.urls'
 
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [         
+#               BASE_DIR / "templates",
+#               BASE_DIR / "templatetags"
+     
+#             ],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+
+#         # 'libraries':{
+#         #     # 'duration_filter': 'templatetags.duration_filter',
+#         #     'duration_filter' : 'dashboard.apps.templatetags.duration_filter'
+        
+#         # }
+
+
+#         },
+#     },
+# ]
+
+
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            
-            BASE_DIR / "templates"
-            
-            ],
+        'DIRS': [BASE_DIR/"templates", BASE_DIR/"templatetags"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,9 +107,20 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
+        # 'libraries':{
+
+        #     'templatetags' : 'duration_filter'    
+        # }
+
+
         },
     },
 ]
+
+
+
+
 
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 

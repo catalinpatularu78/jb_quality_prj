@@ -1,16 +1,17 @@
 from django.db import models
+from django.db.models import IntegerField
 from django.urls import reverse
 from django.db.models import CharField
 import math
 from uuid import uuid4
-
-
+from django.utils import formats
+from django.core.exceptions import ValidationError
 
 # Register dashboard models in dashboard/admin.py
 
 
 # Create your models here.
-class CustomDurationField(CharField):
+class CustomDuration(CharField):
 
     def to_python(self, value):
 
@@ -18,20 +19,21 @@ class CustomDurationField(CharField):
         return str(duration)
 
     def get_prep_value(self, value):
-  
-        total_minutes = int(value)
 
-        days = total_minutes // 1440
-        daysInMinutes = days * 1440     
-        hours = (total_minutes - daysInMinutes) // 60
-        hoursInMinutes = hours * 60
-        minutes = total_minutes - (daysInMinutes + hoursInMinutes)
-   
-        s = (f'{math.floor(days)} D {math.floor(hours)} H {math.floor(minutes)} M') 
+        total_minutes = int(value)        
+        days_in_minutes = 1440    
+        days =  total_minutes // days_in_minutes
+        entered_days_in_minutes = days * days_in_minutes
 
-        s = super(CustomDurationField,self).get_prep_value(s)
-        return self.to_python(s)
-	
+        hours = (total_minutes - entered_days_in_minutes) // 60
+        minutes = total_minutes % 60
+
+        str = "{:02d}{:02d}{:02d}".format(days, hours, minutes)
+
+        str = super(CustomDuration,self).get_prep_value(str)
+        return self.to_python(str)
+
+
 
 class DashboardModel(models.Model):
 
@@ -63,7 +65,7 @@ class DashboardModel(models.Model):
     advice_number =  models.CharField(max_length =100 , null=True, blank = True )
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True)
-    downtime_time = CustomDurationField (max_length =100, null=True)
+    downtime_time = CustomDuration(max_length =100)
     employee = models.ManyToManyField('Employees' ,blank=True)
     estimated_completion_time = models.IntegerField (null=True, blank = True)
     images = models.CharField(max_length =300 , null=True, blank = True) # hyperlink

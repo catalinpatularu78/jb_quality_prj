@@ -1,7 +1,9 @@
 {% extends 'main.html' %}
-
+{% load static %}
 
 {% block content %}
+
+
 
 <div class="record-entry">
 
@@ -219,7 +221,14 @@
                                 <p class="mb-0">Downtime Time</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.downtime_time }}</p>
+                                <p class="text-muted mb-0">
+
+                       
+                                {{ formatted_downtime }}
+                                
+                               
+                                </p>
+
                                 </div>
                             </div>
                             <hr>

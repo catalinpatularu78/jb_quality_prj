@@ -1,0 +1,27 @@
+from django import template
+from django.template.loader import get_template
+
+register = template.Library()
+
+# @register.filter(name='format_duration')
+@register.simple_tag
+def format_duration(value):
+    
+    # using list comprehension to convert number to list of integers
+    res = [int(x) for x in str(value)]
+
+    if len(res) == 5: # because there won't be leading zeros when day is a number 0 - 9
+        days = res[0]
+        hours = res[1] + res[2]
+        minutes = res[3] + res[4]
+    else: # if days is 10 or over, there will be 6 numbers
+        days = res[0] + res[1]
+        hours = res[2] + res[3]
+        minutes = res[4] + res[5]
+
+    return '{}d {}h {}m'.format(days, hours, minutes)
+
+
+users_template = get_template('record_detail.html')
+
+register.inclusion_tag(users_template)
