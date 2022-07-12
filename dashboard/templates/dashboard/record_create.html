@@ -24,6 +24,22 @@
                                 <div class="mb-3">
                                         {{ form.issue_date}}
                                 </div>
+                                <div class="mb-3">
+
+                                        <div class="d-inline-block col-3  mt-2 text-truncate">
+                                                {{ form.production_issue.label }} : 
+                                        </div>
+
+                                        <!-- {{ form.production_issue}}  -->
+
+                                        {% for issue in form.production_issue  %}
+
+                                        {{issue}}
+                                
+                                        {% endfor %}
+                                        
+                                </div>
+
                                 <div class="mb-3 input-group">
 
                                         <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="DayConversion"  oninput="add_number()">
@@ -38,6 +54,8 @@
                                         {{ form.downtime_time}}
                                         <span class="input-group-text">total minutes</span>
                                 </div>
+
+
 
                                 <input class="btn btn-primary" type="submit" value="SUBMIT">
 

@@ -17,4 +17,3 @@ function add_number() {
 
     document.getElementById("id_downtime_time").value = day_number + hour_number + minute_number; // total value -> html element 
 }
-

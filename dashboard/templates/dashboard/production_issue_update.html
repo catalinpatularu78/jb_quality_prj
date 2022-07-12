@@ -1,0 +1,41 @@
+
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+                <div class="card-body p-md-5">
+                        <form action="" method="post">
+                                {% csrf_token %}
+                                
+                                <div class="mb-3" >
+                                    <p>hello</p>
+                                        {{ form.issue_area_name}}
+                                </div>
+
+                                <input class="btn btn-primary" type="submit" value="SUBMIT" > 
+
+
+                                <a class="btn btn-danger" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                        </form>
+                        </div>
+
+                        <div class="container">
+                            <ul class="list-group">
+                                
+                                {% for production in issue_items %}
+
+                                <li class="list-group-item col-3" >  {{production.issue_area_name}}</li>
+                                    
+                                {% endfor %}
+                            
+                            </ul>
+                        </div>
+                </div>
+
+
+
+
+
+{% endblock content %}

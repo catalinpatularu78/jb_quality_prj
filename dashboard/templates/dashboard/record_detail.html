@@ -26,10 +26,10 @@
                         <h5 class="my-3">Job Reference Number: {{ record.job_reference_number}}</h5>
                         <hr>
                         <p class="text-muted mb-1">
-                            {% if record.issue_solved == "yes"  %}
-                                <button type="button" class="btn btn-success p-5 fw-bolder">ISSUE OPEN</button>
-                            {% elif record.issue_solved == "no" %}
-                                <button type="button" class="btn btn-danger p-5 fw-bolder " >ISSUE CLOSED</button>
+                            {% if record.issue_solved == "no"  %}
+                                <button type="button" class="btn btn-success p-5 fw-bolder disabled">ISSUE OPEN</button>
+                            {% elif record.issue_solved == "yes" %}
+                                <button type="button" class="btn btn-danger p-5 fw-bolder  disabled" >ISSUE CLOSED</button>
                             {% else %}
                                 <h1>----</h1>
                             {% endif %}
@@ -106,6 +106,35 @@
                 <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Test output --- : </p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.downtime_readability }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0"> Production Issues :</p>
+                                </div>
+                                <div class="col-sm-9">
+
+                                        {% for issue in record.production_issue.all %}
+                                        {% if not forloop.first %}
+                                            ,
+                                        {% endif %}
+    
+                                        {{issue}}
+                                
+                                        {% endfor %}
+                    
+                                </div>
+                            </div>
+                            <hr>
+
+
                             <div class="row">
                                 <div class="col-sm-3">
                                 <p class="mb-0">Location</p>
@@ -202,6 +231,15 @@
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ record.archive_number }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Issue Solved</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.issue_solved }}</p>
                                 </div>
                             </div>
                             <hr>

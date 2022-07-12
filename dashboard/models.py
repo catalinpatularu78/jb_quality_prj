@@ -51,25 +51,35 @@ class DashboardModel(models.Model):
     root_cause = models.TextField(null=True , blank = True)
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     
+    # Quality issues area's 
+    
+    production_issue = models.ManyToManyField('ProductionIssues' ,blank=True)
+    j_and_b_issue = models.ManyToManyField('JandBIssues' ,blank=True)
+    supplier_issue = models.ManyToManyField('SupplierIssues' ,blank=True)
+    customer_issues = models.ManyToManyField('CustomerIssues' ,blank=True)
+    other_issues = models.ManyToManyField('OtherIssues' ,blank=True)
     
 
-
-    
-    
-    
-    
-    
-    
-    
     
     def __str__(self) -> str:
-        if self.job_reference_number:
-            return self.job_reference_number
+        if self.job_reference_number:return self.job_reference_number
         return str(self.id)
     
     
     def get_absolute_url(self):
         return reverse("record_detail", args=[str(self.id)])
+    
+    
+    def time_format_converter(self, minutes):
+        if minutes == None : return "" 
+        return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
+    
+    
+    @property
+    def downtime_readability(self):
+        readable_downtime = self.downtime_time
+        formatted_readable_date_str = self.time_format_converter(readable_downtime)
+        return (formatted_readable_date_str)
     
 
 
@@ -80,9 +90,67 @@ class AreaOfIssue(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
                         primary_key=True, editable=False)
-
+    
     def __str__(self):
         return self.name
+
+
+class ProductionIssues(models.Model):
+    issue_area_name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.issue_area_name
+    
+
+    class Meta:
+        verbose_name_plural = "Production Issues"
+    
+class JandBIssues(models.Model):
+    issue_area_name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.issue_area_name
+    
+    class Meta:
+        verbose_name_plural = "JandB Issues"
+
+    
+class SupplierIssues(models.Model):
+    issue_area_name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.issue_area_name
+    
+    class Meta:
+        verbose_name_plural = "Supplier Issues"    
+    
+class CustomerIssues(models.Model):
+    issue_area_name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.issue_area_name
+
+    class Meta:
+        verbose_name_plural = "Customer Issues"
+        
+class OtherIssues(models.Model):
+    issue_area_name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.issue_area_name
+    
+    class Meta:
+        verbose_name_plural = "Other Issues"
     
     
 class Locations(models.Model):
@@ -93,6 +161,9 @@ class Locations(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name_plural = "Locations"
+    
 class Employees(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
@@ -100,6 +171,9 @@ class Employees(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = "Employees"
     
     
 class SupervisorTeam(models.Model):
@@ -109,3 +183,5 @@ class SupervisorTeam(models.Model):
 
     def __str__(self):
         return self.name
+
+
