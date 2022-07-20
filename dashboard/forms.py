@@ -2,6 +2,7 @@
 from django.db.models.base import Model
 from django.forms import ModelForm, widgets
 from django import forms
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Submit
@@ -35,6 +36,7 @@ class RecordForm(ModelForm):
             "location", 
             "area", 
             "cost",
+            "client",
             "issue_solved", 
             "closure_date", 
             "estimated_completion_time", 
@@ -43,6 +45,7 @@ class RecordForm(ModelForm):
             "employee", 
             "supervisor",
             "description", 
+            "comments", 
             "root_cause", 
             "interim_containment_action", 
             "corrective_action", 
@@ -52,6 +55,8 @@ class RecordForm(ModelForm):
             "prevented_reoccurrence", 
             "images",
             "ncr_hyperlink",
+            "ncr_creator",
+            "severity",
             "production_issue",
             "j_and_b_issue",
             "supplier_issue",
@@ -91,6 +96,10 @@ class RecordForm(ModelForm):
             "supplier_issue" : "Supplier issues" ,
             "customer_issues" : "Customer issues" ,
             "other_issues" : "Other issues" ,
+            "client" : "Client" ,
+            "ncr_creator" : "NCR Creator" ,
+            "comments" : "Comments" ,
+            "severity" : "Severity" ,
 
             }
         
@@ -104,50 +113,61 @@ class RecordForm(ModelForm):
                     }), 
             "ncr_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'NCR Number'}),
             "job_reference_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Job Reference Number'}),
-            'location': forms.CheckboxSelectMultiple(),
+            'location': forms.CheckboxSelectMultiple(attrs={ }),
             'area': forms.CheckboxSelectMultiple(), 
             "cost" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Cost'}),
             "issue_solved" :  forms.Select(attrs={'class':'form-select', 'placeholder':'Issue Resolved'}),
-            "closure_date" : forms.TextInput(attrs={'class':'form-control' ,'id':'inputDate' , 'type':'date' , 'placeholder':'Issue Date' }), 
-            "estimated_completion_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Cost'}),
-            "downtime_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Downtime'}),
-            'employee': forms.CheckboxSelectMultiple(),
-            'supervisor': forms.CheckboxSelectMultiple(),
+            "closure_date" : forms.TextInput( attrs={
+                    'class':'form-control' ,
+                    'id':'inputDate' , 
+                    'type':'date' ,  
+                    'onclick' : 'showPicker()'
+                    }),  
+            "estimated_completion_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Completion time'}),
+            "downtime_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Downtime'}),
+            'employee': forms.CheckboxSelectMultiple(attrs={}),
+            'supervisor': forms.CheckboxSelectMultiple(attrs={}),
             "description" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description'}), 
             "root_cause" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Root Cause'}),
             "interim_containment_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'interim_containment_action'}), 
             "corrective_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'corrective_action'}), 
             "advice_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'advice_number'}), 
             "result_validation_action" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'result_validation_action'}), 
-            "issue_affect_other_areas" :  forms.TextInput(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas'}), 
+            "issue_affect_other_areas" :  forms.Select(
+                choices= [
+                    ("", "Please choose"),
+                    ("yes", "Yes"),
+                    ("no", "No"),
+                    ],
+                attrs={'class':'form-select', 'placeholder':'issue_affect_other_areas',}
+                ), 
             "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
             "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
-            "images" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'images'}),
+            "images" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg " id="formFileLg" type="file', 'placeholder':'images'}),
             "ncr_hyperlink" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'ncr_hyperlink'}),
 
-            "production_issue" : forms.CheckboxSelectMultiple(),
+            "production_issue" : forms.CheckboxSelectMultiple(attrs={}),
             "j_and_b_issue" : forms.CheckboxSelectMultiple(),
             "supplier_issue" : forms.CheckboxSelectMultiple(),
             "customer_issues" : forms.CheckboxSelectMultiple(),
             "other_issues" : forms.CheckboxSelectMultiple(),
             
+            "client" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'client'}) ,
+            "ncr_creator" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'ncr_creator'}) ,
+            "comments" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Comments'}), 
+            "severity" : forms.Select(
+                choices= [
+                    ("", "Please choose"),
+                    ("1", "1"),
+                    ("2", "2"),
+                    ("3", "3"),
+                    ("4", "4"),
+                    ("5", "5"),
+                    ],
+                attrs={'class':'form-select', 'placeholder':'severity',}
+                ),
+            
+            
             }
         
         
-# class IssueForm(ModelForm):
-
-    
-#     class Meta:
-#         model = ProductionIssues
-        
-#     fields = (
-        
-#     )
-    
-#     labels = (
-        
-#     )
-    
-#     widgets = (
-        
-#     )

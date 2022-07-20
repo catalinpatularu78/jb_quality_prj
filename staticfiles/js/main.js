@@ -17,3 +17,17 @@ function add_number() {
 
     document.getElementById("id_downtime_time").value = day_number + hour_number + minute_number; // total value -> html element 
 }
+
+
+function add_number_comp_time() {
+
+    const EstCompday_number = parseInt((document.getElementById("EstCompDayConversion").value)* 1440 || 0) ;  // 0 or get day value multiplied by minutes per day 
+    const EstComphour_number = parseInt(document.getElementById("EstCompHourConversion").value * 60 || 0);    // 0 or get hour value multiplied by minutes per hour
+    const EstCompminute_number = parseInt(document.getElementById("EstCompMinuteConversion").value) || 0;     // 0 or get minutes value
+
+    document.getElementById("id_estimated_completion_time").value = EstCompday_number + EstComphour_number + EstCompminute_number; // total value -> html element 
+}
+
+
+
+

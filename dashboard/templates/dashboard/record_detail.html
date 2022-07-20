@@ -25,15 +25,31 @@
                     <div class="card-body text-center">
                         <h5 class="my-3">Job Reference Number: {{ record.job_reference_number}}</h5>
                         <hr>
-                        <p class="text-muted mb-1">
-                            {% if record.issue_solved == "no"  %}
-                                <button type="button" class="btn btn-success p-5 fw-bolder disabled">ISSUE OPEN</button>
-                            {% elif record.issue_solved == "yes" %}
-                                <button type="button" class="btn btn-danger p-5 fw-bolder  disabled" >ISSUE CLOSED</button>
-                            {% else %}
-                                <h1>----</h1>
-                            {% endif %}
-                        </p>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">
+                                    {% if record.issue_solved == "no"  %}
+                                        <button type="button" class="btn btn-success p-5 fw-bolder disabled">ISSUE OPEN</button>
+                                    {% elif record.issue_solved == "yes" %}
+                                        <button type="button" class="btn btn-danger p-5 fw-bolder  disabled" >ISSUE CLOSED</button>
+                                    {% else %}
+                                        <h1>----</h1>
+                                    {% endif %}
+                                </p>
+                            </div>    
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">
+                                    {% if record.severity < 3  %}
+                                        <button type="button" class="btn btn-success p-5 fw-bolder disabled">SEVERITY {{record.severity}} </button>
+                                    {% elif record.severity >= 3 %}
+                                        <button type="button" class="btn btn-danger p-5 fw-bolder  disabled" >SEVERITY {{record.severity}}</button>
+                                    {% else %}
+                                        <h1>----</h1>
+                                    {% endif %}
+                                </p>
+                            </div>  
+                            </div>  
                         
                         <hr>
 
@@ -108,7 +124,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Test output --- : </p>
+                                <p class="mb-0">Downtime : </p>
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ record.downtime_readability }}</p>
@@ -236,6 +252,24 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
+                                <p class="mb-0">Client</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.client }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Comments</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ record.comments }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
                                 <p class="mb-0">Issue Solved</p>
                                 </div>
                                 <div class="col-sm-9">
@@ -254,10 +288,10 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Downtime Time</p>
+                                <p class="mb-0">Severity</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.downtime_time }}</p>
+                                <p class="text-muted mb-0">{{ record.severity }}</p>
                                 </div>
                             </div>
                             <hr>

@@ -9,6 +9,15 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
 
+
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.contrib.auth.mixins import UserPassesTestMixin
+
+from dashboard.filters import DashboardFilter
+    
+    
 from dashboard.models import (
     DashboardModel,
     AreaOfIssue,
@@ -29,13 +38,28 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
+class StaffMemberRequiredMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+
+class CustomLoginView(LoginView):
+    template_name = 'dashboard/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('dashboard')
+    
+
 class HomePage(TemplateView):
     
     template_name = 'index.html'
 
 
 
-class DashboardPage(ListView):
+class DashboardPage(LoginRequiredMixin , ListView):
     model = DashboardModel
     template_name = 'dashboard/dashboard.html'
     fields = [
@@ -62,10 +86,34 @@ class DashboardPage(ListView):
     #     return context
 
 
+class FilterDashboardPage(LoginRequiredMixin , ListView):
+    model = DashboardModel
+    form_class = RecordForm
+    template_name = 'dashboard/filter_dashboard.html'
+    fields = [
+        "issue_date", 
+        "ncr_number", 
+        "job_reference_number",
+        "location", 
+        "area",
+        "cost",
+        "issue_solved", 
+        "closure_date",
+        "downtime_time"
+        "downtime_readability"
+        ]
     
     
     
-class RecordDetailPage(DetailView):
+    def get_context_data(self, *args,  **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
+        return context
+    
+    
+    
+    
+class RecordDetailPage(LoginRequiredMixin , DetailView):
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
@@ -86,11 +134,12 @@ class RecordDetailPage(DetailView):
 
 
     
-class RecordCreatePage(CreateView):
+class RecordCreatePage(LoginRequiredMixin , CreateView):
     model = DashboardModel
     template_name = "dashboard/record_create.html"
     form_class = RecordForm
     success_url = reverse_lazy("dashboard")
+    context_object_name = 'record_create'
     
 
         
@@ -105,7 +154,7 @@ class RecordCreatePage(CreateView):
 
 
 
-class RecordUpdatePage(UpdateView):
+class RecordUpdatePage(LoginRequiredMixin , UpdateView):
     
     model = DashboardModel
     template_name = "dashboard/record_update.html"
@@ -119,13 +168,14 @@ class RecordUpdatePage(UpdateView):
     
 
 
-class RecordDeletePage(DeleteView):
+class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteView):
+    
     model = DashboardModel
     template_name = "dashboard/record_delete.html"
     success_url = reverse_lazy("dashboard")
 
 
-class IssueFormPage(CreateView):
+class IssueFormPage(LoginRequiredMixin , CreateView):
     
     model = ProductionIssues
     fields = "__all__"

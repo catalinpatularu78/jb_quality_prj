@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from uuid import uuid4
 
@@ -24,7 +25,7 @@ class DashboardModel(models.Model):
     # Fields displayed on dashboard page
     
     area = models.ManyToManyField('AreaOfIssue',blank=True)
-    
+    client = models.CharField(max_length =200 , null=True, blank = True )
     closure_date = models.DateField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
     issue_date = models.DateField(null=True, blank = True)
@@ -36,6 +37,7 @@ class DashboardModel(models.Model):
     
     # additional fields displayed on create + detail + update 
     advice_number =  models.CharField(max_length =100 , null=True, blank = True )
+    comments = models.TextField(null=True , blank = True)
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True)
     downtime_time = models.IntegerField (null=True, blank = True)
@@ -46,9 +48,14 @@ class DashboardModel(models.Model):
     issue_affect_other_areas = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     issue_affect_other_areas_description = models.TextField(null=True , blank = True)
     ncr_hyperlink = models.CharField(max_length =300 , null=True, blank = True)
+    ncr_creator = models.CharField(max_length =200 , null=True, blank = True )
     prevented_reoccurrence = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     result_validation_action = models.TextField(null=True , blank = True)
     root_cause = models.TextField(null=True , blank = True)
+    severity = models.PositiveIntegerField(
+        null=True,
+        blank = True,
+    )
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     
     # Quality issues area's 
