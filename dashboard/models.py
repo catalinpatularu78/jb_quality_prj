@@ -20,7 +20,8 @@ class DashboardModel(models.Model):
     id = models.UUIDField( 
         primary_key=True,
         default=uuid4,
-        editable=False)
+        editable=False,
+        max_length=36,)
 
     # Fields displayed on dashboard page
     
