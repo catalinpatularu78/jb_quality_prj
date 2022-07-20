@@ -1,4 +1,7 @@
 # dashboard URL file 
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 from django.urls import path , include
 from django.contrib.auth.views import LogoutView
@@ -32,4 +35,4 @@ urlpatterns = [
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
     
     
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

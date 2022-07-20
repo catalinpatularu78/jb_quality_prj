@@ -8,7 +8,7 @@ from django.views.generic import View
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
-# from django.core.mail import send_mail
+
 
 
 from django.contrib.auth.views import LoginView
@@ -144,20 +144,7 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
     
 
         
-#     def form_valid(self, form):
-#         send_mail(
-#             'Subject here',
-#             'Here is the message.',
-#             'from@example.com',
-#             ['to@example.com'],
-#             fail_silently=False,
-# )
-#         return super().form_valid(form)
 
-    
-    # def form_invalid(self, form):
-    #     # print (form['issue_date'].value())
-    #     return redirect('main_page')
 
 
 

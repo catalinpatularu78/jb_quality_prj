@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+import os
+
 import django_heroku
 import dj_database_url
 from decouple import config
@@ -29,7 +31,7 @@ SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['jbdjangoapp.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com/']
 
 
 # Application definition
@@ -90,27 +92,27 @@ WSGI_APPLICATION = 'jb_quality.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'degv0lep44641k',
-        'USER': 'jjxdjcdansywwy',
-        'PASSWORD': 'add6a7a40bc797a01aae25c7472e8caf027c03c4af827ff331d0d72f36738b7b',
-        'HOST': 'ec2-54-76-43-89.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'degv0lep44641k',
+#         'USER': 'jjxdjcdansywwy',
+#         'PASSWORD': 'add6a7a40bc797a01aae25c7472e8caf027c03c4af827ff331d0d72f36738b7b',
+#         'HOST': 'ec2-54-76-43-89.eu-west-1.compute.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -158,15 +160,13 @@ LOGIN_URL = 'login'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
-MEDIA_URL = '/images/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "staticfiles",
+    BASE_DIR / "static",
 ]
 
-MEDIA_ROOT = [BASE_DIR/ 'staticfiles/img',]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -176,4 +176,43 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-django_heroku.settings(locals() ,staticfiles=False) #staticfiles=False
+
+# Debugging in heroku live
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
+                        'pathname=%(pathname)s lineno=%(lineno)s ' +
+                        'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'testlogger': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    }
+}
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
+
+
+django_heroku.settings(locals() ) #staticfiles=False

@@ -1,0 +1,10 @@
+
+.card-header {
+    font-weight: bold;
+    color:  #e0ebeb !important;
+    background-color: #24527a !important;
+}
+
+.card-body {
+    background-color: #a7bcb9 !important;
+}
