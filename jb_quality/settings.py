@@ -215,4 +215,14 @@ DEBUG_PROPAGATE_EXCEPTIONS = True
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 
+# Email functionality TEST - NOT FOR PRODUCTION 
+# seperate credentials when going to production  
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.office365.com' #smtp.office365.com #smtp-mail.outlook.com
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jbdjango@outlook.com'
+EMAIL_HOST_PASSWORD = 'JBengineering'
+
 django_heroku.settings(locals() ) #staticfiles=False

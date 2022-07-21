@@ -17,6 +17,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 from dashboard.filters import DashboardFilter
+
+# For sending emails
+from django.conf import settings
+from django.core.mail import send_mail
     
     
 from dashboard.models import (
@@ -142,6 +146,22 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record_create'
     
+    
+    def form_valid(self,form):
+        response = super().form_valid(form)
+        severity =  form.cleaned_data['severity']
+        
+        if severity > 2:
+            try:
+                subject = 'NEW QUALITY RECORD '
+                message = f'WARNING SEVERITY LEVEL  = {severity}'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = ['jbdjango@outlook.com']
+                send_mail( subject, message, email_from, recipient_list)    
+            except:
+                print("Failed")
+        
+        return response 
 
         
 
