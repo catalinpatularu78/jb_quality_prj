@@ -89,6 +89,11 @@ class DashboardModel(models.Model):
         formatted_readable_date_str = self.time_format_converter(readable_downtime)
         return (formatted_readable_date_str)
     
+    @property
+    def estimated_readability(self):
+        readable_estimated = self.estimated_completion_time
+        formatted_est_date_str = self.time_format_converter(readable_estimated)
+        return (formatted_est_date_str)
 
 
     
