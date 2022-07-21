@@ -40,10 +40,12 @@
                             </div>    
                             <div class="col-md-6">
                                 <p class="text-muted mb-1">
-                                    {% if record.severity < 3  %}
-                                        <button type="button" class="btn btn-success p-5 fw-bolder disabled">SEVERITY {{record.severity}} </button>
-                                    {% elif record.severity >= 3 %}
-                                        <button type="button" class="btn btn-danger p-5 fw-bolder  disabled" >SEVERITY {{record.severity}}</button>
+                                    {% if record.severity == 3  %}
+                                        <button type="button" class="btn btn-danger p-5 fw-bolder disabled">SEVERITY {{record.severity}} </button>
+                                    {% elif record.severity == 2 %}
+                                        <button type="button" class="btn btn-warning p-5 fw-bolder  disabled" >SEVERITY {{record.severity}}</button>
+                                    {% elif record.severity == 1 %}
+                                        <button type="button" class="btn btn-secondary p-5 fw-bolder  disabled" >SEVERITY {{record.severity}}</button>
                                     {% else %}
                                         <h1>----</h1>
                                     {% endif %}

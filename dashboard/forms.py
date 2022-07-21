@@ -62,6 +62,7 @@ class RecordForm(ModelForm):
             "supplier_issue",
             "customer_issues",
             "other_issues",
+            "severity",
             
 
             
@@ -158,11 +159,9 @@ class RecordForm(ModelForm):
             "severity" : forms.Select(
                 choices= [
                     ("", "Please choose"),
-                    ("1", "1"),
-                    ("2", "2"),
-                    ("3", "3"),
-                    ("4", "4"),
-                    ("5", "5"),
+                    (1, "1"),
+                    (2, "2"),
+                    (3, "3"),
                     ],
                 attrs={'class':'form-select', 'placeholder':'severity',}
                 ),
