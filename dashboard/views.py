@@ -74,7 +74,7 @@ class DashboardPage(LoginRequiredMixin , ListView):
         "closure_date",
         "downtime_time"
         "downtime_readability"
-        
+        "severity"
         ]
     paginate_by = 20
     

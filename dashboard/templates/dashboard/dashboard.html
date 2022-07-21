@@ -26,6 +26,7 @@
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
+            <th scope="col">Severity</th>
             <th scope="col">Details</th>
             <th scope="col">Update</th>
             <th scope="col">Delete</th>
@@ -72,6 +73,24 @@
             <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
+            <td>
+            {% if dash.severity == 3  %}
+                <button type="button" class="btn btn-danger fw-bolder disabled">
+                    {{dash.severity}} - [Stop the job]
+                </button>
+            {% elif dash.severity == 2 %}
+                <button type="button" class="btn btn-warning fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor and continue working]
+                </button>
+            {% elif dash.severity == 1 %}
+                <button type="button" class="btn btn-secondary fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor]
+                </button>
+            {% else %}
+                <h1>----</h1>
+            {% endif %}
+
+            </td>
             <!-- <td>{{ dash.downtime_readability }}</td> -->
 
 
