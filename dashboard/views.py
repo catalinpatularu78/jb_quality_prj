@@ -1,4 +1,5 @@
 
+
 from urllib import request
 from django.shortcuts import get_object_or_404, render , redirect
 from django.http import HttpResponseRedirect
@@ -158,7 +159,7 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
                 recipient_list = ['jbdjango@outlook.com']
                 send_mail( subject, message, email_from, recipient_list)    
             except:
-                print("Failed")
+                pass
         
         return response 
 
@@ -179,9 +180,9 @@ class RecordUpdatePage(LoginRequiredMixin , UpdateView):
     def get_success_url(self):
         return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
     
-    def form_invalid(self, form):
-        response = super().form_invalid(form)
-        return response
+
+
+
     
 
 

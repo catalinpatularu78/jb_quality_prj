@@ -141,14 +141,15 @@ AUTH_PASSWORD_VALIDATORS = [
 USE_L10N = False
 
 DATE_INPUT_FORMATS = [
-    "%d/%m/%Y %H:%M",
     "%d/%m/%Y",
     '%Y-%m-%d'
 ]
 
 DATETIME_INPUT_FORMATS = [
-    '%d/%m/%Y %H:%M'
+    '%d/%m/%Y %H:%i'
 ]
+
+DATETIME_FORMAT="d/m/Y H:i"
 
 DATE_FORMAT = "d/m/Y"
 
