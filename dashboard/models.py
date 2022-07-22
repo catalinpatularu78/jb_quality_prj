@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils import timezone
 
 from uuid import uuid4
 
@@ -27,9 +27,9 @@ class DashboardModel(models.Model):
     
     area = models.ManyToManyField('AreaOfIssue',blank=True)
     client = models.CharField(max_length =200 , null=True, blank = True )
-    closure_date = models.DateField(null=True, blank = True)
+    closure_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
-    issue_date = models.DateField(null=True, blank = True)
+    issue_date = models.DateTimeField(null=True, blank = True ,default = timezone.localtime )#default = timezone.localtime
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
@@ -44,11 +44,10 @@ class DashboardModel(models.Model):
     downtime_time = models.IntegerField (null=True, blank = True)
     employee = models.ManyToManyField('Employees' ,blank=True)
     estimated_completion_time = models.IntegerField (null=True, blank = True)
-    images = models.CharField(max_length =300 , null=True, blank = True) # hyperlink
+    images = models.CharField(max_length =300 , null=True, blank = True)
     interim_containment_action = models.TextField(null=True , blank = True)
     issue_affect_other_areas = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     issue_affect_other_areas_description = models.TextField(null=True , blank = True)
-    ncr_hyperlink = models.CharField(max_length =300 , null=True, blank = True)
     ncr_creator = models.CharField(max_length =200 , null=True, blank = True )
     prevented_reoccurrence = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     result_validation_action = models.TextField(null=True , blank = True)
@@ -62,7 +61,6 @@ class DashboardModel(models.Model):
     # Quality issues area's 
     
     production_issue = models.ManyToManyField('ProductionIssues' ,blank=True)
-    j_and_b_issue = models.ManyToManyField('JandBIssues' ,blank=True)
     supplier_issue = models.ManyToManyField('SupplierIssues' ,blank=True)
     customer_issues = models.ManyToManyField('CustomerIssues' ,blank=True)
     other_issues = models.ManyToManyField('OtherIssues' ,blank=True)
@@ -70,7 +68,7 @@ class DashboardModel(models.Model):
 
     
     def __str__(self) -> str:
-        if self.job_reference_number:return self.job_reference_number
+        if self.advice_number:return self.advice_number
         return str(self.id)
     
     
@@ -120,16 +118,6 @@ class ProductionIssues(models.Model):
     class Meta:
         verbose_name_plural = "Production Issues"
     
-class JandBIssues(models.Model):
-    issue_area_name = models.CharField(max_length=200)
-    id = models.UUIDField(default=uuid4, unique=True,
-                        primary_key=True, editable=False)
-
-    def __str__(self):
-        return self.issue_area_name
-    
-    class Meta:
-        verbose_name_plural = "JandB Issues"
 
     
 class SupplierIssues(models.Model):

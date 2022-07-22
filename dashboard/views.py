@@ -30,7 +30,6 @@ from dashboard.models import (
     Employees,
     SupervisorTeam,
     ProductionIssues,
-    JandBIssues,
     SupplierIssues,
     CustomerIssues,
     OtherIssues,
@@ -98,7 +97,7 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
     fields = [
         "issue_date", 
         "ncr_number", 
-        "job_reference_number",
+        "advice_number",
         "location", 
         "area",
         "cost",
@@ -151,7 +150,7 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
         
-        if severity > 2:
+        if severity and severity > 2:
             try:
                 subject = 'NEW QUALITY RECORD '
                 message = f'WARNING SEVERITY LEVEL  = {severity}'
@@ -163,7 +162,7 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
         
         return response 
 
-        
+    
 
 
 
@@ -179,6 +178,10 @@ class RecordUpdatePage(LoginRequiredMixin , UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
+    
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        return response
     
 
 
