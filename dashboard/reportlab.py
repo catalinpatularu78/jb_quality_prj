@@ -3,7 +3,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-#from .models import Post
+from .models import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
@@ -207,13 +207,16 @@ class Report:
 
         '''convert ISO timestring (2022-07-13 11:53:52+00:00) to date with desired format '''
 
+      
        # NCR_date = str(str(data.date_posted)[8:10]) +'/'+str(str(data.date_posted)[5:7])+'/'+str(str(data.date_posted)[0:4])
-    
+           
+        data = DashboardModel.objects.last()
+
         '''answers'''
 
-        b1 = "A20109" #str(data.ncr_number)
+        b1 = str(data.ncr_number)
         b2 = "13/07/2022" # NCR_date
-        b3 = "This is test text"
+        b3 = str(data.advice_number)
         b4 = "This is test text"
         b5 = "This is test text"
         b6 = "This is test text"
