@@ -76,15 +76,17 @@ class DashboardModel(models.Model):
         return reverse("record_detail", args=[str(self.id)])
     
     
-    def time_format_converter(self, minutes):
-        if minutes == None : return "" 
-        return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
+    def time_format_converter(self, inputVal):
+        if inputVal == None : return "" 
+
+        return (f'{inputVal // 1440}d : {(inputVal // 60) % 24}h : {inputVal % 60}m')
     
     
     @property
     def downtime_readability(self):
         readable_downtime = self.downtime_time
         formatted_readable_date_str = self.time_format_converter(readable_downtime)
+
         return (formatted_readable_date_str)
     
     @property

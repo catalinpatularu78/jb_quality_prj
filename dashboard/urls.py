@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 from django.urls import path , include
 from django.contrib.auth.views import LogoutView
+from .reportlab import Report
 
 from .views import (
     HomePage,
@@ -33,6 +34,8 @@ urlpatterns = [
     path('dashboard/record_delete/<str:pk>', RecordDeletePage.as_view(),  name= 'record_delete'),
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
+    
+    path(Report.report_title, Report.generate, name='run_pdfgen'),
     
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
