@@ -208,7 +208,7 @@ class Report:
         '''convert ISO timestring (2022-07-13 11:53:52+00:00) to date with desired format '''
 
       
-      # NCR_date = str(str(data.date_posted)[8:10]) +'/'+str(str(data.date_posted)[5:7])+'/'+str(str(data.date_posted)[0:4])
+      
            
 
         '''
@@ -221,19 +221,20 @@ class Report:
         entered_advice_number = NewModel.objects.latest('advice_number')
         '''
 
-        entered_advice_number = 'E233'
+
+        entered_ncr_number = 'CONOR001'
         
-        for test in DashboardModel.objects.filter(advice_number = entered_advice_number):
-            advice_number = test.advice_number
-            #issue_date = str(test.issue_date)
-            issue_date = str(test.issue_date)[:16]  #the date object isn't a string, it must be casted
-            ncr_number = test.ncr_number
+        for data in DashboardModel.objects.filter(ncr_number = entered_ncr_number):
+            advice_number = data.advice_number
+            issue_date = str(data.issue_date)[8:10] +'/'+str(data.issue_date)[5:7]+'/'+str(data.issue_date)[0:4]
+            issue_time = str(data.issue_date)[10:16]
+            ncr_number = data.ncr_number
 
  
         '''answers'''
 
         b1 = ncr_number #ncr id
-        b2 = issue_date
+        b2 = issue_date + issue_time
         b3 = advice_number #advice number"
         b4 = "This is test text"
         b5 = "This is test text"
