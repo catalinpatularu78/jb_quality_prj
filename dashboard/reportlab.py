@@ -1,4 +1,4 @@
-import io, os
+import io, os, datetime
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
@@ -208,15 +208,33 @@ class Report:
         '''convert ISO timestring (2022-07-13 11:53:52+00:00) to date with desired format '''
 
       
-       # NCR_date = str(str(data.date_posted)[8:10]) +'/'+str(str(data.date_posted)[5:7])+'/'+str(str(data.date_posted)[0:4])
+      # NCR_date = str(str(data.date_posted)[8:10]) +'/'+str(str(data.date_posted)[5:7])+'/'+str(str(data.date_posted)[0:4])
            
-        data = DashboardModel.objects.last()
 
+        '''
+        ToDo
+
+        we need to make a new (small) form which asks for the advice number,
+
+        entered_advice_number = 'E233' #this will be changed to something like:
+         
+        entered_advice_number = NewModel.objects.latest('advice_number')
+        '''
+
+        entered_advice_number = 'E233'
+        
+        for test in DashboardModel.objects.filter(advice_number = entered_advice_number):
+            advice_number = test.advice_number
+            #issue_date = str(test.issue_date)
+            issue_date = str(test.issue_date)[:16]  #the date object isn't a string, it must be casted
+            ncr_number = test.ncr_number
+
+ 
         '''answers'''
 
-        b1 = str(data.ncr_number)
-        b2 = "13/07/2022" # NCR_date
-        b3 = str(data.advice_number)
+        b1 = ncr_number #ncr id
+        b2 = issue_date
+        b3 = advice_number #advice number"
         b4 = "This is test text"
         b5 = "This is test text"
         b6 = "This is test text"

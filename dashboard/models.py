@@ -76,10 +76,10 @@ class DashboardModel(models.Model):
         return reverse("record_detail", args=[str(self.id)])
     
     
-    def time_format_converter(self, inputVal):
-        if inputVal == None : return "" 
+    def time_format_converter(self, minutes):
+        if minutes == None : return "" 
 
-        return (f'{inputVal // 1440}d : {(inputVal // 60) % 24}h : {inputVal % 60}m')
+        return (f'{minutes // 1440}d : {(minutes // 60) % 24}h : {minutes % 60}m')
     
     
     @property
