@@ -205,20 +205,16 @@ class Report:
         a12 = "Target completion date:"
         a13 = "Date of completion:"
 
-        '''convert ISO timestring (2022-07-13 11:53:52+00:00) to date with desired format '''
-
-      
-      
-           
-
+   
         '''
         ToDo
 
-        we need to make a new (small) form which asks for the advice number,
+        we need to make a new form with one input field and a heading: "Please enter the NCR id to generate the report"
 
-        entered_advice_number = 'E233' #this will be changed to something like:
+        entered_ncr_number = 'CONOR001' #this will be changed to something like:
          
-        entered_advice_number = NewModel.objects.latest('advice_number')
+        entered_ncr_number = NewModel.objects.latest('ncr_number') #this code works to extract the ncr_number entered in that form
+
         '''
 
 
@@ -226,7 +222,7 @@ class Report:
         
         for data in DashboardModel.objects.filter(ncr_number = entered_ncr_number):
             advice_number = data.advice_number
-            issue_date = str(data.issue_date)[8:10] +'/'+str(data.issue_date)[5:7]+'/'+str(data.issue_date)[0:4]
+            issue_date = str(data.issue_date)[8:10] +'/'+str(data.issue_date)[5:7]+'/'+str(data.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
             issue_time = str(data.issue_date)[10:16]
             ncr_number = data.ncr_number
 
