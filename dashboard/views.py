@@ -1,28 +1,11 @@
-
-
-import re
-from urllib import request, response
-from django.shortcuts import get_object_or_404, render , redirect
-from django.http import HttpRequest, HttpResponseRedirect
-
-
 from django.views.generic import View 
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
-
-
-
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.contrib.auth.mixins import UserPassesTestMixin
-
 from dashboard.filters import DashboardFilter
-from urllib.parse import urlparse
-from django.urls import resolve
-from django.http import Http404, HttpResponseRedirect
-import requests
 
 
 # For sending emails
@@ -116,26 +99,12 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
         "downtime_readability"
         ]
     
-    
-    
+      
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
         return context
     
-    
-# class DataFromModel(DetailView):
-
-#     model = DashboardModel
-
-#     def get_context_data(self, **kwargs):
-#         context = super(DataFromModel, self).get_context_data(**kwargs)
-#         context['pkey'] = DashboardModel.objects.filter(self.request.user)
-#         # note that the object is available via self.object or kwargs.get("object")
-
-#         print("The Context....", context)
-#         return context
-
 
 
     
@@ -145,12 +114,11 @@ class RecordDetailPage(LoginRequiredMixin , DetailView):
     context_object_name = 'record'
     
 
-    def get_context_data(self, **kwargs):
-        context = super(RecordDetailPage, self).get_context_data(**kwargs)
-        uuid = self.object.pk
+    # def get_context_data(self, **kwargs):
+    #     context = super(RecordDetailPage, self).get_context_data(**kwargs)
+    #     uuid = self.object.pk
     
-        return context
-
+    #     return context
 
 
 

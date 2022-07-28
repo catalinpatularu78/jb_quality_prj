@@ -1,4 +1,6 @@
 # dashboard URL file 
+import argparse
+from ast import arguments
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -7,6 +9,7 @@ from django.urls import path , include
 from django.contrib.auth.views import LogoutView
 from .report_generator import Report
 from .views import DashboardModel
+from django.http import HttpResponse
 
 from .views import (
     HomePage,
@@ -20,13 +23,12 @@ from .views import (
     FilterDashboardPage,
 )
 
-def generate_report_name():
-       '''the ncr number soon won't be taken from DashboardModel, 
-       it will be taken from a new form where user is asked to type ncr number
-       before generating pdf'''
-       
-       report_name = DashboardModel.objects.latest('ncr_number')
-       return str(report_name) + ".pdf"
+# def generate_report_name():
+#     report_name = DashboardModel.objects.latest('ncr_number')
+
+#     return "str(report_name.ncr_number)" + ".pdf"
+
+
 
 urlpatterns = [
 
@@ -44,11 +46,9 @@ urlpatterns = [
     path('dashboard/record_delete/<str:pk>', RecordDeletePage.as_view(),  name= 'record_delete'),
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
-    
-    path(generate_report_name(), Report.generate, name='run_pdfgen'),
-    
 
 
-
+    path('dashboard/record_details/<str:pk>/' + "ncr_report.pdf", Report.generate, name='run_pdfgen'),
     
+   
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,37 +1,31 @@
 import io, os
-from urllib import response
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .views import DashboardModel, RecordDetailPage
+from .views import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
-from uuid import uuid4
-from django.db.models import F
-from django.views.generic import DetailView
-from django.shortcuts import render
-from django.views import View
-
 
 
 class Report:
 
-    report_title = "NCR report.pdf"
+    test_name = ""
 
-    def __init__(self, filename):   
+    def __init__(self, filename, uuid):   
 
         self.filename = filename  
+        self.uuid = uuid
         self.pagesize = A4
         self.width, self.height = self.pagesize
         self.buffer = io.BytesIO()
         self.styles = getSampleStyleSheet()
         self.c = self.createCanvas(self.buffer)
-        #self.ctx = RecordDetailPage.get_context_data(self)
- 
+        self.record = DashboardModel.objects.get(pk=uuid) #obtain context for the primary key
+
 
     def createCanvas(self, buffer):           
         myCanvas = canvas.Canvas(buffer, self.pagesize, bottomup=0)
@@ -49,13 +43,16 @@ class Report:
         return self.buffer
 
     
-    def generate(request):
-        doc = Report(Report.report_title)
+    def generate(request, pk):
+        meta = DashboardModel.objects.get(pk=pk)
+        report_name = str(meta.ncr_number)
+
+        doc = Report(report_name, pk)
         response = HttpResponse()
         response.content = doc.getBuffer()
-        response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename
+        response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename + ".pdf"
         response.headers['Content-Type'] = 'application/pdf'
-        
+
         return response
 
 
@@ -214,31 +211,17 @@ class Report:
         a12 = "Target completion date:"
         a13 = "Date of completion:"
 
-   
-        '''
-        ToDo
+        self.report_title = self.record.ncr_number
 
-        we need to make a new form with one input field and a heading: "Please enter the NCR id to generate the report"
-
-        entered_ncr_number = 'CONOR001' #this will be changed to something like:
-         
-        entered_ncr_number = NewModel.objects.latest('ncr_number') #this code works to extract the literal ncr_number entered in that form
-
-        '''
-        entered_ncr_number = DashboardModel.objects.latest('ncr_number')    #TEMPORARY
-        
-        for data in DashboardModel.objects.filter(ncr_number = entered_ncr_number):
-            advice_number = data.advice_number
-            issue_date = str(data.issue_date)[8:10] +'/'+str(data.issue_date)[5:7]+'/'+str(data.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
-            issue_time = str(data.issue_date)[10:16]
-            ncr_number = data.ncr_number
+        the_issue_date = str(self.record.issue_date)[8:10] +'/' +str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
+        the_issue_time = str(self.record.issue_date)[10:16]
    
 
         '''answers'''
 
-        b1 =  ncr_number
-        b2 =  issue_date + issue_time
-        b3 =  advice_number
+        b1 =  self.record.ncr_number
+        b2 =  the_issue_date + the_issue_time
+        b3 =  self.record.advice_number
         b4 = "This is test text"
         b5 = "This is test text"
         b6 = "This is test text"
@@ -352,5 +335,12 @@ class Report:
         self.c.bottomup = 0
         self.c.restoreState()
         self.includeFooter(pagenumber)
+
+    
+    # def generate_report_name():
+
+    #     ctx = DashboardModel.objects.latest('ncr_number')
+        
+    #     return str(ctx) + ".pdf"
 
     
