@@ -225,7 +225,7 @@ class Report:
         entered_ncr_number = NewModel.objects.latest('ncr_number') #this code works to extract the literal ncr_number entered in that form
 
         '''
-        entered_ncr_number = 'CONOR001' #CHANGE THIS FOR TESTING
+        entered_ncr_number = DashboardModel.objects.latest('ncr_number')    #TEMPORARY
         
         for data in DashboardModel.objects.filter(ncr_number = entered_ncr_number):
             advice_number = data.advice_number
