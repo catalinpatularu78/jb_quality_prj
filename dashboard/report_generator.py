@@ -1,14 +1,21 @@
-import io, os, datetime
+import io, os
+from urllib import response
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .models import DashboardModel
+from .views import DashboardModel, RecordDetailPage
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
+from uuid import uuid4
+from django.db.models import F
+from django.views.generic import DetailView
+from django.shortcuts import render
+from django.views import View
+
 
 
 class Report:
@@ -17,13 +24,14 @@ class Report:
 
     def __init__(self, filename):   
 
-        self.filename = filename        
+        self.filename = filename  
         self.pagesize = A4
         self.width, self.height = self.pagesize
         self.buffer = io.BytesIO()
         self.styles = getSampleStyleSheet()
         self.c = self.createCanvas(self.buffer)
-  
+        #self.ctx = RecordDetailPage.get_context_data(self)
+ 
 
     def createCanvas(self, buffer):           
         myCanvas = canvas.Canvas(buffer, self.pagesize, bottomup=0)
@@ -49,6 +57,7 @@ class Report:
         response.headers['Content-Type'] = 'application/pdf'
         
         return response
+
 
 
     def includeFooter(self, pageNumber):                
@@ -213,32 +222,30 @@ class Report:
 
         entered_ncr_number = 'CONOR001' #this will be changed to something like:
          
-        entered_ncr_number = NewModel.objects.latest('ncr_number') #this code works to extract the ncr_number entered in that form
+        entered_ncr_number = NewModel.objects.latest('ncr_number') #this code works to extract the literal ncr_number entered in that form
 
         '''
-
-
-        entered_ncr_number = 'CONOR001'
+        entered_ncr_number = 'CONOR001' #CHANGE THIS FOR TESTING
         
         for data in DashboardModel.objects.filter(ncr_number = entered_ncr_number):
             advice_number = data.advice_number
             issue_date = str(data.issue_date)[8:10] +'/'+str(data.issue_date)[5:7]+'/'+str(data.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
             issue_time = str(data.issue_date)[10:16]
             ncr_number = data.ncr_number
+   
 
- 
         '''answers'''
 
-        b1 = ncr_number #ncr id
-        b2 = issue_date + issue_time
-        b3 = advice_number #advice number"
+        b1 =  ncr_number
+        b2 =  issue_date + issue_time
+        b3 =  advice_number
         b4 = "This is test text"
         b5 = "This is test text"
         b6 = "This is test text"
         b7 = "This is test text"
         b8 = "This is test text"
         b9 = "This is test text"
-        b10 = "This is test text"
+        b10 = "person_responsible"
         b11 = "This is test text"
         b12 = "This is test text"
         b13 = "This is test text"

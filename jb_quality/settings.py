@@ -66,6 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'jb_quality.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

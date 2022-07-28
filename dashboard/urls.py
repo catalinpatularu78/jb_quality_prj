@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 
 from django.urls import path , include
 from django.contrib.auth.views import LogoutView
-from .reportlab import Report
+from .report_generator import Report
+from .views import DashboardModel
 
 from .views import (
     HomePage,
@@ -19,7 +20,16 @@ from .views import (
     FilterDashboardPage,
 )
 
+def generate_report_name():
+       '''the ncr number soon won't be taken from DashboardModel, 
+       it will be taken from a new form where user is asked to type ncr number
+       before generating pdf'''
+       
+       report_name = DashboardModel.objects.latest('ncr_number')
+       return str(report_name) + ".pdf"
+
 urlpatterns = [
+
     
     path('', HomePage.as_view(),  name= 'main_page'),
     path('login/', CustomLoginView.as_view(),  name= 'login'),
@@ -35,7 +45,10 @@ urlpatterns = [
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
     
-    path(Report.report_title, Report.generate, name='run_pdfgen'),
+    path(generate_report_name(), Report.generate, name='run_pdfgen'),
     
+
+
+
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

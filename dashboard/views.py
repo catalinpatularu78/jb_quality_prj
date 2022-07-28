@@ -1,8 +1,9 @@
 
 
-from urllib import request
+import re
+from urllib import request, response
 from django.shortcuts import get_object_or_404, render , redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect
 
 
 from django.views.generic import View 
@@ -18,11 +19,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 from dashboard.filters import DashboardFilter
+from urllib.parse import urlparse
+from django.urls import resolve
+from django.http import Http404, HttpResponseRedirect
+import requests
+
 
 # For sending emails
 from django.conf import settings
 from django.core.mail import send_mail
-    
+
+#import django.http.request
+from django.urls import resolve    
     
 from dashboard.models import (
     DashboardModel,
@@ -116,25 +124,33 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
         return context
     
     
-    
+# class DataFromModel(DetailView):
+
+#     model = DashboardModel
+
+#     def get_context_data(self, **kwargs):
+#         context = super(DataFromModel, self).get_context_data(**kwargs)
+#         context['pkey'] = DashboardModel.objects.filter(self.request.user)
+#         # note that the object is available via self.object or kwargs.get("object")
+
+#         print("The Context....", context)
+#         return context
+
+
+
     
 class RecordDetailPage(LoginRequiredMixin , DetailView):
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
-
     
-    # def time_format_converter(self, minutes):
-    #     if minutes == None : return "" 
-    #     return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
 
-
-    # def get_context_data(self, *args,  **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     downtime = self.get_object().downtime_time
-    #     context['formatted_downtime'] = self.time_format_converter(downtime)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super(RecordDetailPage, self).get_context_data(**kwargs)
+        uuid = self.object.pk
     
+        return context
+
 
 
 
@@ -162,9 +178,6 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
                 pass
         
         return response 
-
-    
-
 
 
 
@@ -208,3 +221,6 @@ class IssueFormPage(LoginRequiredMixin , CreateView):
     
 
     
+# def pageURL(request):
+#     app_url = request.path
+#     return render(request, 'home.html', {'app_url': app_url})

@@ -10,7 +10,6 @@ from uuid import uuid4
 
 # Create your models here.
 class DashboardModel(models.Model):
-
     
     issue_solved_type = {
         ('yes', 'Yes'),
@@ -66,9 +65,9 @@ class DashboardModel(models.Model):
     other_issues = models.ManyToManyField('OtherIssues' ,blank=True)
     
 
-    
+    #### Changed to ncr number ###
     def __str__(self) -> str:
-        if self.advice_number:return self.advice_number
+        if self.ncr_number:return self.ncr_number
         return str(self.id)
     
     
@@ -96,9 +95,9 @@ class DashboardModel(models.Model):
         return (formatted_est_date_str)
 
 
+
+
     
-
-
 class AreaOfIssue(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
