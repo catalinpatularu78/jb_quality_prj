@@ -13,8 +13,6 @@ from reportlab.lib.enums import *
 
 class Report:
 
-    test_name = ""
-
     def __init__(self, filename, uuid):   
 
         self.filename = filename  
@@ -335,12 +333,5 @@ class Report:
         self.c.bottomup = 0
         self.c.restoreState()
         self.includeFooter(pagenumber)
-
-    
-    # def generate_report_name():
-
-    #     ctx = DashboardModel.objects.latest('ncr_number')
-        
-    #     return str(ctx) + ".pdf"
 
     
