@@ -3,7 +3,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .views import DashboardModel
+from .views import DashboardModel, Employees
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
@@ -213,6 +213,14 @@ class Report:
 
         the_issue_date = str(self.record.issue_date)[8:10] +'/' +str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
         the_issue_time = str(self.record.issue_date)[10:16]
+
+
+        # entry = DashboardModel.objects.get(pk=self.record.id)
+
+        # name = Employees.objects.last()
+
+        # entry.Employees.add(name)
+
    
 
         '''answers'''

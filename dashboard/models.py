@@ -10,6 +10,7 @@ from uuid import uuid4
 
 # Create your models here.
 class DashboardModel(models.Model):
+
     
     issue_solved_type = {
         ('yes', 'Yes'),
@@ -65,9 +66,9 @@ class DashboardModel(models.Model):
     other_issues = models.ManyToManyField('OtherIssues' ,blank=True)
     
 
-    #### Changed to ncr number ###
+    
     def __str__(self) -> str:
-        if self.ncr_number:return self.ncr_number
+        if self.advice_number:return self.advice_number
         return str(self.id)
     
     
@@ -77,15 +78,13 @@ class DashboardModel(models.Model):
     
     def time_format_converter(self, minutes):
         if minutes == None : return "" 
-
-        return (f'{minutes // 1440}d : {(minutes // 60) % 24}h : {minutes % 60}m')
+        return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
     
     
     @property
     def downtime_readability(self):
         readable_downtime = self.downtime_time
         formatted_readable_date_str = self.time_format_converter(readable_downtime)
-
         return (formatted_readable_date_str)
     
     @property
@@ -95,9 +94,9 @@ class DashboardModel(models.Model):
         return (formatted_est_date_str)
 
 
-
-
     
+
+
 class AreaOfIssue(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
