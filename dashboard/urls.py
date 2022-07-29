@@ -1,13 +1,11 @@
 # dashboard URL file 
-import argparse
-from ast import arguments
 from django.conf import settings
 from django.conf.urls.static import static
 
 
 from django.urls import path , include
 from django.contrib.auth.views import LogoutView
-from .report_generator import Report
+from .report_gen import Report
 from .views import DashboardModel
 from django.http import HttpResponse
 
@@ -22,12 +20,6 @@ from .views import (
     IssueFormPage,
     FilterDashboardPage,
 )
-
-# def generate_report_name():
-#     report_name = DashboardModel.objects.latest('ncr_number')
-
-#     return "str(report_name.ncr_number)" + ".pdf"
-
 
 
 urlpatterns = [
