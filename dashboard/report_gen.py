@@ -209,10 +209,10 @@ class Report:
         a12 = "Target completion date:"
         a13 = "Date of completion:"
 
-        self.report_title = self.record.ncr_number
+        # self.report_title = self.record.ncr_number
 
-        the_issue_date = str(self.record.issue_date)[8:10] +'/' +str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
-        the_issue_time = str(self.record.issue_date)[10:16]
+        # the_issue_date = str(self.record.issue_date)[8:10] +'/' +str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
+        # the_issue_time = str(self.record.issue_date)[10:16]
 
 
         # entry = DashboardModel.objects.get(pk=self.record.id)
@@ -225,9 +225,9 @@ class Report:
 
         '''answers'''
 
-        b1 =  self.record.ncr_number
-        b2 =  the_issue_date + the_issue_time
-        b3 =  self.record.advice_number
+        b1 =  "self.record.ncr_number"
+        b2 =  "the_issue_date + the_issue_time"
+        b3 =  "self.record.advice_number"
         b4 = "This is test text"
         b5 = "This is test text"
         b6 = "This is test text"
