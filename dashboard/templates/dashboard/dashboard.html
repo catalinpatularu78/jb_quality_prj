@@ -20,30 +20,19 @@
 
             <th scope="col">Issue Date</th>
             <th scope="col">NCR Number</th>
-<<<<<<< HEAD
             <th scope="col">Advice Number</th>
-=======
-            <th scope="col">Job Reference Number</th>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
             <th scope="col" class="d-none d-md-table-cell ">Location</th>
             <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
-<<<<<<< HEAD
             <th scope="col">Severity</th>
-=======
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
             <th scope="col">Details</th>
             <th scope="col">Update</th>
             <th scope="col">Delete</th>
         </tr>
 
-<<<<<<< HEAD
         {% for dash in dashboard %}
-=======
-        {% for dash in dashboardmodel_list %}
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
         <tr class="align-top">
             <!-- <th scope="row">{{ forloop.counter }}</th> -->
@@ -53,11 +42,7 @@
 
                 <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
             </td>
-<<<<<<< HEAD
             <td>{{ dash.advice_number }}</td>
-=======
-            <td>{{ dash.job_reference_number }}</td>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 
             <!-- <td>
@@ -83,7 +68,6 @@
         
                 {% endfor %}
             </td>
-<<<<<<< HEAD
 
 
             <td>{{ dash.cost }}</td>
@@ -108,11 +92,6 @@
 
             </td>
             <!-- <td>{{ dash.downtime_readability }}</td> -->
-=======
-            <td>{{ dash.cost }}</td>
-            <td>{{ dash.issue_solved }}</td>
-            <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 
             <!-- <td>

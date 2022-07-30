@@ -1,17 +1,8 @@
 {% extends 'main.html' %}
-<<<<<<< HEAD
 
 
 {% block content %}
 
-=======
-{% load static %}
-
-{% block content %}
-
-
-
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 <div class="record-entry">
 
     <section style="background-color: #eee;">
@@ -34,7 +25,6 @@
                     <div class="card-body text-center">
                         <h5 class="my-3">Job Reference Number: {{ record.job_reference_number}}</h5>
                         <hr>
-<<<<<<< HEAD
                         <div class="row">
 
                             <div class="col-md-6">
@@ -74,17 +64,6 @@
                                 </p>
                             </div>  
                             </div>  
-=======
-                        <p class="text-muted mb-1">
-                            {% if record.issue_solved == "yes"  %}
-                                <button type="button" class="btn btn-success p-5 fw-bolder">ISSUE OPEN</button>
-                            {% elif record.issue_solved == "no" %}
-                                <button type="button" class="btn btn-danger p-5 fw-bolder " >ISSUE CLOSED</button>
-                            {% else %}
-                                <h1>----</h1>
-                            {% endif %}
-                        </p>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                         
                         <hr>
 
@@ -159,7 +138,6 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-<<<<<<< HEAD
                                 <p class="mb-0">Downtime : </p>
                                 </div>
                                 <div class="col-sm-9">
@@ -189,8 +167,6 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-=======
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                                 <p class="mb-0">Location</p>
                                 </div>
                                 <div class="col-sm-9">
@@ -290,7 +266,6 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-<<<<<<< HEAD
                                 <p class="mb-0">Client</p>
                                 </div>
                                 <div class="col-sm-9">
@@ -322,35 +297,15 @@
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ record.estimated_readability }}</p>
-=======
-                                <p class="mb-0">Estimated Completion Time</p>
-                                </div>
-                                <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.estimated_completion_time }}</p>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-<<<<<<< HEAD
                                 <p class="mb-0">Severity</p>
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ record.severity }}</p>
-=======
-                                <p class="mb-0">Downtime Time</p>
-                                </div>
-                                <div class="col-sm-9">
-                                <p class="text-muted mb-0">
-
-                       
-                                {{ formatted_downtime }}
-                                
-                               
-                                </p>
-
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                                 </div>
                             </div>
                             <hr>
@@ -383,11 +338,7 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-<<<<<<< HEAD
                                 <p class="mb-0">Result of the Validation Action</p>
-=======
-                                <p class="mb-0">Result Validation Action</p>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">{{ record.result_validation_action }}</p>
@@ -432,17 +383,10 @@
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-<<<<<<< HEAD
                                 <p class="mb-0">NCR</p>
                                 </div>
                                 <div class="col-sm-9">
                                 <a class="btn btn-light" name="pdf_button" href="{% url 'run_pdfgen' record.pk %}">Generate PDF</a>
-=======
-                                <p class="mb-0">Ncr Hyperlink</p>
-                                </div>
-                                <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.ncr_hyperlink }}</p>
->>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
                                 </div>
                             </div>
                         </div>
