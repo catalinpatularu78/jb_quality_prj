@@ -233,4 +233,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jbdjango@outlook.com'
 EMAIL_HOST_PASSWORD = 'JBengineering'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
