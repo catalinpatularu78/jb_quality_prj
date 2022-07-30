@@ -77,7 +77,7 @@ class DashboardModel(models.Model):
     advice_number =  models.CharField(max_length =100 , null=True, blank = True )
     comments = models.TextField(null=True , blank = True)
     corrective_action = models.TextField(null=True , blank = True)
-    description = models.TextField(null=True , blank = True)
+    description = models.TextField(null=True , blank = True, default="")
     downtime_time = models.IntegerField (null=True, blank = True)
     employee = models.ManyToManyField('Employees' ,blank=True)
     estimated_completion_time = models.IntegerField (null=True, blank = True)
