@@ -1,4 +1,4 @@
-import io, os
+import io, os, datetime as dt
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
@@ -43,9 +43,7 @@ class Report:
     
     def generate(request, pk):
         meta = DashboardModel.objects.get(pk=pk)
-        report_name = str(meta.ncr_number)
-
-        doc = Report(report_name, pk)
+        doc = Report(meta.ncr_number, pk)
         response = HttpResponse()
         response.content = doc.getBuffer()
         response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename + ".pdf"
@@ -67,6 +65,12 @@ class Report:
 
 
     def page_one(self, pagenumber):   
+        the_issue_date = str(self.record.issue_date)[8:10] +'/'+str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]  
+        the_issue_time = str(self.record.issue_date)[10:16]
+        
+        the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
+        the_closure_time = str(self.record.closure_date)[10:16]
+
         logo = os.path.join(settings.STATIC_ROOT,"img/jandb_logo.jpg")       
         logoX = (self.width/2) + 2*inch - 1*mm
         logoY = 3.38 * inch
@@ -156,7 +160,8 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+2*cm+2*mm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("placeholder")
+        execution_time = str(dt.datetime.now().__format__("%d/%m/%Y %H:%M"))
+        textobject.textLine(execution_time)
         self.c.drawText(textobject)
 
 
@@ -174,7 +179,8 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+0.5*cm+2*mm)
         textobject.moveCursor(6*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("20/07/2022")
+        current_date = str(dt.datetime.now().__format__("%d/%m/%Y"))
+        textobject.textLine(current_date)
         self.c.drawText(textobject)
         ''' heading blob '''
         textobject = self.c.beginText()
@@ -193,56 +199,58 @@ class Report:
 
         #data = Post.objects.last() #most recent database object from my database model called "Post"
         
-        '''headings'''
-
+        '''heading fields'''
         a1 = "NCR ID:"
         a2 = "Date of NCR:"
         a3 = "Advice Number:"
         a4 = "Job Reference Number:"
         a5 = "Status:"
         a6 = "Non Conformance Code:"
-        a7 = "Company:"
-        a8 = "Site:"
-        a9 = "Severity:"
-        a10 = "Person responsible:"
-        a11 = "NCR Status:"
-        a12 = "Target completion date:"
-        a13 = "Date of completion:"
-
-        # self.report_title = self.record.ncr_number
-
-        # the_issue_date = str(self.record.issue_date)[8:10] +'/' +str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]    #convert ISO timestring (2022-07-13 11:53:52+00:00) to desired format 
-        # the_issue_time = str(self.record.issue_date)[10:16]
-
-
-        # entry = DashboardModel.objects.get(pk=self.record.id)
-
-        # name = Employees.objects.last()
-
-        # entry.Employees.add(name)
+        a7 = "Site:"
+        a8 = "Severity:"
+        a9 = "Company/person responsible:"
+        a10 = "NCR Status:"
+        a11 = "Target completion date:"
+        a12 = "Date of completion:"
 
    
 
-        '''answers'''
+        if(self.record.issue_solved == "no"):
 
-        b1 =  "self.record.ncr_number"
-        b2 =  "the_issue_date + the_issue_time"
-        b3 =  "self.record.advice_number"
-        b4 = "This is test text"
-        b5 = "This is test text"
-        b6 = "This is test text"
-        b7 = "This is test text"
-        b8 = "This is test text"
-        b9 = "This is test text"
-        b10 = "person_responsible"
-        b11 = "This is test text"
-        b12 = "This is test text"
-        b13 = "This is test text"
+            the_issue_status = "The issue has not been resolved"      
+        elif(self.record.issue_solved == "yes"):
+
+            the_issue_status = "The issue has been resolved"
+        else:
+            the_issue_status = "No status provided"
+
+        names_list = [str(name) for name in self.record.employee.all()]
+        person_or_company_responsible = ', '.join(names_list)
+
+        area_list = [str(name) for name in self.record.area.all()]
+        site_name = ', '.join(area_list)
+
+        severity_level = str(self.record.severity)
+    
+
+        '''answer fields'''
+        b1 = self.record.ncr_number
+        b2 = the_issue_date + the_issue_time
+        b3 = self.record.advice_number
+        b4 = self.record.job_reference_number
+        b5 = the_issue_status
+        b6 = "####################" # "Non conformance code?"
+        b7 = site_name
+        b8 = severity_level
+        b9 = person_or_company_responsible
+        b10 = "####################"
+        b11 = "####################"
+        b12 = the_closure_date + the_closure_time
      
 
         # tuples containing the data for the text objects
-        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13)
-        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13)
+        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12)
         
         # summary title
         textobject = self.c.beginText() 

@@ -60,9 +60,6 @@ class RecordForm(ModelForm):
             "customer_issues",
             "other_issues",
             "severity",
-            
-
-            
         )
         
         labels = {
