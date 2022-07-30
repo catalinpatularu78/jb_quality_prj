@@ -12,12 +12,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+<<<<<<< HEAD
 import os
 
 import django_heroku
 import dj_database_url
 from decouple import config
 
+=======
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,9 +32,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com/']
+=======
+DEBUG = True
+
+ALLOWED_HOSTS = []
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 
 # Application definition
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'whitenoise.runserver_nostatic',
     'django_filters',
 
@@ -50,6 +60,22 @@ INSTALLED_APPS = [
     
 ]
 
+=======
+     
+    'crispy_forms', # package for custom form rendering https://django-crispy-forms.readthedocs.io/en/latest/
+    'crispy_bootstrap5',
+    'dashboard',
+    'dashboard.templatetags',
+  
+
+ #   'dashboard.apps.DashboardConfig', # Dashboard app added
+    
+]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,22 +85,62 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+<<<<<<< HEAD
     
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
+=======
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 ]
 
 ROOT_URLCONF = 'jb_quality.urls'
 
+<<<<<<< HEAD
+=======
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [         
+#               BASE_DIR / "templates",
+#               BASE_DIR / "templatetags"
+     
+#             ],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+
+#         # 'libraries':{
+#         #     # 'duration_filter': 'templatetags.duration_filter',
+#         #     'duration_filter' : 'dashboard.apps.templatetags.duration_filter'
+        
+#         # }
+
+
+#         },
+#     },
+# ]
+
+
+
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         'DIRS': [
             
             BASE_DIR / "templates"
             
             ],
+=======
+        'DIRS': [BASE_DIR/"templates", BASE_DIR/"templatetags"],
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,10 +149,27 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+<<<<<<< HEAD
+=======
+
+        # 'libraries':{
+
+        #     'templatetags' : 'duration_filter'    
+        # }
+
+
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
         },
     },
 ]
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 
 
@@ -100,6 +183,7 @@ DATABASES = {
     }
 }
 
+<<<<<<< HEAD
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
@@ -115,6 +199,8 @@ DATABASES['default'].update(db_from_env)
 #     }
 # }
 
+=======
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -145,6 +231,7 @@ DATE_INPUT_FORMATS = [
     "%d/%m/%Y",
     '%Y-%m-%d'
 ]
+<<<<<<< HEAD
 
 DATETIME_INPUT_FORMATS = [
     '%d/%m/%Y %H:%i'
@@ -152,6 +239,8 @@ DATETIME_INPUT_FORMATS = [
 
 DATETIME_FORMAT="d/m/Y H:i"
 
+=======
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 DATE_FORMAT = "d/m/Y"
 
 LANGUAGE_CODE = 'en-GB'
@@ -163,6 +252,7 @@ USE_I18N = True
 USE_TZ = True
 
 
+<<<<<<< HEAD
 LOGIN_URL = 'login'
 
 # Static files (CSS, JavaScript, Images)
@@ -178,10 +268,22 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+=======
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.0/howto/static-files/
+
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles",
+]
+
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+<<<<<<< HEAD
 
 
 
@@ -236,3 +338,5 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
+=======
+>>>>>>> 0d69fb284d6ad3468a42eb034d9c2256bcc59ed3
