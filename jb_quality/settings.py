@@ -93,27 +93,28 @@ WSGI_APPLICATION = 'jb_quality.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7kg8gbtl6tg3e',
+        'USER': 'ftdghgqdiqzyhp',
+        'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
+        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'degv0lep44641k',
-#         'USER': 'jjxdjcdansywwy',
-#         'PASSWORD': 'add6a7a40bc797a01aae25c7472e8caf027c03c4af827ff331d0d72f36738b7b',
-#         'HOST': 'ec2-54-76-43-89.eu-west-1.compute.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
@@ -233,6 +234,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jbdjango@outlook.com'
 EMAIL_HOST_PASSWORD = 'JBengineering'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/static/"
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
