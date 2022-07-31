@@ -59,7 +59,7 @@ class Report:
         self.c.setFont("Times-Roman", 8)    
         self.c.drawString(1.1*cm, footer_line_h+10, "Report:")
         self.c.drawString(inch, footer_line_h+10, "NCR Report")
-        self.c.drawString(4.5*inch+cm, footer_line_h+10, "https://github.com/Sphaze/")
+       # self.c.drawString(4.5*inch+cm, footer_line_h+10, "https://github.com/Sphaze/")
         self.c.drawString(7*inch+7*mm, footer_line_h+10, "Page %d" % pageNumber)
 
 

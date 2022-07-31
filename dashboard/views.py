@@ -124,6 +124,7 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
 
     
 class RecordDetailPage(LoginRequiredMixin, DetailView):
+    
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
