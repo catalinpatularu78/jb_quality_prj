@@ -105,7 +105,7 @@ class DashboardModel(models.Model):
 
     
     def __str__(self) -> str:
-        if self.advice_number:return self.advice_number
+        if self.ncr_number:return self.ncr_number
         return str(self.id)
     
     

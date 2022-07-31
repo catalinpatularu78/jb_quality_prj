@@ -43,7 +43,7 @@ class Report:
     
     def generate(request, pk):
         meta = DashboardModel.objects.get(pk=pk)
-        doc = Report(meta.ncr_number, pk)
+        doc = Report(filename=meta.ncr_number, uuid=pk)
         response = HttpResponse()
         response.content = doc.getBuffer()
         response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename + ".pdf"

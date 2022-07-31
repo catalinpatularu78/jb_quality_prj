@@ -1,6 +1,7 @@
 
 
 from urllib import request
+from django.forms import SlugField
 from django.shortcuts import get_object_or_404, render , redirect
 from django.http import HttpResponseRedirect
 
@@ -8,8 +9,9 @@ from django.http import HttpResponseRedirect
 from django.views.generic import View 
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
-from django.urls import reverse_lazy  # new
 
+from django.urls import reverse_lazy  # new
+#from .views import report_gen
 
 
 from django.contrib.auth.views import LoginView
@@ -17,12 +19,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.mixins import UserPassesTestMixin
 
+
+
 from dashboard.filters import DashboardFilter
 
 # For sending emails
 from django.conf import settings
 from django.core.mail import send_mail
-    
+
+
+
+
     
 from dashboard.models import (
     DashboardModel,
@@ -109,21 +116,34 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
         ]
     
     
-    
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
         return context
     
+
     
-    
-    
-class RecordDetailPage(LoginRequiredMixin , DetailView):
+class RecordDetailPage(LoginRequiredMixin, DetailView):
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
 
-    
+    def get(self, record, *args, **kwargs):  
+        pk = self.kwargs.get('pk')
+        record = DashboardModel.objects.get(pk=pk)
+        self.object = self.get_object()
+
+        print("test....", pk)
+        print("test....", record.ncr_number)
+
+        return super().get(request, *args, **kwargs)
+
+
+
+
+    # def get_queryset(self):
+    #     return DashboardModel.objects.all()
+
     # def time_format_converter(self, minutes):
     #     if minutes == None : return "" 
     #     return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
