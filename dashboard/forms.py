@@ -38,6 +38,7 @@ class RecordForm(ModelForm):
             "client",
             "issue_solved", 
             "closure_date", 
+            "target_completion_date",
             "estimated_completion_time", 
             "advice_number",
             "downtime_time",
@@ -59,6 +60,7 @@ class RecordForm(ModelForm):
             "supplier_issue",
             "customer_issues",
             "other_issues",
+            "area_in_specific",
             "severity",
         )
         
@@ -71,6 +73,7 @@ class RecordForm(ModelForm):
             "cost" : "Cost",
             "issue_solved" : "Issue Solved", 
             "closure_date" : "Closure Date", 
+            "target_completion_date" : "Target Completion Date",
             "estimated_completion_time" : "Estimated Completion Time", 
             "advice_number" : "Advice Number",
             "downtime_time" : "Downtime",
@@ -89,6 +92,7 @@ class RecordForm(ModelForm):
             "supplier_issue" : "Supplier issues" ,
             "customer_issues" : "Customer issues" ,
             "other_issues" : "Other issues" ,
+            "area_in_specific" : "Specific issues",
             "client" : "Client" ,
             "ncr_creator" : "NCR Creator" ,
             "comments" : "Comments" ,
@@ -117,6 +121,12 @@ class RecordForm(ModelForm):
                     'type':'date' ,  
                     'onclick' : 'showPicker()'
                     }),  
+            "target_completion_date" : forms.TextInput( attrs={
+            'class':'form-control' ,
+            'id':'inputDate' , 
+            'type':'date' ,  
+            'onclick' : 'showPicker()'
+            }),  
             "estimated_completion_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Completion time'}),
             "downtime_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Downtime'}),
             'employee': forms.CheckboxSelectMultiple(attrs={}),
@@ -143,6 +153,7 @@ class RecordForm(ModelForm):
             "supplier_issue" : forms.CheckboxSelectMultiple(),
             "customer_issues" : forms.CheckboxSelectMultiple(),
             "other_issues" : forms.CheckboxSelectMultiple(),
+            "area_in_specific" : forms.CheckboxSelectMultiple(),
             
             "client" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'client'}) ,
             "ncr_creator" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'ncr_creator'}) ,

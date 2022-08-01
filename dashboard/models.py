@@ -21,10 +21,11 @@ class DashboardModel(models.Model):
         max_length=36,)
 
     # Fields displayed on dashboard page
-    
+
     area = models.ManyToManyField('AreaOfIssue',blank=True)
     client = models.CharField(max_length =200 , null=True, blank = True )
     closure_date = models.DateTimeField(null=True, blank = True)
+    target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
     issue_date = models.DateTimeField(null=True, blank = True , default = datetime.now().replace(second=0, microsecond=0) )#default = timezone.localtime
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
@@ -57,10 +58,14 @@ class DashboardModel(models.Model):
     
     # Quality issues area's 
     
+    ''' could we possibly remove these and have them replaced by one field - "Area in specific"? User could add all different issue types themselves in one field  '''
     production_issue = models.ManyToManyField('ProductionIssues' ,blank=True)
     supplier_issue = models.ManyToManyField('SupplierIssues' ,blank=True)
     customer_issues = models.ManyToManyField('CustomerIssues' ,blank=True)
     other_issues = models.ManyToManyField('OtherIssues' ,blank=True)
+
+    #new
+    area_in_specific = models.ManyToManyField('SpecificAreaOfIssue', blank=True)
     
 
     
@@ -92,6 +97,14 @@ class DashboardModel(models.Model):
 
 
     
+
+class SpecificAreaOfIssue(models.Model):
+    name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+    
+    def __str__(self):
+        return self.name
 
 
 class AreaOfIssue(models.Model):

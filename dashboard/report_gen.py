@@ -206,22 +206,21 @@ class Report:
         a3 = "Advice Number:"
         a4 = "Job Reference Number:"
         a5 = "Status:"
-        a6 = "Non Conformance Code:"
-        a7 = "Site:"
+        a6 = "Area:"
+        a7 = "Area in specific:"
         a8 = "Severity:"
         a9 = "Company/person responsible:"
-        a10 = "NCR Status:"
-        a11 = "Target completion date:"
-        a12 = "Date of completion:"
+        a10 = "Target completion date:"
+        a11 = "Date of completion:"
 
    
 
         if(self.record.issue_solved == "no"):
 
-            the_issue_status = "The issue has not been resolved"      
+            the_issue_status = "The issue is open"      
         elif(self.record.issue_solved == "yes"):
 
-            the_issue_status = "The issue has been resolved"
+            the_issue_status = "The issue is closed"
         else:
             the_issue_status = "No status provided"
 
@@ -230,6 +229,9 @@ class Report:
 
         area_list = [str(name) for name in self.record.area.all()]
         site_name = ', '.join(area_list)
+
+        specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
+        site_name = ', '.join(specific_area_list)
 
         severity_level = str(self.record.severity)
     
@@ -240,18 +242,17 @@ class Report:
         b3 = self.record.advice_number
         b4 = self.record.job_reference_number
         b5 = the_issue_status
-        b6 = "####################" # "Non conformance code?"
-        b7 = site_name
+        b6 = site_name 
+        b7 = specific_area_list
         b8 = severity_level
         b9 = person_or_company_responsible
-        b10 = "####################"
-        b11 = "####################"
-        b12 = the_closure_date + the_closure_time
+        b10 = self.record.target_completion_date
+        b11 = the_closure_date + the_closure_time
      
 
         # tuples containing the data for the text objects
-        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
-        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12)
+        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11)
         
         # summary title
         textobject = self.c.beginText() 
