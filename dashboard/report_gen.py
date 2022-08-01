@@ -72,6 +72,9 @@ class Report:
         the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
         the_closure_time = str(self.record.closure_date)[10:16]
 
+        the_target_completion_date = str(self.record.target_completion_date)[8:10] +'/'+str(self.record.target_completion_date)[5:7] +'/'+str(self.record.target_completion_date)[0:4]  
+        the_target_completion_time = str(self.record.target_completion_date)[10:16]
+
         logo = os.path.join(settings.STATIC_ROOT,"img/jandb_logo.jpg")       
         logoX = (self.width/2) + 2*inch - 1*mm
         logoY = 3.38 * inch
@@ -231,10 +234,10 @@ class Report:
         site_name = ', '.join(area_list)
 
         specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
-        site_name = ', '.join(specific_area_list)
+        specific_area_name = ', '.join(specific_area_list)
 
         severity_level = str(self.record.severity)
-    
+
 
         '''answer fields'''
         b1 = self.record.ncr_number
@@ -243,10 +246,10 @@ class Report:
         b4 = self.record.job_reference_number
         b5 = the_issue_status
         b6 = site_name 
-        b7 = specific_area_list
+        b7 = specific_area_name
         b8 = severity_level
         b9 = person_or_company_responsible
-        b10 = self.record.target_completion_date
+        b10 = the_target_completion_date + the_target_completion_time
         b11 = the_closure_date + the_closure_time
      
 
