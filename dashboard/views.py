@@ -134,8 +134,8 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
         record = DashboardModel.objects.get(pk=pk)
         self.object = self.get_object()
 
-        print("test....", pk)
-        print("test....", record.ncr_number)
+        # print("test....", pk)
+        # print("test....", record.ncr_number)
 
         return super().get(request, *args, **kwargs)
 

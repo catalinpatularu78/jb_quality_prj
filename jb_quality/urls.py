@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.shortcuts import redirect
 
 
 
@@ -23,5 +23,7 @@ urlpatterns = [
     
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
+   # path('', lambda request: redirect('dashboard/', permanent=True)),
+   # path('dashboard/', include('dashboard.urls', namespace='record_details/<str:pk>/report.pdf')),
     
 ]

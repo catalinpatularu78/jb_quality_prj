@@ -4,10 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 from .report_gen import Report
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 from .views import (
@@ -23,6 +24,7 @@ from .views import (
 )
 
 
+#app_name = 'dashboard'
 urlpatterns = [
 
     
@@ -40,9 +42,17 @@ urlpatterns = [
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
 
-    path('dashboard/record_details/<str:pk>/report.pdf', Report.generate, name='run_pdfgen'),
-   # path('dashboard/record_details/<str:pk>/' + '<str:page_id>' + '.pdf', Report.generate, name='run_pdfgen'),
 
-    
+   # path('record_details/<str:pk>/<str:page_id>.pdf', Report.generate, name='run_pdfgen'),
+    path('record_details/<str:pk>/report.pdf', Report.generate, name='run_pdfgen'),
+  
    
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+
+def redirect_to_main(request):
+    # ...
+    main = "report.pdf"
+    # ...
+    return HttpResponseRedirect(reverse('run_pdfgen', args=(main,)))
