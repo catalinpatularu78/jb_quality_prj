@@ -386,7 +386,7 @@
                                 <p class="mb-0">NCR</p>
                                 </div>
                                 <div class="col-sm-9">                                 
-                                    <a class="btn btn-light" name="pdf_button" href="{% url 'run_pdfgen' record.pk %}">Generate NCR</a></li>                     
+                                    <a class="btn btn-light" name="pdf_button" href="{% url 'run_pdfgen' record.pk record.ncr_number %}">Generate NCR</a></li>                     
                                 </div>
                             </div>
                         </div>

@@ -41,7 +41,7 @@ class Report:
         return self.buffer
 
     
-    def generate(request, pk):
+    def generate(request, pk, param):
         meta = DashboardModel.objects.get(pk=pk)
         doc = Report(filename=meta.ncr_number, uuid=pk)
         response = HttpResponse()

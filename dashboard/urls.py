@@ -42,7 +42,7 @@ urlpatterns = [
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
 
-    path('record_details/<str:pk>/report.pdf', Report.generate, name='run_pdfgen'),
+    path('record_details/<str:pk>/<str:param>.pdf', Report.generate, name='run_pdfgen'),
   
    
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

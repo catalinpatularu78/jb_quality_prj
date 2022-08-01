@@ -124,7 +124,7 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
 
-    def get(self, record, *args, **kwargs):  
+    def get(self, *args, **kwargs):  
         pk = self.kwargs.get('pk')
         record = DashboardModel.objects.get(pk=pk)
         self.object = self.get_object()
