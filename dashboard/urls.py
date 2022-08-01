@@ -24,7 +24,7 @@ from .views import (
 )
 
 
-#app_name = 'dashboard'
+
 urlpatterns = [
 
     
@@ -42,8 +42,6 @@ urlpatterns = [
 
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
 
-
-   # path('record_details/<str:pk>/<str:page_id>.pdf', Report.generate, name='run_pdfgen'),
     path('record_details/<str:pk>/report.pdf', Report.generate, name='run_pdfgen'),
   
    

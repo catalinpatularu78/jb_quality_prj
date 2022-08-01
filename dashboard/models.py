@@ -1,49 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from datetime import datetime
-
 from uuid import uuid4
 
 
-
-# Register dashboard models in dashboard/admin.py
-
-# Create your models here.
-
-from django.db.models import IntegerField
-from django.urls import reverse
-from django.db.models import CharField
-import math
-from uuid import uuid4
-from django.utils import formats
-from django.core.exceptions import ValidationError
-
-# Register dashboard models in dashboard/admin.py
-
-
-# Create your models here.
-class CustomDuration(CharField):
-
-    def to_python(self, value):
-
-        duration = super().to_python(value)
-        return str(duration)
-
-    def get_prep_value(self, value):
-        total_minutes = int(value)
-
-        days = total_minutes // 1440
-        daysInMinutes = days * 1440    
-
-        hours = (total_minutes - daysInMinutes) // 60
-        hoursInMinutes = hours * 60
-
-        minutes = total_minutes - (daysInMinutes + hoursInMinutes)
-
-        str = "{:02d}{:02d}{:02d}".format(days, hours, minutes)
-
-        str = super(CustomDuration,self).get_prep_value(str)
-        return self.to_python(str)
 
 
 class DashboardModel(models.Model):
