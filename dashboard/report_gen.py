@@ -46,6 +46,7 @@ class Report:
         doc = Report(filename=meta.ncr_number, uuid=pk)
         response = HttpResponse()
         response.content = doc.getBuffer()
+        response.headers['url-parameter'] = param
         response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename + ".pdf"
         response.headers['Content-Type'] = 'application/pdf'
 
