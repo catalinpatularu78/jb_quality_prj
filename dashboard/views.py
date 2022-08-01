@@ -91,11 +91,6 @@ class DashboardPage(LoginRequiredMixin , ListView):
     
     context_object_name = 'dashboard'
     
-    # def get_context_data(self, *args,  **kwargs):
-    #     context = super().get_context_data(*args, **kwargs)
-    #     context['formatted_downtime'] = self.downtime_time()
-
-    #     return context
 
 
 class FilterDashboardPage(LoginRequiredMixin , ListView):
