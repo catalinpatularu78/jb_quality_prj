@@ -249,8 +249,8 @@ class Report:
         b7 = specific_area_name
         b8 = severity_level
         b9 = person_or_company_responsible
-        b10 = the_target_completion_date + the_target_completion_time
-        b11 = the_closure_date + the_closure_time
+        b10 = the_target_completion_date 
+        b11 = the_closure_date
      
 
         # tuples containing the data for the text objects
