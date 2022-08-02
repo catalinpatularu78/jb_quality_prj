@@ -92,7 +92,7 @@ class RecordForm(ModelForm):
             "supplier_issue" : "Supplier issues" ,
             "customer_issues" : "Customer issues" ,
             "other_issues" : "Other issues" ,
-            "area_in_specific" : "Specific issues",
+            "area_in_specific" : "Specific area of issue",
             "client" : "Client" ,
             "ncr_creator" : "NCR Creator" ,
             "comments" : "Comments" ,
