@@ -324,16 +324,16 @@ class Report:
 
         the_issues = ""
 
-        if (production_issue_name != ""):
+        if (production_issue_list): #if the list is not empty - examines boolean value of list
             the_issues += production_issue_name
 
-        elif(supplier_issue_name != ""):
+        elif(supplier_issue_list):
              the_issues += supplier_issue_name
 
-        elif(the_customer_issues != ""):
+        elif(customer_issues_list):
              the_issues += the_customer_issues
         
-        elif(the_other_issues != ""):
+        elif(other_issues_list):
              the_issues += the_other_issues
 
         textstyle = self.styles['Normal']   
