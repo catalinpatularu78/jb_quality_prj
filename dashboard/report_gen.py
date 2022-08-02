@@ -215,9 +215,9 @@ class Report:
         a9 = "Company/person responsible:"
         a10 = "Target completion date:"
         a11 = "Date of completion:"
+       
 
    
-
         if(self.record.issue_solved == "no"):
 
             the_issue_status = "The issue is open"      
@@ -236,6 +236,8 @@ class Report:
         specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
         specific_area_name = ', '.join(specific_area_list)
 
+
+   
         severity_level = str(self.record.severity)
 
 
@@ -251,6 +253,7 @@ class Report:
         b9 = person_or_company_responsible
         b10 = the_target_completion_date 
         b11 = the_closure_date
+      
      
 
         # tuples containing the data for the text objects
@@ -294,20 +297,35 @@ class Report:
         self.c.saveState()
         self.c.setFont('Times-Roman',16)
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Description")
-        self.c.setLineWidth(0.1) 
-        text = '''It is a paradisematic country, in which roasted parts of
-                sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts.It is a
-                paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing
-                has no control about the blind texts. It is a paradisematic country, in which roasted parts of
-                sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts.It is a
-                paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing
-                has no control about the blind texts.'''     
+        self.c.setLineWidth(0.5) 
+      
         self.c.bottomup = 1
         self.c.scale(1,-1)
         framedata = []
-        frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=3*mm, showBoundary=1)
+        frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=6*mm, showBoundary=1)
+
+        '''the paragraph flowable uses XML markup so <br/> creates a new line'''
+
+        production_issue_list = [str(name) for name in self.record.production_issue.all()]
+        production_issue_name = '''<b>Production issues:</b><br/><br/> 
+        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(production_issue_list) + "<seqreset id='counter'/><br/><br/>"
+
+        supplier_issue_list = [str(name) for name in self.record.supplier_issue.all()]
+        supplier_issue_name = '''<b>Supplier issues:</b><br/><br/> 
+        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(supplier_issue_list) + "<seqreset id='counter'/><br/><br/>"
+
+        customer_issues_list = [str(name) for name in self.record.customer_issues.all()]
+        the_customer_issues = '''<b>Customer issues:</b><br/><br/> 
+        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(customer_issues_list) + "<seqreset id='counter'/><br/><br/>"
+
+        other_issues_list = [str(name) for name in self.record.other_issues.all()]
+        the_other_issues = '''<b>Other issues:</b><br/><br/> 
+        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(other_issues_list) + "<seqreset id='counter'/><br/><br/>"
+
+        the_issues = production_issue_name + supplier_issue_name + the_customer_issues + the_other_issues
+
         textstyle = self.styles['Normal']   
-        p = Paragraph(text, textstyle)
+        p = Paragraph(the_issues, textstyle)
         framedText = KeepInFrame(maxWidth=0, maxHeight=9*inch, content=[p], mode='shrink')   
         framedata.append(framedText)
         frame.addFromList(framedata, self.c)
