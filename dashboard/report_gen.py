@@ -322,7 +322,19 @@ class Report:
         the_other_issues = '''<b>Other issues:</b><br/><br/> 
         <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(other_issues_list) + "<seqreset id='counter'/><br/><br/>"
 
-        the_issues = production_issue_name + supplier_issue_name + the_customer_issues + the_other_issues
+        the_issues = ""
+
+        if (production_issue_name != ""):
+            the_issues += production_issue_name
+
+        elif(supplier_issue_name != ""):
+             the_issues += supplier_issue_name
+
+        elif(the_customer_issues != ""):
+             the_issues += the_customer_issues
+        
+        elif(the_other_issues != ""):
+             the_issues += the_other_issues
 
         textstyle = self.styles['Normal']   
         p = Paragraph(the_issues, textstyle)
