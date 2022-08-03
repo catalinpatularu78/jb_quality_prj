@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
-from reportlab.lib.utils import ImageReader
 
 
 class Report:
@@ -76,19 +75,13 @@ class Report:
         the_target_completion_date = str(self.record.target_completion_date)[8:10] +'/'+str(self.record.target_completion_date)[5:7] +'/'+str(self.record.target_completion_date)[0:4]  
         the_target_completion_time = str(self.record.target_completion_date)[10:16]
 
-        logo = os.path.join(settings.STATIC_ROOT,"img/logo.jpg")       
-        logoX = (self.width/2) + 2*inch + 1*mm
-        logoY = 2 * inch
-        logoSize = 115
+        logo = os.path.join(settings.STATIC_ROOT,"img/jandb_logo.jpg")       
+        logoX = (self.width/2) + 2*inch - 1*mm
+        logoY = 3.38 * inch
+        logoSize = 120
         self.c.saveState()
         self.c.scale(1,-1)
-        self.c.drawImage(logo, width=logoSize, x=logoX, y=-logoY, preserveAspectRatio=True)
-
-        #io_image = io.StringIO(os.path.join(settings.STATIC_ROOT,"img/logo_png.png"))
-        #reportlab_io_img = ImageReader(os.path.join(settings.STATIC_ROOT,"img/logo_png.png"))
-        #colorImage = io.BytesIO(bytes(os.path.join(settings.STATIC_ROOT,"img/jandb_logo.jpg"), encoding="raw_unicode_escape"))
-        #logo = Image(colorImage, width=64, height=64)
-        #logo.drawOn(self.c, logoX, -logoY)
+        self.c.drawInlineImage(logo, width=logoSize, x=logoX, y=-logoY, preserveAspectRatio=True)
         self.c.restoreState()
 
 
@@ -122,14 +115,27 @@ class Report:
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+1.5*cm)
         textobject.setFont(heading_font, heading_fontsize)
-        textobject.textLine("Advice Number:")
+        textobject.textLine("Comment:")
         self.c.drawText(textobject)
         ''' answer blob '''
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+2*cm+2*mm)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine(self.record.advice_number)
+        textobject.textLine("placeholder")
         self.c.drawText(textobject)
+        ''' heading blob '''
+        textobject = self.c.beginText()
+        textobject.setTextOrigin(1.3*cm, 2*inch+3*cm)
+        textobject.setFont(heading_font, heading_fontsize)
+        textobject.textLine("Created by:")
+        self.c.drawText(textobject)
+        ''' answer blob '''
+        textobject = self.c.beginText()
+        textobject.setTextOrigin(1.3*cm, 2*inch+3.5*cm+2*mm)
+        textobject.setFont(answer_font, answer_fontsize)
+        textobject.textLine("placeholder")
+        self.c.drawText(textobject)
+
         
         ### center column ###
         ''' heading blob '''  
@@ -144,22 +150,24 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+0.5*cm+2*mm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("Quality Engineer")
+        textobject.textLine("placeholder")
         self.c.drawText(textobject)
         ''' heading blob '''
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+1.5*cm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(heading_font, heading_fontsize)
-        textobject.textLine("Created by:")
+        textobject.textLine("Execution time:")
         self.c.drawText(textobject)
         ''' answer blob '''
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+2*cm+2*mm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("Supervisors")
+        execution_time = str(dt.datetime.now().__format__("%d/%m/%Y %H:%M"))
+        textobject.textLine(execution_time)
         self.c.drawText(textobject)
+
 
         ### right column ###
         
@@ -168,17 +176,30 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch)
         textobject.moveCursor(6*inch,0)
         textobject.setFont(heading_font, heading_fontsize)
-        textobject.textLine("Execution time:")
+        textobject.textLine("Current Date:")
         self.c.drawText(textobject)
         ''' answer blob '''
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+0.5*cm+2*mm)
         textobject.moveCursor(6*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        execution_time = str(dt.datetime.now().__format__("%d/%m/%Y %H:%M"))
-        textobject.textLine(execution_time)
+        current_date = str(dt.datetime.now().__format__("%d/%m/%Y"))
+        textobject.textLine(current_date)
         self.c.drawText(textobject)
-   
+        ''' heading blob '''
+        textobject = self.c.beginText()
+        textobject.setTextOrigin(1.3*cm, 2*inch+1.5*cm)
+        textobject.moveCursor(6*inch,0)
+        textobject.setFont(heading_font, heading_fontsize)
+        textobject.textLine("Job ID:")
+        self.c.drawText(textobject)
+        ''' answer blob '''
+        textobject = self.c.beginText()
+        textobject.setTextOrigin(1.3*cm, 2*inch+2*cm+2*mm)
+        textobject.moveCursor(6*inch,0)
+        textobject.setFont(answer_font, answer_fontsize)
+        textobject.textLine("placeholder")
+        self.c.drawText(textobject)
 
         #data = Post.objects.last() #most recent database object from my database model called "Post"
         
@@ -195,10 +216,13 @@ class Report:
         a10 = "Target completion date:"
         a11 = "Date of completion:"
        
+
    
         if(self.record.issue_solved == "no"):
+
             the_issue_status = "The issue is open"      
         elif(self.record.issue_solved == "yes"):
+
             the_issue_status = "The issue is closed"
         else:
             the_issue_status = "No status provided"
@@ -212,6 +236,8 @@ class Report:
         specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
         specific_area_name = ', '.join(specific_area_list)
 
+
+   
         severity_level = str(self.record.severity)
 
 
