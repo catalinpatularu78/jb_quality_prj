@@ -1,22 +1,10 @@
-
-
 from urllib import request
-from django.forms import SlugField
 from django.shortcuts import get_object_or_404, render , redirect
-from django.http import HttpResponseRedirect
-
-
-from django.views.generic import View 
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
-
 from django.urls import reverse_lazy  # new
-#from .views import report_gen
-
-
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
