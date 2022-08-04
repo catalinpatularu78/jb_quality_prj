@@ -210,7 +210,7 @@ They won't be taking data on the dashboard_create page.
 class Employee(models.Model):
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
     
     def __str__(self):
@@ -220,7 +220,7 @@ class Employee(models.Model):
 class Customer(models.Model):
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
     
     def __str__(self):
@@ -230,7 +230,7 @@ class Customer(models.Model):
 class Supplier(models.Model):
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
     
     def __str__(self):
@@ -244,7 +244,7 @@ class ProductionCompany(models.Model):
 
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible")  
     
     def __str__(self):
@@ -254,7 +254,7 @@ class ProductionCompany(models.Model):
 class DeliveryPartner(models.Model):
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible")  
     
     def __str__(self):
@@ -267,7 +267,7 @@ class OtherCompany(models.Model):
         verbose_name_plural = 'Other Companies'
 
     name = models.CharField(max_length=255, default='')
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
     
     def __str__(self):
