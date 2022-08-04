@@ -3,7 +3,9 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .views import DashboardModel, PersonOrCompanyResponsible
+
+from dashboard.models import PersonResponsible
+from .views import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
@@ -206,8 +208,8 @@ class Report:
             the_issue_status = "No status provided"
 
         names_list = [str(name) for name in self.record.the_subject_responsible.all()]
-        person_or_company_responsible = ', '.join(names_list)
-        names_stored = person_or_company_responsible
+        person_responsible = ', '.join(names_list)
+        names_stored = person_responsible
 
         area_list = [str(name) for name in self.record.area.all()]
         site_name = ', '.join(area_list)
@@ -220,14 +222,14 @@ class Report:
         area_of_subject ="[Please correctly assign names in admin]"
         subject_information="[Please correctly assign names in admin]"
 
-        if(person_or_company_responsible == ""):
-            person_or_company_responsible ="[Please correctly assign names in admin]"
+        if(person_responsible == ""):
+            person_responsible ="[Please correctly assign names in admin]"
 
-        if("," in person_or_company_responsible): #more than one names for the same company type
-            person_or_company_responsible = person_or_company_responsible.split(',')[0]
+        if("," in person_responsible): #more than one names for the same company type
+            person_responsible = person_responsible.split(',')[0]
 
 
-        p = PersonOrCompanyResponsible.objects.get(title=person_or_company_responsible) 
+        p = PersonResponsible.objects.get(title=person_responsible) 
 
         data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
@@ -250,13 +252,6 @@ class Report:
             subject_information = ''.join(data_in_customer)
 
 
-        data_in_employee = [str(info) for info in p.employee_set.all()]
-        
-        if(data_in_employee): 
-            area_of_subject = "Employee"
-            subject_information = ''.join(data_in_employee)
-
-
         data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
         
         if(data_in_production_company): 
@@ -269,6 +264,13 @@ class Report:
         if(data_in_other_company): 
             area_of_subject = "Other"
             subject_information = ''.join(data_in_other_company)
+
+
+        data_in_employee = [str(info) for info in p.employee_set.all()] 
+        
+        if(data_in_employee): 
+            area_of_subject = "Employee"
+            subject_information = "Internal Employee"
 
 
         '''answer fields'''

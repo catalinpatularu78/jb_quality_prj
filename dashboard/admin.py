@@ -4,6 +4,7 @@ from django.contrib import admin
 from .models import (
     DashboardModel,
     AreaOfIssue,
+    PersonResponsible,
     SpecificAreaOfIssue,
     Locations,
     SupervisorTeam,
@@ -11,7 +12,6 @@ from .models import (
     SupplierIssues,
     CustomerIssues,
     OtherIssues,
-    PersonOrCompanyResponsible,
 
     #ManyToOne
     Employee,
@@ -32,7 +32,7 @@ admin.site.register(ProductionIssues)
 admin.site.register(SupplierIssues)
 admin.site.register(CustomerIssues)
 admin.site.register(OtherIssues)
-admin.site.register(PersonOrCompanyResponsible)
+admin.site.register(PersonResponsible)
 
 #ManyToOne
 admin.site.register(Employee)
