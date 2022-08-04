@@ -212,32 +212,32 @@ They won't be taking data on the dashboard_create page.
 
 class Employee(models.Model):
 
-    name = models.CharField(max_length=255, default='')
+    employee_number = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    employee_area = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT) 
+    name = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT) 
 
     def __str__(self):
-        return self.name
+        return self.employee_number
 
 
 class Customer(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT) 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
     
     def __str__(self):
-        return self.name
+        return self.company_name
 
 
 class Supplier(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT) 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
     
     def __str__(self):
-        return self.name
+        return self.company_name
 
 
 class ProductionCompany(models.Model):
@@ -248,20 +248,20 @@ class ProductionCompany(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT)  
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible")  
     
     def __str__(self):
-        return self.name
+        return self.company_name
 
 
 class DeliveryPartner(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT)  
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible")  
     
     def __str__(self):
-        return self.name
+        return self.company_name
 
 
 class OtherCompany(models.Model):
@@ -271,8 +271,8 @@ class OtherCompany(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT) 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
     
     def __str__(self):
-        return self.name
+        return self.company_name
 
