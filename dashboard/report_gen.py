@@ -3,7 +3,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .views import DashboardModel, Employees
+from .views import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
@@ -203,7 +203,7 @@ class Report:
         else:
             the_issue_status = "No status provided"
 
-        names_list = [str(name) for name in self.record.employee.all()]
+        names_list = [str(name) for name in self.record.the_subject_responsible.all()]
         person_or_company_responsible = ', '.join(names_list)
 
         area_list = [str(name) for name in self.record.area.all()]

@@ -43,7 +43,7 @@ class DashboardModel(models.Model):
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True, default="")
     downtime_time = models.IntegerField (null=True, blank = True)
-    employee = models.ManyToManyField('Employees' ,blank=True)
+    the_subject_responsible = models.ManyToManyField('PersonOrCompanyResponsible' ,blank=True) #changed name here, and aOK
     estimated_completion_time = models.IntegerField (null=True, blank = True)
     images = models.TextField(null=True , blank = True, default="")
     interim_containment_action = models.TextField(null=True , blank = True)
@@ -60,8 +60,6 @@ class DashboardModel(models.Model):
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     
     # Quality issues area's 
-    
-    ''' could we possibly remove these and have them replaced by one field - "Area in specific"? User could add all different issue types themselves in one field  '''
     production_issue = models.ManyToManyField('ProductionIssues' ,blank=True)
     supplier_issue = models.ManyToManyField('SupplierIssues' ,blank=True)
     customer_issues = models.ManyToManyField('CustomerIssues' ,blank=True)
@@ -178,18 +176,7 @@ class Locations(models.Model):
     class Meta:
         verbose_name_plural = "Locations"
     
-class Employees(models.Model):
-    name = models.CharField(max_length=200)
-    id = models.UUIDField(default=uuid4, unique=True,
-                        primary_key=True, editable=False)
 
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        verbose_name_plural = "Employees"
-    
-    
 class SupervisorTeam(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
@@ -198,4 +185,91 @@ class SupervisorTeam(models.Model):
     def __str__(self):
         return self.name
 
+
+class PersonOrCompanyResponsible(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Person or Company Responsible'
+  
+  
+    title = models.CharField(max_length=255, default='')
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.title
+
+
+''' 
+ManyToOne Relationships 
+
+These models will store data in the admin.
+They won't be taking data on the dashboard_create page.
+ '''
+
+class Employee(models.Model):
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
+    
+    def __str__(self):
+        return self.name
+
+
+class Customer(models.Model):
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
+    
+    def __str__(self):
+        return self.name
+
+
+class Supplier(models.Model):
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
+    
+    def __str__(self):
+        return self.name
+
+
+class ProductionCompany(models.Model):
+    
+    class Meta:
+        verbose_name_plural = 'Production Companies'
+
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible")  
+    
+    def __str__(self):
+        return self.name
+
+
+class DeliveryPartner(models.Model):
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible")  
+    
+    def __str__(self):
+        return self.name
+
+
+class OtherCompany(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Other Companies'
+
+    name = models.CharField(max_length=255, default='')
+    description = models.TextField(default='')
+    person_company_responsible = models.ForeignKey(PersonOrCompanyResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person or Company Responsible") 
+    
+    def __str__(self):
+        return self.name
 

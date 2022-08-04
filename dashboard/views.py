@@ -23,7 +23,7 @@ from dashboard.models import (
     DashboardModel,
     AreaOfIssue,
     Locations,
-    Employees,
+    PersonOrCompanyResponsible,
     SupervisorTeam,
     ProductionIssues,
     SupplierIssues,
