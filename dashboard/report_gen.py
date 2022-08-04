@@ -3,7 +3,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch, mm, cm
 from reportlab.lib.pagesizes import A4
-from .views import DashboardModel
+from .views import DashboardModel, PersonOrCompanyResponsible
 from django.conf import settings
 from django.http import HttpResponse
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
@@ -191,9 +191,11 @@ class Report:
         a6 = "Area:"
         a7 = "Area in specific:"
         a8 = "Severity:"
-        a9 = "Company/person responsible:"
-        a10 = "Target completion date:"
-        a11 = "Date of completion:"
+        a9 = "Name of subject(s):"
+        a10 = "Subject type:"
+        a11 = "Company responsible:"
+        a12 = "Target completion date:"
+        a13 = "Date of completion:"
        
    
         if(self.record.issue_solved == "no"):
@@ -205,6 +207,7 @@ class Report:
 
         names_list = [str(name) for name in self.record.the_subject_responsible.all()]
         person_or_company_responsible = ', '.join(names_list)
+        names_stored = person_or_company_responsible
 
         area_list = [str(name) for name in self.record.area.all()]
         site_name = ', '.join(area_list)
@@ -213,6 +216,59 @@ class Report:
         specific_area_name = ', '.join(specific_area_list)
 
         severity_level = str(self.record.severity)
+
+        area_of_subject ="[Please correctly assign names in admin]"
+        subject_information="[Please correctly assign names in admin]"
+
+        if(person_or_company_responsible == ""):
+            person_or_company_responsible ="[Please correctly assign names in admin]"
+
+        if("," in person_or_company_responsible): #more than one names for the same company type
+            person_or_company_responsible = person_or_company_responsible.split(',')[0]
+
+
+        p = PersonOrCompanyResponsible.objects.get(title=person_or_company_responsible) 
+
+        data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+
+        if(data_in_supplier): 
+            area_of_subject = "Supplier"
+            subject_information = ''.join(data_in_supplier)
+    
+
+        data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+        
+        if(data_in_delivery_partner):
+            area_of_subject = "Delivery Partner"
+            subject_information = ''.join(data_in_delivery_partner)
+
+
+        data_in_customer = [str(info) for info in p.customer_set.all()] 
+        
+        if(data_in_customer): 
+            area_of_subject = "Customer"
+            subject_information = ''.join(data_in_customer)
+
+
+        data_in_employee = [str(info) for info in p.employee_set.all()]
+        
+        if(data_in_employee): 
+            area_of_subject = "Employee"
+            subject_information = ''.join(data_in_employee)
+
+
+        data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+        
+        if(data_in_production_company): 
+            area_of_subject = "Production"
+            subject_information = ''.join(data_in_production_company)
+
+
+        data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+        
+        if(data_in_other_company): 
+            area_of_subject = "Other"
+            subject_information = ''.join(data_in_other_company)
 
 
         '''answer fields'''
@@ -224,15 +280,17 @@ class Report:
         b6 = site_name 
         b7 = specific_area_name
         b8 = severity_level
-        b9 = person_or_company_responsible
-        b10 = the_target_completion_date 
-        b11 = the_closure_date
+        b9 = names_stored
+        b10 = area_of_subject
+        b11 = subject_information
+        b12 = the_target_completion_date 
+        b13 = the_closure_date
       
      
 
         # tuples containing the data for the text objects
-        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
-        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11)
+        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13)
+        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13)
         
         # summary title
         textobject = self.c.beginText() 
