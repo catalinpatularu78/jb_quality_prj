@@ -112,32 +112,78 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
 
-    def get(self, *args, **kwargs):  
-        pk = self.kwargs.get('pk')
-        record = DashboardModel.objects.get(pk=pk)
-        self.object = self.get_object()
+    # def get(self, *args, **kwargs):  
+    #     pk = self.kwargs.get('pk')
+    #     record = DashboardModel.objects.get(pk=pk)
+    #     self.object = self.get_object()
 
-        # print("test....", pk)
-        # print("test....", record.ncr_number)
+    #     # print("test....", pk)
+    #     # print("test....", record.ncr_number)
 
-        return super().get(request, *args, **kwargs)
-
-
+    #     return super().get(request, *args, **kwargs)
 
 
-    # def get_queryset(self):
-    #     return DashboardModel.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.get_object().id
 
-    # def time_format_converter(self, minutes):
-    #     if minutes == None : return "" 
-    #     return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
+        record = DashboardModel.objects.get(id=pk)
+
+        names_list = [str(name) for name in record.the_subject_responsible.all()]
+        person_responsible = ', '.join(names_list)
+        
+        subject_information = ""
+        area_of_subject = ""
+
+        if(person_responsible != ""):         
+            p = PersonResponsible.objects.get(title=person_responsible) 
+
+            data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+
+            if(data_in_supplier): 
+                area_of_subject = "Supplier"
+                subject_information = ''.join(data_in_supplier)
 
 
-    # def get_context_data(self, *args,  **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     downtime = self.get_object().downtime_time
-    #     context['formatted_downtime'] = self.time_format_converter(downtime)
-    #     return context
+            data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+            
+            if(data_in_delivery_partner):
+                area_of_subject = "Delivery Partner"
+                subject_information = ''.join(data_in_delivery_partner)
+
+
+            data_in_customer = [str(info) for info in p.customer_set.all()] 
+            
+            if(data_in_customer): 
+                area_of_subject = "Customer"
+                subject_information = ''.join(data_in_customer)
+
+
+            data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+            
+            if(data_in_production_company): 
+                area_of_subject = "Production"
+                subject_information = ''.join(data_in_production_company)
+
+
+            data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+            
+            if(data_in_other_company): 
+                area_of_subject = "Other"
+                subject_information = ''.join(data_in_other_company)
+
+
+            data_in_employee = [str(info) for info in p.employee_set.all()] 
+            
+            if(data_in_employee): 
+                area_of_subject = "Employee"
+                subject_information = "Internal Employee"
+        
+        context['company_category'] = area_of_subject
+        context['company_name'] = subject_information
+
+        return context
+    
     
 
 
