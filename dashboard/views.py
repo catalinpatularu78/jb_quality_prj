@@ -135,6 +135,10 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
         subject_information = ""
         area_of_subject = ""
 
+        if("," in person_responsible): #more than one names for the same company type
+            person_responsible = person_responsible.split(',')[0]
+
+
         if(person_responsible != ""):         
             p = PersonResponsible.objects.get(title=person_responsible) 
 
