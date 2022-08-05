@@ -229,48 +229,50 @@ class Report:
             person_responsible = person_responsible.split(',')[0]
 
 
-        p = PersonResponsible.objects.get(title=person_responsible) 
+        if(person_responsible != "[Please correctly assign names in admin]"):
+            
+            p = PersonResponsible.objects.get(title=person_responsible) 
 
-        data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+            data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
-        if(data_in_supplier): 
-            area_of_subject = "Supplier"
-            subject_information = ''.join(data_in_supplier)
-    
-
-        data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+            if(data_in_supplier): 
+                area_of_subject = "Supplier"
+                subject_information = ''.join(data_in_supplier)
         
-        if(data_in_delivery_partner):
-            area_of_subject = "Delivery Partner"
-            subject_information = ''.join(data_in_delivery_partner)
+
+            data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+            
+            if(data_in_delivery_partner):
+                area_of_subject = "Delivery Partner"
+                subject_information = ''.join(data_in_delivery_partner)
 
 
-        data_in_customer = [str(info) for info in p.customer_set.all()] 
-        
-        if(data_in_customer): 
-            area_of_subject = "Customer"
-            subject_information = ''.join(data_in_customer)
+            data_in_customer = [str(info) for info in p.customer_set.all()] 
+            
+            if(data_in_customer): 
+                area_of_subject = "Customer"
+                subject_information = ''.join(data_in_customer)
 
 
-        data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
-        
-        if(data_in_production_company): 
-            area_of_subject = "Production"
-            subject_information = ''.join(data_in_production_company)
+            data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+            
+            if(data_in_production_company): 
+                area_of_subject = "Production"
+                subject_information = ''.join(data_in_production_company)
 
 
-        data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
-        
-        if(data_in_other_company): 
-            area_of_subject = "Other"
-            subject_information = ''.join(data_in_other_company)
+            data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+            
+            if(data_in_other_company): 
+                area_of_subject = "Other"
+                subject_information = ''.join(data_in_other_company)
 
 
-        data_in_employee = [str(info) for info in p.employee_set.all()] 
-        
-        if(data_in_employee): 
-            area_of_subject = "Employee"
-            subject_information = "Internal Employee"
+            data_in_employee = [str(info) for info in p.employee_set.all()] 
+            
+            if(data_in_employee): 
+                area_of_subject = "Employee"
+                subject_information = "Internal Employee"
 
 
         '''answer fields'''

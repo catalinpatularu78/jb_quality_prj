@@ -34,11 +34,11 @@ class DashboardModel(models.Model):
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
-    ncr_number =  models.CharField(max_length =100 , null=True, blank = True )
+    ncr_number =  models.CharField(max_length =100 , null=True)
     
     
     # additional fields displayed on create + detail + update 
-    advice_number =  models.CharField(max_length =100 , null=True, blank = True )
+    advice_number =  models.CharField(max_length =100 , null=True)
     comments = models.TextField(null=True , blank = True)
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True, default="")
