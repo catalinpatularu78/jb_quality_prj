@@ -145,42 +145,42 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
             data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
             if(data_in_supplier): 
-                area_of_subject = "Supplier"
+                area_of_subject = "(Type: Supplier)"
                 subject_information = ''.join(data_in_supplier)
 
 
             data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
             
             if(data_in_delivery_partner):
-                area_of_subject = "Delivery Partner"
+                area_of_subject = "(Type: Delivery Partner)"
                 subject_information = ''.join(data_in_delivery_partner)
 
 
             data_in_customer = [str(info) for info in p.customer_set.all()] 
             
             if(data_in_customer): 
-                area_of_subject = "Customer"
+                area_of_subject = "(Type: Customer)"
                 subject_information = ''.join(data_in_customer)
 
 
             data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
             
             if(data_in_production_company): 
-                area_of_subject = "Production"
+                area_of_subject = "(Type: Production)"
                 subject_information = ''.join(data_in_production_company)
 
 
             data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
             
             if(data_in_other_company): 
-                area_of_subject = "Other"
+                area_of_subject = "(Type: Other)"
                 subject_information = ''.join(data_in_other_company)
 
 
             data_in_employee = [str(info) for info in p.employee_set.all()] 
             
             if(data_in_employee): 
-                area_of_subject = "Employee"
+                area_of_subject = ""
                 subject_information = "Internal Employee"
         
         context['company_category'] = area_of_subject
