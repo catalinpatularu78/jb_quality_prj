@@ -193,9 +193,9 @@ class Report:
         a6 = "Area:"
         a7 = "Area in specific:"
         a8 = "Severity:"
-        a9 = "Name of subject(s):"
-        a10 = "Subject type:"
-        a11 = "Company responsible:"
+        a9 = "Responsible for the issue:"
+        a10 = "Category:"
+        a11 = "Company:"
         a12 = "Target completion date:"
         a13 = "Date of completion:"
        
@@ -219,8 +219,8 @@ class Report:
 
         severity_level = str(self.record.severity)
 
-        area_of_subject ="[Please correctly assign names in admin]"
-        subject_information="[Please correctly assign names in admin]"
+        area_of_subject =""
+        subject_information=""
 
         if(person_responsible == ""):
             person_responsible ="[Please correctly assign names in admin]"

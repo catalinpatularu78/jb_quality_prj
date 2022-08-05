@@ -189,7 +189,7 @@ class SupervisorTeam(models.Model):
 class PersonResponsible(models.Model):
 
     class Meta:
-        verbose_name_plural = 'Person or Company Responsible'
+        verbose_name_plural = 'Person/Company Responsible'
   
   
     title = models.CharField(max_length=255, default='')
@@ -222,7 +222,7 @@ class Customer(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
     def __str__(self):
         return self.company_name
@@ -232,7 +232,7 @@ class Supplier(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
     def __str__(self):
         return self.company_name
@@ -241,12 +241,12 @@ class Supplier(models.Model):
 class ProductionCompany(models.Model):
     
     class Meta:
-        verbose_name_plural = 'Production Companies'
+        verbose_name_plural = 'Production Companies (Clients)'
 
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible")  
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible")  
     
     def __str__(self):
         return self.company_name
@@ -256,7 +256,7 @@ class DeliveryPartner(models.Model):
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible")  
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible")  
     
     def __str__(self):
         return self.company_name
@@ -265,11 +265,11 @@ class DeliveryPartner(models.Model):
 class OtherCompany(models.Model):
 
     class Meta:
-        verbose_name_plural = 'Other Companies'
+        verbose_name_plural = 'Other Companies (Clients)'
 
     company_name = models.CharField(max_length=255, default='')
     description = models.TextField(default='', blank=True)
-    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person Responsible") 
+    PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
     def __str__(self):
         return self.company_name
