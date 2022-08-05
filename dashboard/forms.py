@@ -77,7 +77,7 @@ class RecordForm(ModelForm):
             "estimated_completion_time" : "Estimated Completion Time", 
             "advice_number" : "Advice Number",
             "downtime_time" : "Downtime",
-            "the_subject_responsible" : "Person Responsible", 
+            "the_subject_responsible" : "Person/Company Responsible", 
             "supervisor" : "Supervisor",
             "description" : "Description", 
             "root_cause" : "Root Cause", 
