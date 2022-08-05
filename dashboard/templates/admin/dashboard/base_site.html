@@ -1,0 +1,12 @@
+{% extends "admin/base_site.html" %}
+
+ {% block branding %}
+  
+ {{ block.super }}
+
+     <div id = "branding">
+        <h1 id="site-name"><a href="/admin/">Django administration</a></h1>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+    </div>
+     
+ {% endblock %}
