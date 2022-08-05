@@ -81,7 +81,7 @@ class DashboardModel(models.Model):
     
     def time_format_converter(self, minutes):
         if minutes == None : return "" 
-        return ( f'{minutes // 1440} days , {((minutes // 60) % 24)} hours , {minutes % 60} minutes')
+        return ( f'{minutes // 1440}d : {((minutes // 60) % 24)}h : {minutes % 60}m')
     
     
     @property
@@ -201,14 +201,12 @@ class PersonResponsible(models.Model):
 
 
 
-
 ''' 
 ManyToOne Relationships 
 
 These models will store data in the admin.
 They won't be taking data on the dashboard_create page.
  '''
-
 
 class Employee(models.Model):
 
