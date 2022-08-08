@@ -2,6 +2,9 @@ from django.db import models
 from django.urls import reverse
 from datetime import datetime
 from uuid import uuid4
+from django.conf import settings
+from django.core import validators
+from django.core.validators import FileExtensionValidator
 
 
 class DashboardModel(models.Model):
@@ -18,10 +21,6 @@ class DashboardModel(models.Model):
         editable=False,
         max_length=36,)
 
-    def user_directory_path(instance, filename):
-  
-    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-        return 'user_{0}/{1}'.format(instance.user.id, filename)
 
     # Fields displayed on dashboard page
 
@@ -45,7 +44,6 @@ class DashboardModel(models.Model):
     downtime_time = models.IntegerField (null=True, blank = True)
     the_subject_responsible = models.ManyToManyField('PersonResponsible' ,blank=True) #changed name here, and aOK
     estimated_completion_time = models.IntegerField (null=True, blank = True)
-    images = models.TextField(null=True , blank = True, default="")
     interim_containment_action = models.TextField(null=True , blank = True)
     issue_affect_other_areas = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     issue_affect_other_areas_description = models.TextField(null=True , blank = True)
@@ -57,6 +55,7 @@ class DashboardModel(models.Model):
         null=True,
         blank = True,
     )
+    image_upload = models.ImageField(upload_to="images/", null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     
     # Quality issues area's 

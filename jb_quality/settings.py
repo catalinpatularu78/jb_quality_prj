@@ -94,27 +94,27 @@ TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader', 'django.templat
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd7kg8gbtl6tg3e',
-#         'USER': 'ftdghgqdiqzyhp',
-#         'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
-#         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
+# heroku app credentials (Conor)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7kg8gbtl6tg3e',
+        'USER': 'ftdghgqdiqzyhp',
+        'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
+        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 
@@ -235,6 +235,28 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'jbdjango@outlook.com'
 EMAIL_HOST_PASSWORD = 'JBengineering'
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\media\
+
+MEDIA_URL = '/media/'
+#MEDIA_URL = os.path.join(BASE_DIR, "/media/")
+
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
+
+
+VALID_IMAGE_EXTENSIONS = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+]
+
+def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
+    # http://stackoverflow.com/a/10543969/396300
+    return any([url.endswith(e) for e in extension_list])

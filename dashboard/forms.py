@@ -1,6 +1,6 @@
 
 from django.db.models.base import Model
-from django.forms import ModelForm, widgets
+from django.forms import ModelForm, widgets, FileInput
 from django import forms
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -27,6 +27,7 @@ class RecordForm(ModelForm):
     
     class Meta:
         model = DashboardModel
+        widgets = {'document': FileInput(attrs={'accept': 'file/png, file/jpg'})}
         
         fields = (
             "issue_date", 
@@ -53,7 +54,7 @@ class RecordForm(ModelForm):
             "issue_affect_other_areas", 
             "issue_affect_other_areas_description",
             "prevented_reoccurrence", 
-            "images",
+            "image_upload",
             "ncr_creator",
             "severity",
             "production_issue",
@@ -87,7 +88,7 @@ class RecordForm(ModelForm):
             "issue_affect_other_areas" : "Issue Affect Other Areas", 
             "issue_affect_other_areas_description" : "Issue Affect Other Areas Description",
             "prevented_reoccurrence" : "Prevented Reoccurrence", 
-            "images" : "Images",
+            "image_upload" : "Images",
             "production_issue" : "Production issues" ,
             "supplier_issue" : "Supplier issues" ,
             "customer_issues" : "Customer issues" ,
@@ -147,7 +148,7 @@ class RecordForm(ModelForm):
                 ), 
             "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
             "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
-            "images" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg " id="formFileLg" type="file', 'placeholder':'images'}),
+            "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg " id="formFileLg type="file', 'placeholder':'images' }),
 
             "production_issue" : forms.CheckboxSelectMultiple(attrs={}),
             "supplier_issue" : forms.CheckboxSelectMultiple(),

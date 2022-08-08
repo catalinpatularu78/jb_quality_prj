@@ -388,7 +388,10 @@ class Report:
         self.c.setFont('Times-Roman',16)
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Related media")
         self.c.setLineWidth(0.1) 
-        media = Image(os.path.join(settings.STATIC_ROOT,"img/eng_building.jpg"), useDPI=True)
+
+        #img = DashboardModel.objects.filter(file_type='image')
+        print(settings.MEDIA_ROOT)
+        media = Image(self.record.image_upload.path, useDPI=True)
         self.c.bottomup = 1
         self.c.scale(1,-1)
         framedata = []

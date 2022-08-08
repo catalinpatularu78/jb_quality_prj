@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from urllib import request
 from django.shortcuts import get_object_or_404, render , redirect
 from django.views.generic import ListView, DetailView, TemplateView
@@ -6,16 +7,13 @@ from django.urls import reverse_lazy  # new
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
-
-
-
 from dashboard.filters import DashboardFilter
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 # For sending emails
 from django.conf import settings
 from django.core.mail import send_mail
-
-
 
 
     
@@ -37,6 +35,11 @@ from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
+
+
+
+
+
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
 
@@ -105,22 +108,24 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
         return context
     
 
-    
+
+
+
+class UploadURLView(FormView):
+    form_class = RecordForm
+    template_name = "dashboard/record_detail.html"
+
+
+
+
+decorators = [csrf_exempt]
+
+@method_decorator(decorators, name='dispatch')
 class RecordDetailPage(LoginRequiredMixin, DetailView):
     
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
-
-    # def get(self, *args, **kwargs):  
-    #     pk = self.kwargs.get('pk')
-    #     record = DashboardModel.objects.get(pk=pk)
-    #     self.object = self.get_object()
-
-    #     # print("test....", pk)
-    #     # print("test....", record.ncr_number)
-
-    #     return super().get(request, *args, **kwargs)
 
 
     def get_context_data(self, **kwargs):
@@ -190,17 +195,16 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
     
     
 
-
-
-    
+@method_decorator(decorators, name='dispatch')   
 class RecordCreatePage(LoginRequiredMixin , CreateView):
     model = DashboardModel
     template_name = "dashboard/record_create.html"
     form_class = RecordForm
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record_create'
+
     
-    
+
     def form_valid(self,form):
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']

@@ -22,7 +22,7 @@
 
 
 
-                        <form action="" method="post" class="row g-3 pb-4">
+                        <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 
                                 <div class="col-md-12 sticky-top p-2 border border-dark rounded" style="background-color: gainsboro;">
@@ -580,12 +580,10 @@
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.images.label }} : 
+                                                                {{ form.image_upload.label }} : 
                                                         </div>
-                                                        <div class="card-body">
-                                                        <div>
-                                                                <h1>NOT FUNCTIONAL</h1>
-                                                                {{form.images}}
+                                                        <div class="card-body">      
+                                                                {{form.image_upload}}
                                                         </div>
                                                 </div>
 
