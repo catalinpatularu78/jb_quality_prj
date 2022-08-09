@@ -85,12 +85,6 @@ class Report:
         self.c.saveState()
         self.c.scale(1,-1)
         self.c.drawImage(logo, width=logoSize, x=logoX, y=-logoY, preserveAspectRatio=True)
-
-        #io_image = io.StringIO(os.path.join(settings.STATIC_ROOT,"img/logo_png.png"))
-        #reportlab_io_img = ImageReader(os.path.join(settings.STATIC_ROOT,"img/logo_png.png"))
-        #colorImage = io.BytesIO(bytes(os.path.join(settings.STATIC_ROOT,"img/jandb_logo.jpg"), encoding="raw_unicode_escape"))
-        #logo = Image(colorImage, width=64, height=64)
-        #logo.drawOn(self.c, logoX, -logoY)
         self.c.restoreState()
 
 
