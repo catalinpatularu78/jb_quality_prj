@@ -133,6 +133,10 @@ class Report:
         textobject.textLine(self.record.advice_number)
         self.c.drawText(textobject)
         
+
+        q_engineers_list = [str(name) for name in self.record.printed_by.all()]
+        quality_engineers = ', '.join(q_engineers_list)
+
         ### center column ###
         ''' heading blob '''  
         textobject = self.c.beginText()
@@ -146,8 +150,12 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+0.5*cm+2*mm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("Quality Engineer")
+        textobject.textLine(quality_engineers)
         self.c.drawText(textobject)
+
+        supervisors_list = [str(name) for name in self.record.supervisor.all()]
+        the_supervisors = ', '.join(supervisors_list)
+
         ''' heading blob '''
         textobject = self.c.beginText()
         textobject.setTextOrigin(1.3*cm, 2*inch+1.5*cm)
@@ -160,7 +168,7 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+2*cm+2*mm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(answer_font, answer_fontsize)
-        textobject.textLine("Supervisors")
+        textobject.textLine(the_supervisors)
         self.c.drawText(textobject)
 
         ### right column ###
@@ -388,9 +396,6 @@ class Report:
         self.c.setFont('Times-Roman',16)
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Related media")
         self.c.setLineWidth(0.1) 
-
-        #img = DashboardModel.objects.filter(file_type='image')
-        print(settings.MEDIA_ROOT)
         media = Image(self.record.image_upload.path, useDPI=True)
         self.c.bottomup = 1
         self.c.scale(1,-1)
@@ -410,7 +415,7 @@ class Report:
         self.c.setFont('Times-Roman',16)
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Comments")
         self.c.setLineWidth(0.1) 
-        text = "Far far away, behind the word mountains.... "
+        text = self.record.comments
         self.c.bottomup = 1
         self.c.scale(1,-1)
         framedata = []

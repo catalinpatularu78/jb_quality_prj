@@ -1,11 +1,12 @@
 from django.contrib import admin
-from django.urls import reverse
+
 
 # Register your models here.
 from .models import (
     DashboardModel,
     AreaOfIssue,
     PersonResponsible,
+    QualityEngineerTeam,
     SpecificAreaOfIssue,
     Locations,
     SupervisorTeam,
@@ -29,6 +30,7 @@ admin.site.register(AreaOfIssue)
 admin.site.register(SpecificAreaOfIssue)
 admin.site.register(Locations)
 admin.site.register(SupervisorTeam)
+admin.site.register(QualityEngineerTeam)
 admin.site.register(ProductionIssues)
 admin.site.register(SupplierIssues)
 admin.site.register(CustomerIssues)

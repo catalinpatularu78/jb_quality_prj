@@ -5,7 +5,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.core import validators
 from django.core.validators import FileExtensionValidator
-
+from django.contrib.auth.models import User
 
 class DashboardModel(models.Model):
 
@@ -57,6 +57,7 @@ class DashboardModel(models.Model):
     )
     image_upload = models.ImageField(upload_to="images/", null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
+    printed_by = models.ManyToManyField('QualityEngineerTeam', blank=True) 
     
     # Quality issues area's 
     production_issue = models.ManyToManyField('ProductionIssues' ,blank=True)
@@ -177,6 +178,14 @@ class Locations(models.Model):
     
 
 class SupervisorTeam(models.Model):
+    name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name
+
+class QualityEngineerTeam(models.Model):
     name = models.CharField(max_length=200)
     id = models.UUIDField(default=uuid4, unique=True,
                         primary_key=True, editable=False)

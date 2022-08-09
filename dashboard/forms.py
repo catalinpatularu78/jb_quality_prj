@@ -27,7 +27,8 @@ class RecordForm(ModelForm):
     
     class Meta:
         model = DashboardModel
-        widgets = {'document': FileInput(attrs={'accept': 'file/png, file/jpg'})}
+        
+       # widgets = {'document': FileInput(attrs={'accept': 'file/png, file/jpg'})}
         
         fields = (
             "issue_date", 
@@ -63,6 +64,7 @@ class RecordForm(ModelForm):
             "other_issues",
             "area_in_specific",
             "severity",
+            "printed_by",
         )
         
         labels = {
@@ -98,6 +100,7 @@ class RecordForm(ModelForm):
             "ncr_creator" : "NCR Creator" ,
             "comments" : "Comments" ,
             "severity" : "Severity" ,
+            "printed_by" : "Quality Engineering Team"
 
             }
         
@@ -148,7 +151,7 @@ class RecordForm(ModelForm):
                 ), 
             "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
             "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
-            "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg " id="formFileLg type="file', 'placeholder':'images' }),
+            "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg', 'placeholder':'images' }),
 
             "production_issue" : forms.CheckboxSelectMultiple(attrs={}),
             "supplier_issue" : forms.CheckboxSelectMultiple(),
@@ -168,8 +171,8 @@ class RecordForm(ModelForm):
                     ],
                 attrs={'class':'form-select', 'placeholder':'severity',}
                 ),
-            
-            
+            "printed_by": forms.SelectMultiple(attrs={'class':'form-control'}),
+
             }
         
         

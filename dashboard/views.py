@@ -111,16 +111,9 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
 
 
 
-class UploadURLView(FormView):
-    form_class = RecordForm
-    template_name = "dashboard/record_detail.html"
+#decorators = [csrf_exempt]
 
-
-
-
-decorators = [csrf_exempt]
-
-@method_decorator(decorators, name='dispatch')
+#@method_decorator(decorators, name='dispatch')
 class RecordDetailPage(LoginRequiredMixin, DetailView):
     
     model = DashboardModel
@@ -195,7 +188,7 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
     
     
 
-@method_decorator(decorators, name='dispatch')   
+#@method_decorator(decorators, name='dispatch')   
 class RecordCreatePage(LoginRequiredMixin , CreateView):
     model = DashboardModel
     template_name = "dashboard/record_create.html"
@@ -203,7 +196,6 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record_create'
 
-    
 
     def form_valid(self,form):
         response = super().form_valid(form)
@@ -240,8 +232,6 @@ class RecordUpdatePage(LoginRequiredMixin , UpdateView):
     
 
 
-
-    
 
 
 class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteView):

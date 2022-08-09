@@ -16,7 +16,7 @@ import os
 
 import django_heroku
 import dj_database_url
-# from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +32,8 @@ SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com/']
+
+#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
@@ -57,8 +59,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',   
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
@@ -77,10 +78,12 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -88,33 +91,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 
-TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
+TEMPLATE_LOADERS = ('django.template.context_processors.media', 'django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
 
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
-# heroku app credentials (Conor)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd7kg8gbtl6tg3e',
-        'USER': 'ftdghgqdiqzyhp',
-        'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
-        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
+# heroku app credentials (Conor)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd7kg8gbtl6tg3e',
+#         'USER': 'ftdghgqdiqzyhp',
+#         'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
+#         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
@@ -237,14 +240,10 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\media\
-
 MEDIA_URL = '/media/'
-#MEDIA_URL = os.path.join(BASE_DIR, "/media/")
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
@@ -258,5 +257,5 @@ VALID_IMAGE_EXTENSIONS = [
 ]
 
 def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
-    # http://stackoverflow.com/a/10543969/396300
+
     return any([url.endswith(e) for e in extension_list])
