@@ -31,7 +31,9 @@
         
                                         <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
 
-                                        <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{% url 'admin:index' %}" role="button">Add items to database</a>
+                                        <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{% url 'admin:index' %}" role="button" target="_blank">Open database in new tab</a>
+
+                                        <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{{ request.get_full_path }}">Reload</a>
         
                                 </div>
                                 <div class="row mt-3">
