@@ -414,12 +414,8 @@ class Report:
                 self.c.scale(1,-1)
                 frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
                 framedata = []   
-
-                if(self.record.image_upload):
-                   media = Image(self.record.image_upload.path, useDPI=True)
-                else:
-                    p = Paragraph("", None)
-                    framedata.append(p)
+                p = Paragraph("", None)
+                framedata.append(p)
                 frame.addFromList(framedata, self.c)
         except IOError:
             print("There was a problem opening the file")
