@@ -9,21 +9,11 @@
 
 
 
-
-
-
-
-
-
-
 <div class="container mt-5">
         <h1>UPDATE RECORD</h1>
         <hr>
 
-
-
-
-                        <form action="" method="post" class="row g-3 pb-4">
+                        <form action="" method="post" class="row g-3 pb-4" action="/update/{{DashboardModel.id}}" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 
                                 <div class="col-md-12 sticky-top p-2 border border-dark rounded" style="background-color: gainsboro;">
@@ -584,8 +574,7 @@
                                                                 {{ form.image_upload.label }} : 
                                                         </div>
                                                         <div class="card-body">
-                                                
-                                                                {{form.image_upload}}
+                                                                {{ form.image_upload}}
                                                         </div>
                                                 </div>
 

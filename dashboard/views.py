@@ -11,6 +11,7 @@ from dashboard.filters import DashboardFilter
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
+
 # For sending emails
 from django.conf import settings
 from django.core.mail import send_mail
@@ -225,6 +226,16 @@ class RecordUpdatePage(LoginRequiredMixin , UpdateView):
     form_class = RecordForm
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record'
+
+  
+    # def get(self, *args, **kwargs):  
+    #     self.object = self.get_object()
+    #     dbm = DashboardModel.objects.get(ncr_number=self.object)
+        
+    #     the_image_path = dbm.image_upload.path
+
+    #     return super().get(request, *args, **kwargs)
+
 
     
     def get_success_url(self):
