@@ -1,14 +1,10 @@
 # dashboard URL file 
 from django.conf import settings
 from django.conf.urls.static import static
-
-
-from django.urls import path, include
+from django.urls import path
 from django.contrib.auth.views import LogoutView
 from .report_gen import Report
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
+
 
 from .views import (
     HomePage,
