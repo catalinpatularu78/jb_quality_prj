@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+
+
+<div class="col-md-12"></div>
+    <div class="card">
+        <div class="card-header">
+            <h1>Login</h1>
+        </div>
+
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input class="button" type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock content %}

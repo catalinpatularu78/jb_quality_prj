@@ -93,7 +93,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 
-#TEMPLATE_LOADERS = ('django.template.context_processors.media', 'django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
+#TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
 
 
 # Database
