@@ -244,12 +244,12 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\media\
 MEDIA_URL = '/media/'
 
-DISABLE_SERVER_SIDE_CURSORS = True
+#DISABLE_SERVER_SIDE_CURSORS = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/static/"
+#STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
 
 
