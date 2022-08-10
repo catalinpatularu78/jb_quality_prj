@@ -97,27 +97,27 @@ TEMPLATE_LOADERS = ('django.template.context_processors.media', 'django.template
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
-#heroku app credentials (Conor)
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd7kg8gbtl6tg3e',
-#         'USER': 'ftdghgqdiqzyhp',
-#         'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
-#         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# db_from_env = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'].update(db_from_env)
+
+#heroku app credentials (Conor)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd7kg8gbtl6tg3e',
+        'USER': 'ftdghgqdiqzyhp',
+        'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
+        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 
