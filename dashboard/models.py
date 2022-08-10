@@ -25,7 +25,7 @@ class DashboardModel(models.Model):
     # Fields displayed on dashboard page
 
     area = models.ManyToManyField('AreaOfIssue',blank=True)
-    client = models.CharField(max_length =200 , null=True, blank = True )
+    client = models.ManyToManyField('ClientModel' ,blank=True)
     closure_date = models.DateTimeField(null=True, blank = True)
     target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
@@ -68,8 +68,11 @@ class DashboardModel(models.Model):
     #new
     area_in_specific = models.ManyToManyField('SpecificAreaOfIssue', blank=True)
     
-
-    
+    # ORDER DASHBOARD BY DATE  
+    class Meta:
+        ordering = ['-issue_date']
+        
+        
     def __str__(self) -> str:
         if self.ncr_number:return self.ncr_number
         return str(self.id)
@@ -208,6 +211,18 @@ class PersonResponsible(models.Model):
         return self.title
 
 
+# added 10/08 might not be required - Conor to decide 
+class ClientModel(models.Model):
+    name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'Clients'
 
 ''' 
 ManyToOne Relationships 

@@ -213,7 +213,29 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
         
         return response 
 
+class OperativeCreatePage(LoginRequiredMixin , CreateView):
+    model = DashboardModel
+    template_name = "dashboard/operative_input.html"
+    form_class = RecordForm
+    success_url = reverse_lazy("main_page")
+    context_object_name = 'record_create'
     
+    
+    def form_valid(self,form):
+        response = super().form_valid(form)
+        severity =  form.cleaned_data['severity']
+        
+        if severity and severity > 2:
+            try:
+                subject = 'NEW QUALITY RECORD '
+                message = f'WARNING SEVERITY LEVEL  = {severity}'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = ['jbdjango@outlook.com']
+                send_mail( subject, message, email_from, recipient_list)    
+            except:
+                pass
+        
+        return response 
 
 
 

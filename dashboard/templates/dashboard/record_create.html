@@ -36,6 +36,7 @@
                                         <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{{ request.get_full_path }}">Reload</a>
         
                                 </div>
+
                                 <div class="row mt-3">
                                         
                                         <div class="col-md-4 ">
@@ -66,16 +67,14 @@
 
                                         <div class="col-md-4">
                                                 <div class="card">
-                                                        <div class="text-truncate card-header">
-                                                                placeholder
-                                                                <!-- {{ form.issue_date.label}} -->
+                                                        <div class="card-header">
+                                                                {{ form.severity.label }} :
                                                         </div>
                                                         <div class="card-body">
-                                                                placeholder
-                                                                <!-- {{ form.issue_date}} -->
-
+                                                                {{ form.severity}}
                                                         </div>
                                                 </div>
+
                                         </div>
                                 </div>
                                 <div class="row mt-3">
@@ -87,10 +86,15 @@
                                                                 {{ form.the_subject_responsible.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.the_subject_responsible}}
-                                                                        </label>
+                                                                <div class="container">
+                                                                        <input type="text" class = "form-control mb-2" placeholder=" Search..." id="the_subject_responsible-search">
+                                                                        <!-- overflow-y: scroll; or overflow-scroll -->
+                                                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem; " >
+                                                                                {% for item in form.the_subject_responsible %}
+                                                                                <li class=" full_width_li list-group-item " id="subject_responsible_list">{{item}}</li>
+                                                                                {% endfor %}
+                                                                        </ul>
+
                                                                 </div>
                                                         </div>
                                                 </div>
@@ -248,6 +252,34 @@
                                         <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
+                                                                {{ form.estimated_completion_time.label}}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <div class="row ">
+                                                                        <div class="col-md-8 ">
+                                                                                <div class="input-group">
+
+                                                                                        <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="EstCompDayConversion"  oninput="add_number_comp_time()">
+                                                                                        <span class="input-group-text"> : </span>
+                                                                                        <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="EstCompHourConversion"  oninput="add_number_comp_time()">
+                                                                                        <span class="input-group-text"> : </span>
+                                                                                        <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="EstCompMinuteConversion"  oninput="add_number_comp_time()">
+
+                                                                                </div>
+                                                                        </div>
+
+
+                                                                        <div class="col-md-4 ">
+                                                                                        {{ form.estimated_completion_time}}
+
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="card-header">
                                                                 {{ form.downtime_time.label}}
                                                         </div>
                                                         <div class="card-body">
@@ -274,34 +306,7 @@
                                         </div>
 
 
-                                        <div class="col-md-6">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                {{ form.estimated_completion_time.label}}
-                                                        </div>
-                                                        <div class="card-body">
-                                                                <div class="row ">
-                                                                        <div class="col-md-8 ">
-                                                                                <div class="input-group">
 
-                                                                                        <input type="number" class="form-control" placeholder="DD" aria-label="Days" id="EstCompDayConversion"  oninput="add_number_comp_time()">
-                                                                                        <span class="input-group-text"> : </span>
-                                                                                        <input type="number" class="form-control" placeholder="HH" aria-label="Hours" id="EstCompHourConversion"  oninput="add_number_comp_time()">
-                                                                                        <span class="input-group-text"> : </span>
-                                                                                        <input type="number" class="form-control" placeholder="MM" aria-label="Minutes"  id="EstCompMinuteConversion"  oninput="add_number_comp_time()">
-
-                                                                                </div>
-                                                                        </div>
-
-
-                                                                        <div class="col-md-4 ">
-                                                                                        {{ form.estimated_completion_time}}
-
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                        </div>
 
                                 </div>
 
@@ -336,29 +341,18 @@
                                 </div>
 
                                 <div class="row mt-3">
-                                        <div class="col-md-4">
+
+                                        <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.cost.label }} :
+                                                                {{ form.target_completion_date.label }} :
                                                         </div>
                                                         <div class="card-body">
-                                                                {{ form.cost}}
+                                                                {{ form.target_completion_date}}
                                                         </div>
                                                 </div>
-
                                         </div>
-                                        <div class="col-md-4">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                {{ form.issue_solved.label }} :
-                                                        </div>
-                                                        <div class="card-body">
-                                                                {{ form.issue_solved}}
-                                                        </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
                                                                 {{ form.closure_date.label }} :
@@ -371,18 +365,6 @@
                                 </div>
 
 
-                                <div class="row mt-3">
-                                        <div class="col-md-4">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                {{ form.target_completion_date.label }} :
-                                                        </div>
-                                                        <div class="card-body">
-                                                                {{ form.target_completion_date}}
-                                                        </div>
-                                                </div>
-                                        </div>
-                                </div>
                                 
                                 <div class="row mt-3">
                                         <div class="col-md-4">
@@ -390,8 +372,17 @@
                                                         <div class="card-header">
                                                                 {{ form.client.label }} :
                                                         </div>
-                                                        <div class="card-body">
-                                                                {{ form.client}}
+                                                        <div class="card-body " >
+                                                                <div class="container">
+                                                                        <input type="text" class = "form-control mb-2" placeholder=" Search Client..." id="client-search">
+                                                                        <!-- overflow-y: scroll; or overflow-scroll -->
+                                                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem; " >
+                                                                                {% for item in form.client %}
+                                                                                <li class=" full_width_li list-group-item" id="client_list">{{item}}</li>
+                                                                                {% endfor %}
+                                                                        </ul>
+
+                                                                </div>
                                                         </div>
                                                 </div>
 
@@ -399,10 +390,10 @@
                                         <div class="col-md-4">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.severity.label }} :
+                                                                {{ form.issue_solved.label }} :
                                                         </div>
                                                         <div class="card-body">
-                                                                {{ form.severity}}
+                                                                {{ form.issue_solved}}
                                                         </div>
                                                 </div>
 
@@ -446,52 +437,17 @@
                                         <div class="col-md-4">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.printed_by.label }} :
+                                                                {{ form.cost.label }} :
                                                         </div>
                                                         <div class="card-body">
-                                                                {{ form.printed_by }}
+                                                                {{ form.cost}}
                                                         </div>
                                                 </div>
 
                                         </div>
 
                                 </div>
-                                <div class="row mt-3">
-                                        <div class="col-md-4">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                placeholder :
-                                                        </div>
-                                                        <div class="card-body">
-                                                                placeholder
-                                                        </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="col-md-4">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                placeholder
-                                                        </div>
-                                                        <div class="card-body">
-                                                                placeholder
-                                                        </div>
-                                                </div>
-
-                                        </div>
-                                        <div class="col-md-4">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                placeholder
-                                                        </div>
-                                                        <div class="card-body">
-                                                                placeholder
-                                                        </div>
-                                                </div>
-
-                                        </div>
-
-                                </div>
+                                
 
 
 
@@ -539,10 +495,10 @@
                                         <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.prevented_reoccurrence.label }} : 
+                                                                {{ form.printed_by.label }} :
                                                         </div>
                                                         <div class="card-body">
-                                                                {{ form.prevented_reoccurrence}}
+                                                                {{ form.printed_by }}
                                                         </div>
                                                 </div>
 
@@ -564,9 +520,9 @@
 
                                         </div>
                                         <div class="col-md-6">
-                                                <div class="card">
+                                                <div class="card d-none" id = "issue_affect_other_areas_card">
                                                         <div class="card-header">
-                                                                {{ form.issue_affect_other_areas_description.label }} : 
+                                                                If Yes, Description : 
                                                         </div>
                                                         <div class="card-body">
                                                                 {{ form.issue_affect_other_areas_description}}

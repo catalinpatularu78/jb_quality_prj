@@ -8,3 +8,9 @@
 .card-body {
     background-color: #a7bcb9 !important;
 }
+
+
+.full_width_li label {
+    width:100%  !important;
+    
+}

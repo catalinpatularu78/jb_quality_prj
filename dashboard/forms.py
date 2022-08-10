@@ -147,7 +147,7 @@ class RecordForm(ModelForm):
                     ("yes", "Yes"),
                     ("no", "No"),
                     ],
-                attrs={'class':'form-select', 'placeholder':'issue_affect_other_areas',}
+                attrs={'class':'form-select', 'placeholder':'issue_affect_other_areas', 'onchange' : 'show_issue_affect_element()'}
                 ), 
             "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
             "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
@@ -159,7 +159,7 @@ class RecordForm(ModelForm):
             "other_issues" : forms.CheckboxSelectMultiple(),
             "area_in_specific" : forms.CheckboxSelectMultiple(),
             
-            "client" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'client'}) ,
+            "client": forms.CheckboxSelectMultiple(attrs={}),
             "ncr_creator" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'ncr_creator'}) ,
             "comments" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Comments'}), 
             "severity" : forms.Select(
