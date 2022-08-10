@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 class DashboardModel(models.Model):
 
+
     
     issue_solved_type = {
         ('yes', 'Yes'),
@@ -25,7 +26,7 @@ class DashboardModel(models.Model):
     # Fields displayed on dashboard page
 
     area = models.ManyToManyField('AreaOfIssue',blank=True)
-    client = models.CharField(max_length =200 , null=True, blank = True )
+    client = models.ManyToManyField('ClientModel' ,blank=True)
     closure_date = models.DateTimeField(null=True, blank = True)
     target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
@@ -34,10 +35,11 @@ class DashboardModel(models.Model):
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
     ncr_number =  models.CharField(max_length =100 , null=True)
+    # ncr_number =  models.IntegerField( default=0 , unique=True, blank=True, null=True)
     
     
     # additional fields displayed on create + detail + update 
-    advice_number =  models.CharField(max_length =100 , null=True)
+    advice_number =  models.CharField(max_length =100 , null=True, blank = True)
     comments = models.TextField(null=True , blank = True)
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True, default="")
@@ -68,10 +70,13 @@ class DashboardModel(models.Model):
     #new
     area_in_specific = models.ManyToManyField('SpecificAreaOfIssue', blank=True)
     
-
-    
+    # ORDER DASHBOARD BY DATE  
+    class Meta:
+        ordering = ['-issue_date']
+        
+        
     def __str__(self) -> str:
-        if self.ncr_number:return self.ncr_number
+        if self.ncr_number:return str(self.ncr_number)
         return str(self.id)
     
     
@@ -83,6 +88,7 @@ class DashboardModel(models.Model):
         if minutes == None : return "" 
         return ( f'{minutes // 1440}d : {((minutes // 60) % 24)}h : {minutes % 60}m')
     
+
     
     @property
     def downtime_readability(self):
@@ -208,6 +214,18 @@ class PersonResponsible(models.Model):
         return self.title
 
 
+# added 10/08 might not be required - Conor to decide 
+class ClientModel(models.Model):
+    name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True,
+                        primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'Clients'
 
 ''' 
 ManyToOne Relationships 

@@ -31,3 +31,66 @@ function add_number_comp_time() {
 
 
 
+function show_issue_affect_element() {
+
+    const conditional_element_select = document.getElementById("id_issue_affect_other_areas").value;
+    const hidden_element  = document.getElementById("issue_affect_other_areas_card"); 
+    
+    if (conditional_element_select  === 'yes') {
+        hidden_element.classList.toggle('d-none');
+        }else {
+            hidden_element.classList.add('d-none');
+        }
+    
+    
+
+}
+
+
+
+
+
+
+
+if (document.querySelector('#client-search') !== null) {
+
+    document.querySelector('#client-search').addEventListener('input' , filterList);
+
+    function filterList(){
+        const searchInputClient = document.querySelector('#client-search');
+        const filterClient = searchInputClient.value.toLowerCase();
+        const listItemsClient = document.querySelectorAll('#client_list');
+    
+        listItemsClient.forEach((item) => {
+            let text = item.textContent;
+            if(text.toLowerCase().includes(filterClient.toLowerCase())){
+                item.style.display = '';
+            } else{
+                item.style.display = 'none';
+            }
+            
+        });
+    }
+}
+
+
+if (document.querySelector('#the_subject_responsible-search') !== null) {
+
+    document.querySelector('#the_subject_responsible-search').addEventListener('input' , the_subject_responsiblefilterList);
+
+    function the_subject_responsiblefilterList(){
+        const searchInputResponsible = document.querySelector('#the_subject_responsible-search');
+        const filterResponsible = searchInputResponsible.value.toLowerCase();
+        const listItemsResponsible = document.querySelectorAll('#subject_responsible_list');
+
+        listItemsResponsible.forEach((item) => {
+            let text = item.textContent;
+            if(text.toLowerCase().includes(filterResponsible.toLowerCase())){
+                item.style.display = '';
+            } else{
+                item.style.display = 'none';
+            }
+            
+        });
+    }
+}

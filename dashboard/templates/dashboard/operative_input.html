@@ -1,0 +1,175 @@
+
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% load static %}
+
+
+<div class="container mt-5">
+        <h1>UPDATE RECORD</h1>
+        <hr>
+
+
+
+
+                        <form action="" method="post" class="row g-3 pb-4">
+                                {% csrf_token %}
+                                
+                                <div class="col-md-12 sticky-top p-2 border border-dark rounded" style="background-color: gainsboro;">
+
+                                        <input class="btn btn-primary btn-lg px-3" type="submit" value="SUBMIT">
+        
+                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+        
+                                </div>
+                                <div class="row mt-3">
+                                        
+                                        <div class="col-md-6 ">
+                                                <div class="card">
+                                                        <div class="text-truncate card-header">
+                                                                {{ form.ncr_number.label}}
+                                                        </div>
+                                                        <div class="card-body">
+
+                                                                        {{ form.ncr_number}}
+
+                                                        </div>
+                                                </div>
+                                        </div>
+                                                <div class="col-md-6">
+                                                        <div class="card">
+                                                                <div class="card-header">
+                                                                        {{ form.severity.label }} :
+                                                                </div>
+                                                                <div class="card-body">
+                                                                        {{ form.severity}}
+                                                                </div>
+                                                        </div>
+                
+                                        </div>
+                                </div>
+                                <div class="row mt-3">
+                                        <div class="col-md-6 ">
+                                                <div class="card">
+                                                        <div class="text-truncate card-header">
+                                                                {{ form.advice_number.label}}
+                                                        </div>
+                                                        <div class="card-body">
+
+                                                                {{ form.advice_number}}
+
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="text-truncate card-header">
+                                                                {{ form.issue_date.label}}
+                                                        </div>
+                                                        <div class="card-body">
+
+                                                                {{ form.issue_date}}
+
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        
+                                </div>
+                                <div class="row mt-3">
+
+                                        <div class="col-md-6">
+
+
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.the_subject_responsible.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <div class="container">
+                                                                        <input type="text" class = "form-control mb-2" placeholder=" Search..." id="the_subject_responsible-search">
+                                                                        <!-- overflow-y: scroll; or overflow-scroll -->
+                                                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem; " >
+                                                                                {% for item in form.the_subject_responsible %}
+                                                                                <li class=" full_width_li list-group-item " id="subject_responsible_list">{{item}}</li>
+                                                                                {% endfor %}
+                                                                        </ul>
+
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.area.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 13rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        
+                                        
+
+
+                                </div>
+                                <div class="row mt-3">
+                                        <div class="col-md-12">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.description.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                {{ form.description}}
+                                                        </div>
+                                                </div>
+                                        </div>
+
+
+
+                                </div>
+
+
+                                
+
+
+
+
+
+                                <div class="row mt-3">
+
+                                        <div class="col-md-12">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.image_upload.label }} : 
+                                                        </div>
+                                                        <div class="card-body">      
+                                                                {{form.image_upload}}
+                                                        </div>
+                                                </div>
+
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-md-12 m-2 p-2 border border-dark rounded" style="background-color: gainsboro;">
+
+                                        <input class="btn btn-primary btn-lg px-3" type="submit" value="SUBMIT">
+        
+                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+        
+                                </div>
+                        </form>
+
+                </div>
+
+
+{% endblock content %}

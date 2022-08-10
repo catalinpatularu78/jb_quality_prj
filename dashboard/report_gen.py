@@ -1,18 +1,16 @@
 from asyncio.windows_events import NULL
 import io, os, datetime as dt
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch, mm, cm
-from reportlab.lib.pagesizes import A4
-
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch, mm, cm
+from reportlab.lib.pagesizes import A4
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
-from reportlab.lib.utils import ImageReader
 
 
 class Report:
