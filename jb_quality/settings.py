@@ -80,7 +80,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.media',
+              #  'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -93,7 +93,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 
-TEMPLATE_LOADERS = ('django.template.context_processors.media', 'django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
+#TEMPLATE_LOADERS = ('django.template.context_processors.media', 'django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
 
 
 # Database
@@ -245,6 +245,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\me
 MEDIA_URL = '/media/'
 
 DISABLE_SERVER_SIDE_CURSORS = True
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
