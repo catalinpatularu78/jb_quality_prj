@@ -19,10 +19,8 @@
         <h1>ADD RECORD</h1>
         <hr>
 
-
-
-
-                        <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
+       
+                        <form action="" method="post" class="row g-3 pb-4" action="/update/{{DashboardModel.id}}" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 
                                 <div class="col-md-12 sticky-top p-2 border border-dark rounded" style="background-color: gainsboro;">
@@ -31,7 +29,7 @@
         
                                         <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
 
-                                        <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{% url 'admin:index' %}" role="button" target="_blank">Open database in new tab</a>
+                                        <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{% url 'admin:index' %}" role="button" target="_blank">Open DB in new tab</a>
 
                                         <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{{ request.get_full_path }}">Reload</a>
         

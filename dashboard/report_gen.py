@@ -1,17 +1,15 @@
 import io, os, datetime as dt
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch, mm, cm
-from reportlab.lib.pagesizes import A4
-
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
 from django.conf import settings
 from django.http import HttpResponse
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch, mm, cm
+from reportlab.lib.pagesizes import A4
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
-from reportlab.lib.utils import ImageReader
 
 
 class Report:
@@ -68,17 +66,24 @@ class Report:
 
 
 
-    def page_one(self, pagenumber):   
+    def page_one(self, pagenumber): 
+
         the_issue_date = str(self.record.issue_date)[8:10] +'/'+str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]  
         the_issue_time = str(self.record.issue_date)[10:16]
         
-        the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
-        the_closure_time = str(self.record.closure_date)[10:16]
+        if(self.record.closure_date):
+            the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
+            the_closure_time = str(self.record.closure_date)[10:16]
+        else:
+            the_closure_date = ""
 
-        the_target_completion_date = str(self.record.target_completion_date)[8:10] +'/'+str(self.record.target_completion_date)[5:7] +'/'+str(self.record.target_completion_date)[0:4]  
-        the_target_completion_time = str(self.record.target_completion_date)[10:16]
+        if(self.record.target_completion_date):
+            the_target_completion_date = str(self.record.target_completion_date)[8:10] +'/'+str(self.record.target_completion_date)[5:7] +'/'+str(self.record.target_completion_date)[0:4]  
+            the_target_completion_time = str(self.record.target_completion_date)[10:16]
+        else:
+            the_target_completion_date = ""
 
-        logo = os.path.join(settings.STATIC_ROOT,"img/logo.jpg")       
+        logo = os.path.join(settings.STATIC_ROOT,"img\logo.jpg")       
         logoX = (self.width/2) + 2*inch + 1*mm
         logoY = 2 * inch
         logoSize = 115
@@ -390,14 +395,29 @@ class Report:
         self.c.setFont('Times-Roman',16)
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Related media")
         self.c.setLineWidth(0.1) 
-        media = Image(self.record.image_upload.path, useDPI=True)
-        self.c.bottomup = 1
-        self.c.scale(1,-1)
-        framedata = []
-        frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
-        framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[media], hAlign='LEFT', mode='shrink', fakeWidth=False) 
-        framedata.append(framedImage)
-        frame.addFromList(framedata, self.c)
+
+        try:
+            if(self.record.image_upload):
+                self.c.bottomup = 1
+                self.c.scale(1,-1)
+                frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
+                media = Image(self.record.image_upload.path, useDPI=True)
+                framedata = []      
+                framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[media], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+                framedata.append(framedImage)
+                frame.addFromList(framedata, self.c)
+            else:
+                self.c.bottomup = 1
+                self.c.scale(1,-1)
+                frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
+                framedata = []   
+                p = Paragraph("", None)
+                framedata.append(p)
+                frame.addFromList(framedata, self.c)
+        except IOError:
+            print("There was a problem opening the file")
+            pass
+
         self.c.bottomup = 0
         self.c.restoreState()
         self.includeFooter(pagenumber)
