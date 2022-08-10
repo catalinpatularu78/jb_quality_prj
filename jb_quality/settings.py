@@ -31,7 +31,9 @@ SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com/', 'jbmanufacturingtests.herokuapp.com/']
+#ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
+
+ALLOWED_HOSTS = ['127.0.0.1', 'http://jbmanufacturingtests.herokuapp.com/']
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
@@ -242,6 +244,7 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\media\
 MEDIA_URL = '/media/'
 
+DISABLE_SERVER_SIDE_CURSORS = True
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -249,13 +252,13 @@ STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
 
 
-VALID_IMAGE_EXTENSIONS = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-]
+# VALID_IMAGE_EXTENSIONS = [
+#     ".jpg",
+#     ".jpeg",
+#     ".png",
+#     ".gif",
+# ]
 
-def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
+# def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
 
-    return any([url.endswith(e) for e in extension_list])
+#     return any([url.endswith(e) for e in extension_list])
