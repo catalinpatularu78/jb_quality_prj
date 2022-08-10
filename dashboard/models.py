@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 
 class DashboardModel(models.Model):
 
+
     
     issue_solved_type = {
         ('yes', 'Yes'),
@@ -33,11 +34,12 @@ class DashboardModel(models.Model):
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
-    ncr_number =  models.CharField(max_length =100 , null=True)
+    ncr_number =  models.CharField(max_length =100 , blank=True, null=True)
+    # ncr_number =  models.IntegerField( default=0 , unique=True, blank=True, null=True)
     
     
     # additional fields displayed on create + detail + update 
-    advice_number =  models.CharField(max_length =100 , null=True)
+    advice_number =  models.CharField(max_length =100 , null=True, blank = True)
     comments = models.TextField(null=True , blank = True)
     corrective_action = models.TextField(null=True , blank = True)
     description = models.TextField(null=True , blank = True, default="")
@@ -74,7 +76,7 @@ class DashboardModel(models.Model):
         
         
     def __str__(self) -> str:
-        if self.ncr_number:return self.ncr_number
+        if self.ncr_number:return str(self.ncr_number)
         return str(self.id)
     
     
@@ -86,6 +88,7 @@ class DashboardModel(models.Model):
         if minutes == None : return "" 
         return ( f'{minutes // 1440}d : {((minutes // 60) % 24)}h : {minutes % 60}m')
     
+
     
     @property
     def downtime_readability(self):

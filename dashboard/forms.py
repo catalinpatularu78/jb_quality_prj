@@ -113,7 +113,7 @@ class RecordForm(ModelForm):
                     'onclick' : 'showPicker()',
                     
                     }), 
-            "ncr_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'NCR Number'}),
+            "ncr_number" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'NCR Number'}),
             "job_reference_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Job Reference Number'}),
             'location': forms.CheckboxSelectMultiple(attrs={ }),
             'area': forms.CheckboxSelectMultiple(), 

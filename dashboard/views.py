@@ -62,7 +62,7 @@ class HomePage(TemplateView):
 
 
 
-class DashboardPage(LoginRequiredMixin , ListView):
+class DashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
     model = DashboardModel
     template_name = 'dashboard/dashboard.html'
     fields = [
@@ -84,7 +84,7 @@ class DashboardPage(LoginRequiredMixin , ListView):
     
 
 
-class FilterDashboardPage(LoginRequiredMixin , ListView):
+class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListView):
     model = DashboardModel
     form_class = RecordForm
     template_name = 'dashboard/filter_dashboard.html'
@@ -96,9 +96,6 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
         "area",
         "cost",
         "issue_solved", 
-        "closure_date",
-        "downtime_time"
-        "downtime_readability"
         ]
     
     
@@ -114,7 +111,7 @@ class FilterDashboardPage(LoginRequiredMixin , ListView):
 #decorators = [csrf_exempt]
 
 #@method_decorator(decorators, name='dispatch')
-class RecordDetailPage(LoginRequiredMixin, DetailView):
+class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView):
     
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
@@ -189,7 +186,7 @@ class RecordDetailPage(LoginRequiredMixin, DetailView):
     
 
 #@method_decorator(decorators, name='dispatch')   
-class RecordCreatePage(LoginRequiredMixin , CreateView):
+class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView):
     model = DashboardModel
     template_name = "dashboard/record_create.html"
     form_class = RecordForm
@@ -211,7 +208,9 @@ class RecordCreatePage(LoginRequiredMixin , CreateView):
             except:
                 pass
         
+        
         return response 
+
 
 class OperativeCreatePage(LoginRequiredMixin , CreateView):
     model = DashboardModel
@@ -240,7 +239,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
 
 
-class RecordUpdatePage(LoginRequiredMixin , UpdateView):
+class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView):
     
     model = DashboardModel
     template_name = "dashboard/record_update.html"

@@ -36,6 +36,7 @@
                                         <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{{ request.get_full_path }}">Reload</a>
         
                                 </div>
+
                                 <div class="row mt-3">
                                         
                                         <div class="col-md-4 ">
@@ -109,12 +110,12 @@
                                                                 {{ form.supervisor.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.supervisor}}
-                                                                        </label>
 
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for supervisor_obj in form.supervisor%}
+                                                                        <li class="full_width_li list-group-item" >{{supervisor_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
                                         </div>
@@ -126,12 +127,13 @@
                                                                 {{ form.location.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.location}}
-                                                                        </label>
 
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for location_obj in form.location%}
+                                                                        <li class="full_width_li list-group-item" >{{location_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
+
                                                         </div>
                                                 </div>
                                         </div>
@@ -144,12 +146,11 @@
                                                                 {{ form.area.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.area}}
-                                                                        </label>
-
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
                                         </div>
@@ -160,13 +161,11 @@
                                                                 {{ form.production_issue.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.production_issue}}
-                                                                        </label>
-
-
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for production_issue_obj in form.production_issue%}
+                                                                        <li class="full_width_li list-group-item" >{{production_issue_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
                                         </div>
@@ -178,11 +177,11 @@
                                                                 {{ form.area_in_specific.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{ form.area_in_specific }}
-                                                                        </label>
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for area_in_specific_obj in form.area_in_specific%}
+                                                                        <li class="full_width_li list-group-item" >{{area_in_specific_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
                                         </div>
@@ -196,13 +195,11 @@
                                                                 {{ form.customer_issues.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.customer_issues}}
-                                                                        </label>
-
-
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for customer_issues_obj in form.customer_issues%}
+                                                                        <li class="full_width_li list-group-item" >{{customer_issues_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
 
@@ -214,13 +211,11 @@
                                                                 {{ form.other_issues.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.other_issues}}
-                                                                        </label>
-
-
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for other_issues_obj in form.other_issues%}
+                                                                        <li class="full_width_li list-group-item" >{{other_issues_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
 
@@ -232,13 +227,11 @@
                                                                 {{ form.supplier_issue.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <div class="list-group ">
-                                                                        <label class="list-group-item ">
-                                                                                {{form.supplier_issue}}
-                                                                        </label>
-
-
-                                                                </div>
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for supplier_issue_obj in form.supplier_issue%}
+                                                                        <li class="full_width_li list-group-item" >{{supplier_issue_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
                                                         </div>
                                                 </div>
 

@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="row mt-3">
                                         
-                                        <div class="col-md-12 ">
+                                        <div class="col-md-6 ">
                                                 <div class="card">
                                                         <div class="text-truncate card-header">
                                                                 {{ form.ncr_number.label}}
@@ -36,6 +36,17 @@
 
                                                         </div>
                                                 </div>
+                                        </div>
+                                                <div class="col-md-6">
+                                                        <div class="card">
+                                                                <div class="card-header">
+                                                                        {{ form.severity.label }} :
+                                                                </div>
+                                                                <div class="card-body">
+                                                                        {{ form.severity}}
+                                                                </div>
+                                                        </div>
+                
                                         </div>
                                 </div>
                                 <div class="row mt-3">
@@ -68,7 +79,7 @@
                                 </div>
                                 <div class="row mt-3">
 
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
 
 
                                                 <div class="card">
@@ -90,7 +101,20 @@
                                                 </div>
                                         </div>
 
-
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.area.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 13rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
                                         
                                         
 
@@ -100,14 +124,10 @@
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.area.label }}
+                                                                {{ form.description.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 20rem;" >
-                                                                        {% for area_obj in form.area%}
-                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
-                                                                        {% endfor %}
-                                                                </ul>
+                                                                {{ form.description}}
                                                         </div>
                                                 </div>
                                         </div>
@@ -118,20 +138,7 @@
 
 
                                 
-                                <div class="row mt-3">
-                                        <div class="col-md-12">
-                                                <div class="card">
-                                                        <div class="card-header">
-                                                                {{ form.severity.label }} :
-                                                        </div>
-                                                        <div class="card-body">
-                                                                {{ form.severity}}
-                                                        </div>
-                                                </div>
 
-                                        </div>
-
-                                </div>
 
 
 
