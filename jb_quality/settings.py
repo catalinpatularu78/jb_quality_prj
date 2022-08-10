@@ -33,7 +33,7 @@ DEBUG = False
 
 #ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
 
-ALLOWED_HOSTS = ['127.0.0.1', 'http://jbmanufacturingtests.herokuapp.com/']
+ALLOWED_HOSTS = ['jbmanufacturingtests.herokuapp.com']
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
