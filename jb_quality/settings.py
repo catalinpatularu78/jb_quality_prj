@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'django_filters',
+    'django_cleanup.apps.CleanupConfig',
     'dashboard.apps.DashboardConfig', # Dashboard app added
     
 ]

@@ -436,10 +436,20 @@
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {%if record.image_upload %}     
-                                    {{ record.image_upload.url|safe }}            
-                                    <!-- <img src="{{ record.image_upload.url }}"  height='430' > -->
+                                    {% for path in record.image_set.all %}
+
+                                    {% if not forloop.first %}
+                                        <br>
                                     {% endif %}
+
+                                    {{ path }}
+
+                                    {% endfor %}
+
+                                    <!-- {%if record.image_upload %}     
+                                    {{ record.image_upload.url }}            
+                                     <img src="{{ record.image_upload.url }}"  height='430' > 
+                                    {% endif %} -->
                                 </p>
                                 </div>
                             </div>

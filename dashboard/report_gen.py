@@ -45,10 +45,11 @@ class Report:
     
     def generate(request, pk, param):
         meta = DashboardModel.objects.get(pk=pk)
-        doc = Report(filename=meta.ncr_number, uuid=pk)
+        doc = Report(filename=str(meta.ncr_number), uuid=pk)
         response = HttpResponse()
         response.content = doc.getBuffer()
-        response.headers['url-parameter'] = param
+        response.headers['pk'] = pk
+        response.headers['Url-param'] = param
         response.headers['Content-Disposition'] = 'inline; filename=' + doc.filename + ".pdf"
         response.headers['Content-Type'] = 'application/pdf'
 
@@ -225,13 +226,22 @@ class Report:
         specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
         specific_area_name = ', '.join(specific_area_list)
 
-        severity_level = str(self.record.severity)
+ 
+        if(self.record.severity == 1):
+            the_severity = "Low"
+
+        elif(self.record.severity == 2):
+            the_severity = "Medium"
+
+        elif(self.record.severity == 3):
+            the_severity = "High"
 
         area_of_subject =""
         subject_information=""
 
         if(person_responsible == ""):
             person_responsible ="[Please correctly assign names in admin]"
+            names_stored = person_responsible
 
         if("," in person_responsible): #more than one names for the same company type
             person_responsible = person_responsible.split(',')[0]
@@ -284,14 +294,14 @@ class Report:
 
 
         '''answer fields'''
-        b1 = self.record.ncr_number
+        b1 = str(self.record.ncr_number)
         b2 = the_issue_date + the_issue_time
         b3 = self.record.advice_number
         b4 = self.record.job_reference_number
         b5 = the_issue_status
         b6 = site_name 
         b7 = specific_area_name
-        b8 = severity_level
+        b8 = the_severity
         b9 = names_stored
         b10 = area_of_subject
         b11 = subject_information

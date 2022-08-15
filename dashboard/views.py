@@ -10,7 +10,9 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from dashboard.filters import DashboardFilter
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db.models import Max, Min
+from django.db import connection
+from django.contrib import messages
 
 # For sending emails
 from django.conf import settings
@@ -28,9 +30,10 @@ from dashboard.models import (
     SupplierIssues,
     CustomerIssues,
     OtherIssues,
+    Image,
 )
 
-from dashboard.forms import RecordForm 
+from dashboard.forms import RecordForm, ImageForm
 
 from django.shortcuts import get_object_or_404
 
@@ -194,11 +197,57 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record_create'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['imageform'] = ImageForm
+        
+        form = RecordForm()      
+        record = DashboardModel.objects.first()
+
+        if(record == None):
+            context['reset_number'] = "Overwrite NCR Number:"
+            context['hardcode_ncr_number'] = form['ncr_number']
+
+        num = 1
+        if(record != None):
+            num = record.ncr_number + 1
+            context['context_number'] = num
+        else:
+            context['context_number'] = num
+ 
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        files = request.FILES.getlist('image')
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            for i in files:
+                Image.objects.create(project=f, image=i)
+            messages.success(request, "New image added")
+
+            return self.form_valid(form)
+        else:
+            print(form.errors)
+
 
     def form_valid(self,form):
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
-        
+
+        #auto increment NCR number
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
+        record_form = form.save(commit=False) # cancel commit to DB
+        record_form.ncr_number = int(number) + 1 if number else 1 # increments max by 1 and max starts at 1
+        record_form.save() # saves form
+
+
         if severity and severity > 2:
             try:
                 subject = 'NEW QUALITY RECORD '
@@ -208,7 +257,6 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
                 send_mail( subject, message, email_from, recipient_list)    
             except:
                 pass
-        
         
         return response 
 
@@ -271,6 +319,21 @@ class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteVi
     model = DashboardModel
     template_name = "dashboard/record_delete.html"
     success_url = reverse_lazy("dashboard")
+
+    #unimplemented
+    # def get_context_data(self, *args,  **kwargs):
+
+    #     context = super().get_context_data(*args, **kwargs)
+        
+    #     context['caution_message'] = "Please delete records with higher NCR numbers first"
+        
+    #     for object in DashboardModel.objects.all():
+    #         if object.ncr_number < len(DashboardModel.objects.all()) and object.ncr_number < object.ncr_number + 1:
+    #             context['caution_message'] = "Please delete records with higher NCR numbers first"
+    #         else:
+    #             context['caution_message'] = "placeholder"
+  
+    #     return context
 
 
 class IssueFormPage(LoginRequiredMixin , CreateView):

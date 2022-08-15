@@ -18,6 +18,7 @@ from dashboard.models import (
     SupplierIssues,
     CustomerIssues,
     OtherIssues,
+    Image,
 
 )
 
@@ -55,7 +56,7 @@ class RecordForm(ModelForm):
             "issue_affect_other_areas", 
             "issue_affect_other_areas_description",
             "prevented_reoccurrence", 
-            "image_upload",
+           # "image_upload",
             "ncr_creator",
             "severity",
             "production_issue",
@@ -90,7 +91,7 @@ class RecordForm(ModelForm):
             "issue_affect_other_areas" : "Issue Affect Other Areas", 
             "issue_affect_other_areas_description" : "Issue Affect Other Areas Description",
             "prevented_reoccurrence" : "Prevented Reoccurrence", 
-            "image_upload" : "Images",
+           # "image_upload" : "Images",
             "production_issue" : "Production issues" ,
             "supplier_issue" : "Supplier issues" ,
             "customer_issues" : "Customer issues" ,
@@ -151,7 +152,7 @@ class RecordForm(ModelForm):
                 ), 
             "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
             "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
-            "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg', 'placeholder':'images' }),
+           # "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg', 'placeholder':'images' }),
 
             "production_issue" : forms.CheckboxSelectMultiple(attrs={}),
             "supplier_issue" : forms.CheckboxSelectMultiple(),
@@ -174,5 +175,18 @@ class RecordForm(ModelForm):
             "printed_by": forms.SelectMultiple(attrs={'class':'form-control'}),
 
             }
+
+
+
+            
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+        model = Image
+        fields = ("image",)
+
+    image = forms.ImageField(label="Image",widget=forms.ClearableFileInput(attrs={"multiple": True}),)
+
+
         
         

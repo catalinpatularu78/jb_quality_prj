@@ -439,17 +439,6 @@ admin.site.register(CustomerIssues , CustomerIssuesAdmin)
 admin.site.register( OtherIssues , OtherIssuesAdmin)
 admin.site.register(PersonResponsible , PersonResponsibleAdmin) 
 admin.site.register(ClientModel , ClientAdmin) 
-# admin.site.register(DashboardModel)
-# admin.site.register(AreaOfIssue)
-# admin.site.register(SpecificAreaOfIssue)
-# admin.site.register(Locations)
-# admin.site.register(SupervisorTeam)
-# admin.site.register(QualityEngineerTeam)
-# admin.site.register(ProductionIssues)
-# admin.site.register(SupplierIssues)
-# admin.site.register(CustomerIssues)
-# admin.site.register(OtherIssues)
-# admin.site.register(PersonResponsible)
 
 
 #ManyToOne

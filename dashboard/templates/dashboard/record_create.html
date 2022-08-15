@@ -5,22 +5,9 @@
 {% load static %}
 
 
-
-
-
-
-
-
-
-
-
-
 <div class="container mt-5">
         <h1>ADD RECORD</h1>
         <hr>
-
-
-
 
                         <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
                                 {% csrf_token %}
@@ -45,9 +32,9 @@
                                                                 {{ form.ncr_number.label}}
                                                         </div>
                                                         <div class="card-body">
-
-                                                                        {{ form.ncr_number}}
-
+                                                               <p>NCR Number: {{ context_number }}</p>
+                                                               <!-- {{ reset_number }}
+                                                               {{ hardcode_ncr_number }} -->
                                                         </div>
                                                 </div>
                                         </div>
@@ -530,10 +517,13 @@
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.image_upload.label }} : 
+                                                                Image upload (select multiple) : 
                                                         </div>
                                                         <div class="card-body">      
-                                                                {{form.image_upload}}
+                                                                {{ imageform.management_form }}
+                                                                {% for form in imageform %}
+                                                                        {{ form }}
+                                                                {% endfor %}
                                                         </div>
                                                 </div>
 

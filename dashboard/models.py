@@ -6,6 +6,9 @@ from django.conf import settings
 from django.core import validators
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
+from django.db.models import IntegerField
+
+
 
 class DashboardModel(models.Model):
 
@@ -34,10 +37,8 @@ class DashboardModel(models.Model):
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
-    ncr_number =  models.CharField(max_length =100 , null=True)
-    # ncr_number =  models.IntegerField( default=0 , unique=True, blank=True, null=True)
-    
-    
+    ncr_number =  models.IntegerField(null=True, blank=True)
+  
     # additional fields displayed on create + detail + update 
     advice_number =  models.CharField(max_length =100 , null=True, blank = True)
     comments = models.TextField(null=True , blank = True)
@@ -57,7 +58,7 @@ class DashboardModel(models.Model):
         null=True,
         blank = True,
     )
-    image_upload = models.ImageField(upload_to="images/", null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
+   # image_upload = models.ImageField(upload_to="images/", null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
     supervisor = models.ManyToManyField('SupervisorTeam' ,blank=True)
     printed_by = models.ManyToManyField('QualityEngineerTeam', blank=True) 
     
@@ -70,9 +71,11 @@ class DashboardModel(models.Model):
     #new
     area_in_specific = models.ManyToManyField('SpecificAreaOfIssue', blank=True)
     
-    # ORDER DASHBOARD BY DATE  
+
     class Meta:
-        ordering = ['-issue_date']
+        ordering = ['-ncr_number']
+        #ordering = ['-issue_date']
+  
         
         
     def __str__(self) -> str:
@@ -300,3 +303,11 @@ class OtherCompany(models.Model):
     def __str__(self):
         return self.company_name
 
+
+
+class Image(models.Model):
+    project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="images", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
+
+    def __str__(self):
+        return self.image.path
