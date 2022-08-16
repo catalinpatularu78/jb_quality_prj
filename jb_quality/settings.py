@@ -114,9 +114,9 @@ WSGI_APPLICATION = 'jb_quality.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd7kg8gbtl6tg3e',
-        'USER': 'ftdghgqdiqzyhp',
-        'PASSWORD': '4c41f0dc4df283cf6d93674339f45b1fb8bb198b2cfbb28eb746a706b723c9c4',
+        'NAME': 'df3iogc6kqm1t8',
+        'USER': 'ykykmwpsnncxna',
+        'PASSWORD': '1319e9ceae205af0c3047cf7e73ee86fbfdf25377dec4d1efa7ce575b9c272b3',
         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
         'PORT': '5432',
     }
