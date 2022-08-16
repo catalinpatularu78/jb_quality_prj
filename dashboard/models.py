@@ -307,7 +307,8 @@ class OtherCompany(models.Model):
 
 class Image(models.Model):
     project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="images", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
+    image = models.ImageField(upload_to="images", validators=[validators.validate_image_file_extension], blank=True)
+    #image = models.ImageField(upload_to="images", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
 
     def __str__(self):
         return self.image.path

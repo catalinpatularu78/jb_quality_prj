@@ -297,29 +297,29 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
     context_object_name = 'record'
 
 
-    def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['imageform'] = ImageForm
+    # def get_context_data(self, **kwargs):
+    #         context = super().get_context_data(**kwargs)
+    #         context['imageform'] = ImageForm
              
-            return context
+    #         return context
     
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+    # def post(self, request, *args, **kwargs):
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
 
-        files = request.FILES.getlist('image')
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.user = request.user
-            f.save()
-            for i in files:
-                Image.objects.create(project=f, image=i)
-            messages.success(request, "New image added")
+    #     files = request.FILES.getlist('image')
+    #     if form.is_valid():
+    #         f = form.save(commit=False)
+    #         f.user = request.user
+    #         f.save()
+    #         # for i in files:
+    #         #     Image.objects.create(project=f, image=i)
+    #         # messages.success(request, "New image added")
 
-            return self.form_valid(form)
-        else:
-            print(form.errors)
+    #         return self.form_valid(form)
+    #     else:
+    #         print(form.errors)
 
 
     def get_success_url(self):

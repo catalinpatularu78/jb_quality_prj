@@ -409,42 +409,42 @@ class Report:
         self.c.setLineWidth(0.1) 
 
         try:
-            print("images uploaded", len(self.record.image_set.all()))
-            if(self.record.image_set):
-                self.c.bottomup = 1
-                self.c.scale(1,-1)
-                frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
-                framedata = []                    
-                image_list = [str(path) for path in self.record.image_set.all()]
-                images_uploaded = len(image_list)
-       
-                if(images_uploaded == 1):
-                    var1 = str(image_list[0])
-                    framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+            self.c.bottomup = 1
+            self.c.scale(1,-1)
+            frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
+            framedata = []                    
+            image_list = [str(path) for path in self.record.image_set.all()]
+            images_uploaded = len(image_list)
+            framedImage = None
 
-                elif(images_uploaded == 2):     
-                    var1 = str(image_list[0])
-                    var2 = str(image_list[1])
-                    framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
-                
-                elif(images_uploaded == 3):     
-                    var1 = str(image_list[0])
-                    var2 = str(image_list[1])
-                    var3 = str(image_list[2])
-                    framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
-
+            if(images_uploaded == 1):
+                var1 = str(image_list[0])
+                framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
+            elif(images_uploaded == 2):     
+                var1 = str(image_list[0])
+                var2 = str(image_list[1])
+                framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+                framedata.append(framedImage)
+                frame.addFromList(framedata, self.c)
+            elif(images_uploaded >= 3):     
+                var1 = str(image_list[0])
+                var2 = str(image_list[1])
+                var3 = str(image_list[2])
+                framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False)
+                framedata.append(framedImage)
+                frame.addFromList(framedata, self.c)           
             else:
-                self.c.bottomup = 1
-                self.c.scale(1,-1)
-                frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
-                framedata = []   
                 p = Paragraph("", None)
                 framedata.append(p)
                 frame.addFromList(framedata, self.c)
         except IOError:
-            print("There was a problem opening the file")
+            frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
+            framedata = []      
+            p = Paragraph("A problem was encountered when trying to open the uploaded image file.", None)
+            framedata.append(p)
+            frame.addFromList(framedata, self.c)
             pass
 
         self.c.bottomup = 0

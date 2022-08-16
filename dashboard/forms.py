@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Submit
-
+from django.core import validators
 
 from dashboard.models import (
     DashboardModel,
@@ -177,7 +177,6 @@ class RecordForm(ModelForm):
             }
 
 
-
             
 class ImageForm(forms.ModelForm):
 
@@ -185,7 +184,13 @@ class ImageForm(forms.ModelForm):
         model = Image
         fields = ("image",)
 
-    image = forms.ImageField(label="Image",widget=forms.ClearableFileInput(attrs={"multiple": True}),)
+        labels = {"image" : "Image upload"}
+
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True})
+        }
+  
+    #image = CustomImageField(label="Image", widget=forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True, "none": True}),)
 
 
         
