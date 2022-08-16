@@ -267,9 +267,56 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
     form_class = RecordForm
     success_url = reverse_lazy("main_page")
     context_object_name = 'record_create'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['imageform'] = ImageForm
+        
+        form = RecordForm()      
+        record = DashboardModel.objects.first()
+
+        if(record == None):
+            context['reset_number'] = "Overwrite NCR Number:"
+            context['hardcode_ncr_number'] = form['ncr_number']
+
+        num = 1
+        if(record != None):
+            num = record.ncr_number + 1
+            context['context_number'] = num
+        else:
+            context['context_number'] = num
+
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        files = request.FILES.getlist('image')
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            for i in files:
+                Image.objects.create(project=f, image=i)
+            messages.success(request, "New image added")
+
+            return self.form_valid(form)
+        else:
+            print(form.errors)
     
     
     def form_valid(self,form):
+        
+        # Auto increment NCR code 
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
+        record_form = form.save(commit=False) # cancel commit to DB
+        record_form.ncr_number = int(number) + 1 if number else 1 # Sets value to max number plus 1 or 1 if number column is empty 
+        record_form.save() # saves form
+        
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
         
@@ -283,7 +330,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
             except:
                 pass
         
-        return response 
+        return response  
 
 
 
