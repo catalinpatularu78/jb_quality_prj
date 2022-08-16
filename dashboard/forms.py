@@ -138,10 +138,10 @@ class RecordForm(ModelForm):
             'supervisor': forms.CheckboxSelectMultiple(attrs={}),
             "description" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description'}), 
             "root_cause" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Root Cause'}),
-            "interim_containment_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'interim_containment_action'}), 
-            "corrective_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'corrective_action'}), 
-            "advice_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'advice_number'}), 
-            "result_validation_action" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'result_validation_action'}), 
+            "interim_containment_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Interim containment action'}), 
+            "corrective_action" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Corrective action'}), 
+            "advice_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Advice number'}), 
+            "result_validation_action" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'Result validation action'}), 
             "issue_affect_other_areas" :  forms.Select(
                 choices= [
                     ("", "Please choose"),
@@ -150,8 +150,8 @@ class RecordForm(ModelForm):
                     ],
                 attrs={'class':'form-select', 'placeholder':'issue_affect_other_areas', 'onchange' : 'show_issue_affect_element()'}
                 ), 
-            "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'issue_affect_other_areas_description'}),
-            "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'prevented_reoccurrence'}),
+            "issue_affect_other_areas_description" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description of issues'}),
+            "prevented_reoccurrence" : forms.Select(attrs={'class':'form-select', 'placeholder':'Prevented Re-occurence'}),
            # "image_upload" : forms.ClearableFileInput(attrs={'class':'form-control form-control-lg', 'placeholder':'images' }),
 
             "production_issue" : forms.CheckboxSelectMultiple(attrs={}),
@@ -161,7 +161,7 @@ class RecordForm(ModelForm):
             "area_in_specific" : forms.CheckboxSelectMultiple(),
             
             "client": forms.CheckboxSelectMultiple(attrs={}),
-            "ncr_creator" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'ncr_creator'}) ,
+            "ncr_creator" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'NCR Creator'}) ,
             "comments" : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Comments'}), 
             "severity" : forms.Select(
                 choices= [
@@ -170,12 +170,11 @@ class RecordForm(ModelForm):
                     (2, "2  - MEDIUM"),
                     (3, "3  - HIGH"),
                     ],
-                attrs={'class':'form-select', 'placeholder':'severity',}
+                attrs={'class':'form-select', 'placeholder':'Severity',}
                 ),
             "printed_by": forms.SelectMultiple(attrs={'class':'form-control'}),
 
             }
-
 
             
 class ImageForm(forms.ModelForm):

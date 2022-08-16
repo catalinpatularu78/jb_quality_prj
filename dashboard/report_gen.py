@@ -55,7 +55,6 @@ class Report:
         return response
 
 
-
     def includeFooter(self, pageNumber):                
         footer_line_h = self.height-60   
         self.c.line(cm, footer_line_h, self.width - inch + 1.05*cm, footer_line_h) 
@@ -222,8 +221,33 @@ class Report:
         area_list = [str(name) for name in self.record.area.all()]
         site_name = ', '.join(area_list)
 
-        specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
-        specific_area_name = ', '.join(specific_area_list)
+
+        production_issue_list = [str(name) for name in self.record.production_issue.all()]
+        production_issue_name = ', '.join(production_issue_list) 
+	
+        supplier_issue_list = [str(name) for name in self.record.supplier_issue.all()]
+        supplier_issue_name = ', '.join(supplier_issue_list)
+
+        customer_issues_list = [str(name) for name in self.record.customer_issues.all()]
+        the_customer_issues = ', '.join(customer_issues_list)
+
+        other_issues_list = [str(name) for name in self.record.other_issues.all()]
+        the_other_issues = ', '.join(other_issues_list)
+
+        the_issues = ""
+
+        if (production_issue_list): #if the list is not empty - examines boolean value of list
+            the_issues += production_issue_name
+
+        if (supplier_issue_list):
+             the_issues += supplier_issue_name
+
+        if (customer_issues_list):
+             the_issues += the_customer_issues
+        
+        if (other_issues_list):
+             the_issues += the_other_issues
+
 
         the_severity = ""
 
@@ -300,7 +324,7 @@ class Report:
         b4 = self.record.job_reference_number
         b5 = the_issue_status
         b6 = site_name 
-        b7 = specific_area_name
+        b7 = the_issues
         b8 = the_severity
         b9 = names_stored
         b10 = area_of_subject
@@ -359,39 +383,22 @@ class Report:
         frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=6*mm, showBoundary=1)
 
         '''the paragraph flowable uses XML markup so <br/> creates a new line'''
+        root_cause_description = "<b>Root cause of the issue: </b><br/><br/><br/>" + self.record.root_cause + "<br/><br/><br/>"
+        basic_description = "<b>Description of the issue: </b><br/><br/>" + self.record.description + "<br/><br/><br/>"
 
-        production_issue_list = [str(name) for name in self.record.production_issue.all()]
-        production_issue_name = '''<b>Production issues:</b><br/><br/> 
-        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(production_issue_list) + "<seqreset id='counter'/><br/><br/>"
+        issue_description = ""
+        if(self.record.root_cause):
+            issue_description += root_cause_description
+        else:
+            pass
 
-        supplier_issue_list = [str(name) for name in self.record.supplier_issue.all()]
-        supplier_issue_name = '''<b>Supplier issues:</b><br/><br/> 
-        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(supplier_issue_list) + "<seqreset id='counter'/><br/><br/>"
-
-        customer_issues_list = [str(name) for name in self.record.customer_issues.all()]
-        the_customer_issues = '''<b>Customer issues:</b><br/><br/> 
-        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(customer_issues_list) + "<seqreset id='counter'/><br/><br/>"
-
-        other_issues_list = [str(name) for name in self.record.other_issues.all()]
-        the_other_issues = '''<b>Other issues:</b><br/><br/> 
-        <seq id='counter'/>. '''+"<br/><br/><seq id='counter'/>. ".join(other_issues_list) + "<seqreset id='counter'/><br/><br/>"
-
-        the_issues = ""
-
-        if (production_issue_list): #if the list is not empty - examines boolean value of list
-            the_issues += production_issue_name
-
-        if (supplier_issue_list):
-             the_issues += supplier_issue_name
-
-        if (customer_issues_list):
-             the_issues += the_customer_issues
-        
-        if (other_issues_list):
-             the_issues += the_other_issues
+        if(self.record.description):
+            issue_description += basic_description
+        else:
+            pass
 
         textstyle = self.styles['Normal']   
-        p = Paragraph(the_issues, textstyle)
+        p = Paragraph(issue_description, textstyle)
         framedText = KeepInFrame(maxWidth=0, maxHeight=9*inch, content=[p], mode='shrink')   
         framedata.append(framedText)
         frame.addFromList(framedata, self.c)

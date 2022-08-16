@@ -81,7 +81,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-              #  'django.template.context_processors.media',
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -94,33 +94,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jb_quality.wsgi.application'
 
-#TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader', 'django.template.loaders.app_directories.Loader')
-
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-
-#heroku app credentials (Conor)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'df3iogc6kqm1t8',
-        'USER': 'ykykmwpsnncxna',
-        'PASSWORD': '1319e9ceae205af0c3047cf7e73ee86fbfdf25377dec4d1efa7ce575b9c272b3',
-        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
+#heroku app credentials (Conor)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'df3iogc6kqm1t8',
+#         'USER': 'ykykmwpsnncxna',
+#         'PASSWORD': '1319e9ceae205af0c3047cf7e73ee86fbfdf25377dec4d1efa7ce575b9c272b3',
+#         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
@@ -184,7 +182,7 @@ LOGIN_URL = 'login'
 # ]
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -249,6 +247,8 @@ MEDIA_URL = '/media/'
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
