@@ -177,11 +177,11 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
-# STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -246,21 +246,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # the path becomes [project dir]\me
 MEDIA_URL = '/media/'
 
 #DISABLE_SERVER_SIDE_CURSORS = True
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/static/"
+
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
 
 
-VALID_IMAGE_EXTENSIONS = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-]
+# VALID_IMAGE_EXTENSIONS = [
+#     ".jpg",
+#     ".jpeg",
+#     ".png",
+#     ".gif",
+# ]
 
-def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
+# def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
 
-    return any([url.endswith(e) for e in extension_list])
+#     return any([url.endswith(e) for e in extension_list])
