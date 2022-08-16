@@ -296,17 +296,32 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
     success_url = reverse_lazy("dashboard")
     context_object_name = 'record'
 
-  
-    # def get(self, *args, **kwargs):  
-    #     self.object = self.get_object()
-    #     dbm = DashboardModel.objects.get(ncr_number=self.object)
-        
-    #     the_image_path = dbm.image_upload.path
 
-    #     return super().get(request, *args, **kwargs)
-
-
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['imageform'] = ImageForm
+             
+            return context
     
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        files = request.FILES.getlist('image')
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()
+            for i in files:
+                Image.objects.create(project=f, image=i)
+            messages.success(request, "New image added")
+
+            return self.form_valid(form)
+        else:
+            print(form.errors)
+
+
     def get_success_url(self):
         return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
     

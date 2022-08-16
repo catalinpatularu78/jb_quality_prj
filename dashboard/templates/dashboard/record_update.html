@@ -520,11 +520,14 @@
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.image_upload.label }} : 
+                                                                Image upload (select multiple) : 
                                                         </div>
 
                                                         <div class="card-body">      
-                                                                {{form.image_upload}}
+                                                                {{ imageform.management_form }}
+                                                                {% for form in imageform %}
+                                                                        {{ form }}
+                                                                {% endfor %}
                                                         </div>
                                                 </div>
 
