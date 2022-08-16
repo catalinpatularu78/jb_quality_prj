@@ -29,11 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 #ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
 
-ALLOWED_HOSTS = ['jbmanufacturingtests.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','jbmanufacturingtests.herokuapp.com']
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 
