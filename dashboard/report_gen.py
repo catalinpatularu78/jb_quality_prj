@@ -226,7 +226,8 @@ class Report:
         specific_area_list = [str(name) for name in self.record.area_in_specific.all()]
         specific_area_name = ', '.join(specific_area_list)
 
- 
+        the_severity = ""
+
         if(self.record.severity == 1):
             the_severity = "Low"
 
@@ -408,13 +409,30 @@ class Report:
         self.c.setLineWidth(0.1) 
 
         try:
-            if(self.record.image_upload):
+            print("images uploaded", len(self.record.image_set.all()))
+            if(self.record.image_set):
                 self.c.bottomup = 1
                 self.c.scale(1,-1)
                 frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
-                media = Image(self.record.image_upload.path, useDPI=True)
-                framedata = []      
-                framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[media], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+                framedata = []                    
+                image_list = [str(path) for path in self.record.image_set.all()]
+                images_uploaded = len(image_list)
+       
+                if(images_uploaded == 1):
+                    var1 = str(image_list[0])
+                    framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+
+                elif(images_uploaded == 2):     
+                    var1 = str(image_list[0])
+                    var2 = str(image_list[1])
+                    framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+                
+                elif(images_uploaded == 3):     
+                    var1 = str(image_list[0])
+                    var2 = str(image_list[1])
+                    var3 = str(image_list[2])
+                    framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
+
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             else:
