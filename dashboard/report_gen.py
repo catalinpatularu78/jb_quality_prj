@@ -84,7 +84,7 @@ class Report:
         else:
             the_target_completion_date = ""
 
-        logo = os.path.join(settings.STATIC_ROOT,"img\logo.jpg")       
+        logo = os.path.join(settings.STATIC_ROOT,"img/logo.jpg")       
         logoX = (self.width/2) + 2*inch + 1*mm
         logoY = 2 * inch
         logoSize = 115
