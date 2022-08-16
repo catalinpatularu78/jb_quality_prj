@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import io, os, datetime as dt
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
