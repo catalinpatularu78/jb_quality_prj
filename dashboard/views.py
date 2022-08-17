@@ -368,7 +368,7 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
                     Image.objects.create(project=f, image=i)   
                 DashboardModel.objects.first().delete()   
     
-            messages.success(request, "New image updated")
+            messages.success(request, "New images updated")
 
             return self.form_valid(form)
         else:

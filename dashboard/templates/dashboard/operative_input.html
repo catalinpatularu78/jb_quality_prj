@@ -121,7 +121,22 @@
 
                                 </div>
                                 <div class="row mt-3">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.production_issue.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 13rem;" >
+                                                                        {% for issue in form.production_issue %}
+                                                                        <li class="full_width_li list-group-item" >{{ issue }}</li>
+                                                                        {% endfor %}
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
                                                                 {{ form.description.label }}
@@ -133,14 +148,26 @@
                                         </div>
                                 </div>
 
-
-                                
-
-
+                                <div class="row mt-3">
+                                        <div class="col-md-6">
+                                                <div class="card">
+                                                        <div class="card-header">
+                                                                {{ form.location.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                {% for location_obj in form.location  %}
+                                                                <li class="full_width_li list-group-item" >{{ location_obj }}</li>
+                                                                {% endfor %}
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
 
 
 
                                 <div class="row mt-3">
+
+                         
 
                                         <div class="col-md-12">
                                                 <div class="card">
