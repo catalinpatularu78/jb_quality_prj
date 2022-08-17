@@ -73,7 +73,7 @@ class Report:
 
         theHour = int(the_issue_time[:3])+1
         theMinutes = the_issue_time[4:6]
-        the_issue_time_ = '{:02d}'.format(str(theHour)) + ':' + theMinutes
+        the_issue_time_ = "{:02d}".format(theHour) + ':' + theMinutes
 
         if(self.record.closure_date):
             the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
@@ -324,7 +324,7 @@ class Report:
 
         '''answer fields'''
         b1 = str(self.record.ncr_number)
-        b2 = the_issue_date + '  ' + the_issue_time_
+        b2 = the_issue_date + ' ' + the_issue_time_
         b3 = self.record.advice_number
         b4 = self.record.job_reference_number
         b5 = the_issue_status
