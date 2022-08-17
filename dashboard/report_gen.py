@@ -1,4 +1,7 @@
 import io, os, datetime as dt
+
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
 from django.conf import settings
@@ -68,12 +71,20 @@ class Report:
 
     def page_one(self, pagenumber): 
 
-        the_issue_date = str(self.record.issue_date)[8:10] +'/'+str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]  
-        the_issue_time = str(self.record.issue_date)[10:16]
+        # the_issue_date = str(self.record.issue_date)[8:10] +'/'+str(self.record.issue_date)[5:7] +'/'+str(self.record.issue_date)[0:4]  
+        # the_issue_time = str(self.record.issue_date)[10:16]
 
-        theHour = int(the_issue_time[:3])+1
-        theMinutes = the_issue_time[4:6]
-        the_issue_time_ = "{:02d}".format(theHour) + ':' + theMinutes
+        # theHour = int(the_issue_time[:3]) + 1
+        # theMinutes = the_issue_time[4:6]
+        # the_issue_time_ = "{:02d}".format(theHour) + ':' + theMinutes
+
+        UTC_time_format = "%Y-%m-%d %H:%M:%S"
+        custom_time_format = "%d/%m/%Y %H:%M"
+
+        timestring = datetime.strptime(str(self.record.issue_date + timedelta(seconds=3600))[:19], UTC_time_format)
+
+        the_issue_datetime = timestring.astimezone(ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
+        the_issue_datetime = str(the_issue_datetime)
 
         if(self.record.closure_date):
             the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
@@ -324,7 +335,7 @@ class Report:
 
         '''answer fields'''
         b1 = str(self.record.ncr_number)
-        b2 = the_issue_date + ' ' + the_issue_time_
+        b2 = the_issue_datetime
         b3 = self.record.advice_number
         b4 = self.record.job_reference_number
         b5 = the_issue_status
