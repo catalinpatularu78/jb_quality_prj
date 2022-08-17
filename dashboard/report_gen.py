@@ -73,7 +73,7 @@ class Report:
 
         theHour = int(the_issue_time[:3])+1
         theMinutes = the_issue_time[4:6]
-        the_issue_time_ = str(theHour) + ':' + theMinutes
+        the_issue_time_ = '{:02f}'.format(str(theHour)) + ':' + theMinutes
 
         if(self.record.closure_date):
             the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
