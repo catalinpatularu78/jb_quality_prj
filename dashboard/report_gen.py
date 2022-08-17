@@ -78,12 +78,17 @@ class Report:
         # theMinutes = the_issue_time[4:6]
         # the_issue_time_ = "{:02d}".format(theHour) + ':' + theMinutes
 
+        # https://docs.python.org/3/library/datetime.html
+        # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
+        # https://docs.python.org/3/library/datetime.html#datetime.timedelta
+        # https://docs.python.org/3/library/zoneinfo.html#module-zoneinfo
+
         UTC_time_format = "%Y-%m-%d %H:%M:%S"
         custom_time_format = "%d/%m/%Y %H:%M"
 
         timestring = datetime.strptime(str(self.record.issue_date + timedelta(seconds=3600))[:19], UTC_time_format)
 
-        the_issue_datetime = timestring.astimezone(ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
+        the_issue_datetime = timestring.astimezone(tzinfo=ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
         the_issue_datetime = str(the_issue_datetime)
 
         if(self.record.closure_date):
