@@ -86,9 +86,11 @@ class Report:
         UTC_time_format = "%Y-%m-%d %H:%M:%S"
         custom_time_format = "%d/%m/%Y %H:%M"
 
-        timestring = datetime.strptime(str(self.record.issue_date + timedelta(seconds=3600))[:19], UTC_time_format)
+        timestring = datetime.strptime(str(self.record.issue_date + timedelta(hours=1))[:19], UTC_time_format)
 
-        the_issue_datetime = timestring.astimezone(tzinfo=ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
+        #the_issue_datetime = timestring.astimezone(ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
+
+        the_issue_datetime = datetime.fromtimestamp(timestring.timestamp(), ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
         the_issue_datetime = str(the_issue_datetime)
 
         if(self.record.closure_date):
