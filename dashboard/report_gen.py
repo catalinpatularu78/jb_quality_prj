@@ -90,7 +90,7 @@ class Report:
 
         #the_issue_datetime = timestring.astimezone(ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
 
-        the_issue_datetime = datetime.fromtimestamp(timestring.timestamp(), ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
+        the_issue_datetime = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_time_format)
         the_issue_datetime = str(the_issue_datetime)
 
         if(self.record.closure_date):
