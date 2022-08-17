@@ -448,7 +448,7 @@ class Report:
         except IOError:
             frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
             framedata = []      
-            p = Paragraph("A problem was encountered when trying to open the uploaded image file.", None)
+            p = Paragraph("A problem was encountered when trying to open the uploaded image file.<br/><br/> Note: Heroku is not using persistent image storage. Images will get deleted at random points, this does not matter for now.", None)
             framedata.append(p)
             frame.addFromList(framedata, self.c)
             pass
