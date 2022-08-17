@@ -360,13 +360,14 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             f.save()        
 
             if(d.image_set.first()): #if images are present in the set
-                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating
+                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating         
             else:
                 pass
                 
             for i in files:
                 Image.objects.create(project=f, image=i)
-                DashboardModel.objects.first().delete()
+                  
+            DashboardModel.objects.first().delete()         
             messages.success(request, "New image updated")
 
             return self.form_valid(form)
