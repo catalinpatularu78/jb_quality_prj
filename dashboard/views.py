@@ -200,7 +200,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['imageform'] = ImageForm
+        context['imageform'] = ImageForm()
         
         form = RecordForm()      
         record = DashboardModel.objects.first()
@@ -272,14 +272,9 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['imageform'] = ImageForm
+        context['imageform'] = ImageForm()
         
-        form = RecordForm()      
         record = DashboardModel.objects.first()
-
-        if(record == None):
-            context['reset_number'] = "Overwrite NCR Number:"
-            context['hardcode_ncr_number'] = form['ncr_number']
 
         num = 1
         if(record != None):
@@ -344,29 +339,39 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
     context_object_name = 'record'
 
 
-    # def get_context_data(self, **kwargs):
-    #         context = super().get_context_data(**kwargs)
-    #         context['imageform'] = ImageForm
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['imageform'] = ImageForm
              
-    #         return context
+            return context
     
 
-    # def post(self, request, *args, **kwargs):
-    #     form_class = self.get_form_class()
-    #     form = self.get_form(form_class)
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
 
-    #     files = request.FILES.getlist('image')
-    #     if form.is_valid():
-    #         f = form.save(commit=False)
-    #         f.user = request.user
-    #         f.save()
-    #         # for i in files:
-    #         #     Image.objects.create(project=f, image=i)
-    #         # messages.success(request, "New image added")
+        pk = self.get_object().id
+        d = DashboardModel.objects.get(id=pk)
 
-    #         return self.form_valid(form)
-    #     else:
-    #         print(form.errors)
+        files = request.FILES.getlist('image')
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()        
+
+            if(d.image_set.first()): #if images are present in the set
+                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating
+            else:
+                pass
+                
+            for i in files:
+                Image.objects.create(project=f, image=i)
+                DashboardModel.objects.first().delete()
+            messages.success(request, "New image updated")
+
+            return self.form_valid(form)
+        else:
+            print(form.errors)
 
 
     def get_success_url(self):
