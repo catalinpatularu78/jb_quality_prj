@@ -324,7 +324,7 @@ class Report:
 
         '''answer fields'''
         b1 = str(self.record.ncr_number)
-        b2 = the_issue_date + ' ' + the_issue_time_
+        b2 = the_issue_date + '  ' + the_issue_time_
         b3 = self.record.advice_number
         b4 = self.record.job_reference_number
         b5 = the_issue_status
