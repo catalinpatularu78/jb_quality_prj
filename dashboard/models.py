@@ -1,13 +1,14 @@
+from time import timezone
 from django.db import models
 from django.urls import reverse
-from datetime import datetime
+from datetime import *
 from uuid import uuid4
 from django.conf import settings
 from django.core import validators
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
 from django.db.models import IntegerField
-
+from django.utils import timezone
 
 
 class DashboardModel(models.Model):
@@ -33,7 +34,12 @@ class DashboardModel(models.Model):
     closure_date = models.DateTimeField(null=True, blank = True)
     target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
-    issue_date = models.DateTimeField(null=True, blank = True , default = datetime.now().replace(second=0, microsecond=0) )#default = timezone.localtime
+  #  issue_date = models.DateTimeField(null=True, blank = True , default = datetime.now().replace(second=0, microsecond=0) )#default = timezone.localtime()
+    
+
+    #issue_date = models.DateTimeField(null=True, blank = True , default = date.today() )#default = timezone.localtime
+
+    issue_date = models.DateTimeField(null=True, blank = True , default = timezone.now )#default = timezone.localtime
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)
     job_reference_number = models.CharField(max_length =100 , null=True ,blank = True)
     location = models.ManyToManyField('Locations' ,blank=True)
