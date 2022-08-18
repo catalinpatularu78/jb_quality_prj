@@ -90,13 +90,13 @@ class DashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
     context_object_name = 'dashboard'
 
 
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     response = super().get(request, *args, **kwargs)
 
-        if not request.user.is_superuser:
-            return HttpResponse('You do not have required privileges to view this page.')        
-        else:
-            return response
+    #     if not request.user.is_superuser:
+    #         return HttpResponse('You do not have required privileges to view this page.')        
+    #     else:
+    #         return response
 
 
 
