@@ -149,6 +149,14 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
         "issue_solved", 
         ]
 
+
+    def get_context_data(self, *args,  **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
+        return context
+
+
+
 #decorators = [csrf_exempt]
 
 #@method_decorator(decorators, name='dispatch')
