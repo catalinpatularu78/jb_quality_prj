@@ -1,9 +1,9 @@
-from http.client import HTTPResponse
 from urllib import request
 from django.shortcuts import get_object_or_404, render , redirect
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.db import connection
 from django.contrib import messages
+#from django.contrib.auth.models import User
 
 # For sending emails
 from django.conf import settings
@@ -42,9 +43,6 @@ from django.shortcuts import get_object_or_404
 
 
 
-
-
-
 class StaffMemberRequiredMixin(UserPassesTestMixin):
 
     def test_func(self):
@@ -63,6 +61,8 @@ class CustomLoginView(LoginView):
 class HomePage(TemplateView):
     
     template_name = 'index.html'
+
+
 
 class OperativeHomePage(TemplateView):
     
@@ -89,6 +89,16 @@ class DashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
     paginate_by = 20
     
     context_object_name = 'dashboard'
+
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+
+        if not request.user.is_superuser:
+            return HttpResponse('You do not have required privileges to view this page.')        
+        else:
+            return response
+
 
 
 class OperativeDashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):

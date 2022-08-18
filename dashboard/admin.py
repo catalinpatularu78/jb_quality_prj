@@ -426,6 +426,25 @@ class PersonResponsibleAdmin(admin.ModelAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
+
+#https://docs.djangoproject.com/en/4.1/ref/contrib/admin/#django.contrib.admin.ModelAdmin.has_view_permission
+
+#@admin.register(DashboardModel)
+# class Admin(admin.ModelAdmin):
+
+#     def has_add_permission(self, request):
+#         return False
+
+#     def has_change_permission(self, request, obj=None):
+#         return False
+
+#     def has_delete_permission(self, request, obj=None):
+#         return False
+    
+#     def has_view_permission(request, obj=None):
+#         return False
+
+
 #ManyToMany
 admin.site.register(DashboardModel)
 admin.site.register(AreaOfIssue , AreaOfIssueAdmin)
@@ -436,7 +455,7 @@ admin.site.register(QualityEngineerTeam, QualityEngineerTeamAdmin)
 admin.site.register(ProductionIssues, ProductionIssuesAdmin)
 admin.site.register(SupplierIssues, SupplierIssuesAdmin)
 admin.site.register(CustomerIssues , CustomerIssuesAdmin)
-admin.site.register( OtherIssues , OtherIssuesAdmin)
+admin.site.register(OtherIssues , OtherIssuesAdmin)
 admin.site.register(PersonResponsible , PersonResponsibleAdmin) 
 admin.site.register(ClientModel , ClientAdmin) 
 
