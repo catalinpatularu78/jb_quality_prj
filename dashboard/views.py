@@ -66,7 +66,7 @@ class HomePage(TemplateView):
 
 class OperativeHomePage(TemplateView):
     
-    template_name = 'index.html'
+    template_name = 'index_b.html'
 
 
 
@@ -310,7 +310,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
     model = DashboardModel
     template_name = "dashboard/operative_input.html"
     form_class = RecordForm
-    success_url = reverse_lazy("main_page")
+    success_url = reverse_lazy("dashboard_b")
     context_object_name = 'record_create'
 
 
