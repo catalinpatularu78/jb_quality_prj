@@ -64,11 +64,36 @@ class HomePage(TemplateView):
     
     template_name = 'index.html'
 
+class OperativeHomePage(TemplateView):
+    
+    template_name = 'index.html'
+
 
 
 class DashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
     model = DashboardModel
     template_name = 'dashboard/dashboard.html'
+    fields = [
+        "issue_date", 
+        "ncr_number", 
+        "job_reference_number",
+        "location", 
+        "area",
+        "cost",
+        "issue_solved", 
+        "closure_date",
+        "downtime_time"
+        "downtime_readability"
+        "severity"
+        ]
+    paginate_by = 20
+    
+    context_object_name = 'dashboard'
+
+
+class OperativeDashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
+    model = DashboardModel
+    template_name = 'dashboard/dashboard_b.html'
     fields = [
         "issue_date", 
         "ncr_number", 

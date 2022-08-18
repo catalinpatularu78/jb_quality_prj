@@ -1,0 +1,154 @@
+{% extends 'main_b.html' %}
+
+{% block content %}
+
+<!-- Page content-->
+<div class="container">
+    <div class="text-center mt-5">
+        <h1>Dashboard</h1>
+        <p class="lead">J & B Engineering</p>
+        <a class="btn btn-primary" href="{% url 'operative_create' %}" role="button">+ CREATE NEW RECORD</a>
+    </div>
+</div>
+
+<hr>
+
+<div class="  px-5">
+    <table class="table table-striped table-hover table-bordered align-middle table-responsive ">
+
+        <tr class="table-info">
+
+            <th scope="col">Issue Date</th>
+            <th scope="col">NCR Number</th>
+            <th scope="col">Advice Number</th>
+            <th scope="col" class="d-none d-md-table-cell ">Location</th>
+            <th scope="col" class="d-none d-md-table-cell ">Area</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Issue Solved</th>
+            <th scope="col">Closure Date</th>
+            <th scope="col">Severity</th>
+            <th scope="col">Details</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
+
+        {% for dash in dashboard %}
+
+        <tr class="align-top">
+            <!-- <th scope="row">{{ forloop.counter }}</th> -->
+            
+            <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
+            <td>
+
+                <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
+            </td>
+            <td>{{ dash.advice_number }}</td>
+
+
+            <!-- <td>
+                {{ dash.description |slice:":50"  }}
+            </td> -->
+
+            <td class="d-none d-md-table-cell ">
+                {% for location in dash.location.all %}
+
+                {{location}}
+        
+                {% endfor %}
+            </td>
+
+            <td class="d-none d-md-table-cell ">
+                {% for area in dash.area.all %}
+                
+                {% if not forloop.first %}
+                    ,
+                {% endif %}
+
+                {{area}}
+        
+                {% endfor %}
+            </td>
+
+
+            <td>{{ dash.cost }}</td>
+            <td>{{ dash.issue_solved }}</td>
+            <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
+            <td>
+            {% if dash.severity == 3  %}
+                <button type="button" class="btn btn-danger fw-bolder disabled">
+                    {{dash.severity}} - [Stop the job]
+                </button>
+            {% elif dash.severity == 2 %}
+                <button type="button" class="btn btn-warning fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor and continue working]
+                </button>
+            {% elif dash.severity == 1 %}
+                <button type="button" class="btn btn-secondary fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor]
+                </button>
+            {% else %}
+                <h1>----</h1>
+            {% endif %}
+
+            </td>
+            <!-- <td>{{ dash.downtime_readability }}</td> -->
+
+
+            <!-- <td>
+                
+                {% for employee_obj in dash.employee.all %}
+                    {{ forloop.counter }}
+                    {% if not forloop.first %}
+                        ,
+                    {% endif %}
+                    {{ employee_obj }}
+
+                {% endfor %}
+
+            </td> -->
+
+
+            <td>
+
+                <a class="btn btn-primary" href="{% url 'record_detail' dash.pk %}" role="button">DETAILS</a>
+
+            </td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
+            </td>
+            <!-- <td>
+                <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
+            </td> -->
+
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <div class="row">
+        <div class="col-12">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock content %}

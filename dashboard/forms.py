@@ -170,7 +170,7 @@ class RecordForm(ModelForm):
                     (2, "2  - MEDIUM"),
                     (3, "3  - HIGH"),
                     ],
-                attrs={'class':'form-select', 'placeholder':'Severity',}
+                attrs={'class':'form-select', 'placeholder':'Severity'}
                 ),
             "printed_by": forms.SelectMultiple(attrs={'class':'form-control'}),
 
@@ -186,10 +186,10 @@ class ImageForm(forms.ModelForm):
         labels = {"image" : "Image upload"}
 
         widgets = {
-            'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True})
+            'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True}),
         }
   
-    #image = CustomImageField(label="Image", widget=forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True, "none": True}),)
+    #image = CustomImageField(label="Image", widget=forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True}),)
 
 
         
