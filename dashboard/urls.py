@@ -18,6 +18,7 @@ from .views import (
     RecordDeletePage,
     IssueFormPage,
     FilterDashboardPage,
+    OperativeFilterDashboardPage,
     OperativeCreatePage,
 )
 
@@ -37,6 +38,7 @@ urlpatterns = [
     path('dashboard/', DashboardPage.as_view(),  name= 'dashboard'),
     
     path('dashboard_operative/', OperativeDashboardPage.as_view(),  name= 'dashboard_b'), #operative dashboard page
+    path('filter_dashboard/', OperativeFilterDashboardPage.as_view(),  name= 'filter_dashboard_b'), #operative filter
     path('filter_dashboard/', FilterDashboardPage.as_view(),  name= 'filter_dashboard'),
     
  

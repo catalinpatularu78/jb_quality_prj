@@ -135,7 +135,19 @@ class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListVie
     
 
 
-
+class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListView):
+    model = DashboardModel
+    form_class = RecordForm
+    template_name = 'dashboard/filter_dashboard_b.html'
+    fields = [
+        "issue_date", 
+        "ncr_number", 
+        "advice_number",
+        "location", 
+        "area",
+        "cost",
+        "issue_solved", 
+        ]
 
 #decorators = [csrf_exempt]
 
