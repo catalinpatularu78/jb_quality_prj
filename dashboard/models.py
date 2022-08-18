@@ -1,7 +1,6 @@
-from time import timezone
 from django.db import models
 from django.urls import reverse
-from datetime import *
+#from datetime import date, datetime
 from uuid import uuid4
 from django.conf import settings
 from django.core import validators
