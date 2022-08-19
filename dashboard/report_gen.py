@@ -447,20 +447,20 @@ class Report:
             framedImage = None
 
             if(images_uploaded == 1):
-                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
                 framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded == 2):     
-                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
-                var2 = os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
+                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')).replace('\\','/')
                 framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded >= 3):     
-                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
-                var2 = os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')
-                var3 = os.path.join(settings.BASE_DIR) + str(image_list[2]).replace('/','\\')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
+                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')).replace('\\','/')
+                var3 = str(os.path.join(settings.BASE_DIR) + str(image_list[2]).replace('/','\\')).replace('\\','/')
                 framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False)
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)           
