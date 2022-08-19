@@ -3,7 +3,7 @@ from django_filters import DateFilter, CharFilter
 
 from .models import *
 from django import forms
-from django.forms import widgets
+
 
 
 class DashboardFilter(django_filters.FilterSet):
@@ -18,14 +18,14 @@ class DashboardFilter(django_filters.FilterSet):
 
         fields = (
         "issue_date",  
-        "job_reference_number",
+        "advice_number",
         "ncr_number",
         "issue_solved", 
         )
 
         labels = {
         "issue_date" : "Issue Date",  
-        "job_reference_number" : "Job ref. number",
+        "advice_number" : "Advice no.",
         "ncr_number": "NCR Number",
         "issue_solved" : "Issue solved", 
         }
@@ -39,6 +39,6 @@ class DashboardFilter(django_filters.FilterSet):
                     'placeholder' : "Issue Date"
                     }), 
             "ncr_number" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'NCR Number'}),
-            "job_reference_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Job Reference Number'}),
+            "advice_number" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Advice Number'}),
             "issue_solved" :  forms.Select(attrs={'class':'form-select', 'placeholder':'Issue Resolved'}),
         }
