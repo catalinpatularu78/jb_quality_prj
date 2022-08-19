@@ -222,11 +222,8 @@ class PersonResponsible(models.Model):
         return self.title
 
 
-# added 10/08 might not be required - Conor to decide 
 class ClientModel(models.Model):
     name = models.CharField(max_length=200)
-    id = models.UUIDField(default=uuid4, unique=True,
-                        primary_key=True, editable=False)
 
     def __str__(self):
         return self.name
@@ -254,22 +251,22 @@ class Employee(models.Model):
 
 class Customer(models.Model):
 
-    company_name = models.CharField(max_length=255, default='')
+    company_name = models.ForeignKey(ClientModel, null=True, on_delete=models.PROTECT) 
     description = models.TextField(default='', blank=True)
     PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
-    def __str__(self):
-        return self.company_name
+    def __str__(self) -> str:
+        return str(self.company_name)
 
 
 class Supplier(models.Model):
 
-    company_name = models.CharField(max_length=255, default='')
+    company_name = models.ForeignKey(ClientModel, null=True, on_delete=models.PROTECT) 
     description = models.TextField(default='', blank=True)
     PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
-    def __str__(self):
-        return self.company_name
+    def __str__(self) -> str:
+        return str(self.company_name)
 
 
 class ProductionCompany(models.Model):
@@ -278,22 +275,22 @@ class ProductionCompany(models.Model):
         verbose_name_plural = 'Production Companies (Clients)'
 
 
-    company_name = models.CharField(max_length=255, default='')
+    company_name = models.ForeignKey(ClientModel, null=True, on_delete=models.PROTECT) 
     description = models.TextField(default='', blank=True)
     PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible")  
     
-    def __str__(self):
-        return self.company_name
+    def __str__(self) -> str:
+        return str(self.company_name)
 
 
 class DeliveryPartner(models.Model):
 
-    company_name = models.CharField(max_length=255, default='')
+    company_name = models.ForeignKey(ClientModel, null=True, on_delete=models.PROTECT) 
     description = models.TextField(default='', blank=True)
     PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible")  
     
-    def __str__(self):
-        return self.company_name
+    def __str__(self) -> str:
+        return str(self.company_name)
 
 
 class OtherCompany(models.Model):
@@ -301,19 +298,18 @@ class OtherCompany(models.Model):
     class Meta:
         verbose_name_plural = 'Other Companies (Clients)'
 
-    company_name = models.CharField(max_length=255, default='')
+    company_name = models.ForeignKey(ClientModel, null=True, on_delete=models.PROTECT) 
     description = models.TextField(default='', blank=True)
     PersonResponsible = models.ForeignKey(PersonResponsible, null=True, on_delete=models.PROTECT, verbose_name="Person/Company responsible") 
     
-    def __str__(self):
-        return self.company_name
+    def __str__(self) -> str:
+        return str(self.company_name)
 
 
 
 class Image(models.Model):
     project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images", validators=[validators.validate_image_file_extension], blank=True)
-    #image = models.ImageField(upload_to="images", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg'])])
 
-    def __str__(self):
-        return self.image.path
+    def __str__(self) -> str:
+        return self.image.url

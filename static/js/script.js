@@ -31,20 +31,20 @@ function add_number_comp_time() {
 
 
 
-function show_issue_affect_element() {
+// function show_issue_affect_element() {
 
-    const conditional_element_select = document.getElementById("id_issue_affect_other_areas").value;
-    const hidden_element  = document.getElementById("issue_affect_other_areas_card"); 
+//     const conditional_element_select = document.getElementById("id_issue_affect_other_areas").value;
+//     const hidden_element  = document.getElementById("issue_affect_other_areas_card"); 
     
-    if (conditional_element_select  === 'yes') {
-        hidden_element.classList.toggle('d-none');
-        }else {
-            hidden_element.classList.add('d-none');
-        }
+//     if (conditional_element_select  === 'Yes') {
+//         hidden_element.classList.toggle('d-none');
+//         }else {
+//             hidden_element.classList.add('d-none');
+//         }
     
     
 
-}
+// }
 
 
 

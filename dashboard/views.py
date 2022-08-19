@@ -1,5 +1,3 @@
-from urllib import request
-from django.shortcuts import get_object_or_404, render , redirect
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
@@ -35,11 +33,8 @@ from dashboard.models import (
 )
 
 from dashboard.forms import RecordForm, ImageForm
-
 from django.shortcuts import get_object_or_404
 
-
-# Create your views here.
 
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
@@ -54,9 +49,13 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy('main_page')
-    
+        if self.request.user.is_superuser:
+            return reverse_lazy('dashboard')
+        else:
+            return reverse_lazy('dashboard_b')
 
+
+    
 class HomePage(TemplateView):
     
     template_name = 'index.html'

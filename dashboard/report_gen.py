@@ -447,20 +447,20 @@ class Report:
             framedImage = None
 
             if(images_uploaded == 1):
-                var1 = str(image_list[0])
+                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
                 framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded == 2):     
-                var1 = str(image_list[0])
-                var2 = str(image_list[1])
+                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
+                var2 = os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')
                 framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded >= 3):     
-                var1 = str(image_list[0])
-                var2 = str(image_list[1])
-                var3 = str(image_list[2])
+                var1 = os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')
+                var2 = os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')
+                var3 = os.path.join(settings.BASE_DIR) + str(image_list[2]).replace('/','\\')
                 framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False)
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)           
