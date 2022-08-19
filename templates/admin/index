@@ -1,8 +1,0 @@
-{% extends "admin/index.html" %}
-
-{% block nav-sidebar %}
-    <div>
-        <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
-    </div>
-{% endblock %}
-
