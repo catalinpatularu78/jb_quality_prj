@@ -124,7 +124,6 @@ class OperativeDashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , Lis
             return response
     
 
-
 class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListView):
     model = DashboardModel
     form_class = RecordForm
