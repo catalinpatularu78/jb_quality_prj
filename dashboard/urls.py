@@ -8,7 +8,6 @@ from .report_gen import Report
 
 from .views import (
     HomePage,
-    OperativeHomePage,
     CustomLoginView,
     DashboardPage,
     OperativeDashboardPage,
@@ -29,8 +28,6 @@ urlpatterns = [
     
     path('', HomePage.as_view(),  name= 'main_page'),
 
-  
-    path('home/', OperativeHomePage.as_view(),  name= 'main_b'),   #operative main page
 
     path('login/', CustomLoginView.as_view(),  name= 'login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),

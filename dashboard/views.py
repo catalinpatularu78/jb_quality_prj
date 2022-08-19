@@ -63,12 +63,6 @@ class HomePage(TemplateView):
 
 
 
-class OperativeHomePage(TemplateView):
-    
-    template_name = 'index_b.html'
-
-
-
 class DashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , ListView):
     model = DashboardModel
     template_name = 'dashboard/dashboard.html'
@@ -119,6 +113,15 @@ class OperativeDashboardPage(StaffMemberRequiredMixin , LoginRequiredMixin , Lis
     paginate_by = 20
     
     context_object_name = 'dashboard'
+
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+
+        if request.user.is_superuser:
+            return HttpResponseRedirect('/dashboard/')        
+        else:
+            return response
     
 
 
