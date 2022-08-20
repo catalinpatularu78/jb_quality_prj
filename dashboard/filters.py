@@ -96,6 +96,7 @@ class DashboardFilter(django_filters.FilterSet):
             }),
         )
     
+    
     area = ModelMultipleChoiceFilter(
         queryset=AreaOfIssue.objects.all(),
         field_name='area',
@@ -104,6 +105,8 @@ class DashboardFilter(django_filters.FilterSet):
                 'class' : '',
             }),
         )
+    
+    
     
         
     severity_type = (
