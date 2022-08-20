@@ -9,7 +9,7 @@
         <h1>ADD RECORD</h1>
         <hr>
 
-                        <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
+                <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <!-- {% for hidden in form.hidden_fields %}
                                         {{ hidden }}
@@ -184,21 +184,7 @@
                                         </div>
 
 
-                                        <div class="col-md-4">
-                                                <div class="card" style=" height: 15rem;">
-                                                        <div class="card-header">
-                                                                {{ form.area.label }}
-                                                        </div>
-                                                        <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
-                                                                        {% for area_obj in form.area%}
-                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
-                                                                        {% endfor %}
-
-                                                                </ul>
-                                                        </div>
-                                                </div>
-                                        </div>
+                            
 
                                         
                                 </div>
@@ -464,8 +450,11 @@
 
                                         </div>
 
+                                 
+
                                 </div>
 
+                              
                                 
                                 <div class="row mt-3">
 
@@ -480,6 +469,27 @@
                                                 </div>
 
                                         </div>
+                        
+                                        <div class="col-md-6">
+                                                <div class="card" style=" height: 15rem;">
+                                                        <div class="card-header">
+                                                                {{ form.area.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
+
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+
                                         <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
@@ -492,9 +502,6 @@
 
                                         </div>
 
-                                </div>
-
-                                <div class="row mt-3">
 
                                         <div class="col-md-6">
                                                 <div class="card">
@@ -507,6 +514,10 @@
                                                 </div>
 
                                         </div>
+                                </div>
+
+                                <div class="row mt-3">
+                   
                                         <div class="col-md-6">
                                                 <div class="card d-none" id = "issue_affect_other_areas_card">
                                                         <div class="card-header">
@@ -518,15 +529,14 @@
                                                 </div>
 
                                         </div>
-
                                 </div>
 
-                                <div class="row mt-3">
-
+                                 <!-- image updating is unimplemented -->
+                                <!-- <div class="row mt-3">
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
-                                                                Image upload (select multiple)
+                                                                Image upload (select multiple) 
                                                         </div>
                                                         <div class="card-body">      
                                                                 {{ imageform.management_form }}
@@ -537,9 +547,7 @@
                                                 </div>
 
                                         </div>
-
-                                </div>
-
+                                </div> -->
 
                                 <div class="col-md-12 m-2 p-2 border border-dark rounded" style="background-color: gainsboro;">
 
@@ -556,5 +564,3 @@
 {% endblock content %}
 
 
-
-<!-- <a class="btn btn-secondary" href="{% url 'production_issue_update' %}" role="button" target="_blank" rel="noopener">Add issue</a> -->

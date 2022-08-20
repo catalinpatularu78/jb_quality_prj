@@ -1,23 +1,11 @@
-
-/* .card-header {
-    font-weight: bold;
-    color:  #e0ebeb !important;
-    background-color: #24527a !important;
-}
-
-.card-body {
-    background-color: #a7bcb9 !important;
-} */
-
-
 .card-header {
     font-weight: bold;
-    color:  #f0f0f0 !important;
-    background-color: #5c5c5c !important;
+    color:  #f5efef !important;
+    background-color: #292929 !important;
 }
 
 .card-body {
-    background-color: #666262 !important;
+    background-color: #dbdbdb !important;
 }
 
 

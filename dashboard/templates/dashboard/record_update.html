@@ -184,21 +184,7 @@
                                         </div>
 
 
-                                        <div class="col-md-4">
-                                                <div class="card" style=" height: 15rem;">
-                                                        <div class="card-header">
-                                                                {{ form.area.label }}
-                                                        </div>
-                                                        <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
-                                                                        {% for area_obj in form.area%}
-                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
-                                                                        {% endfor %}
-
-                                                                </ul>
-                                                        </div>
-                                                </div>
-                                        </div>
+                            
 
                                         
                                 </div>
@@ -464,8 +450,11 @@
 
                                         </div>
 
+                                 
+
                                 </div>
 
+                              
                                 
                                 <div class="row mt-3">
 
@@ -480,6 +469,27 @@
                                                 </div>
 
                                         </div>
+                        
+                                        <div class="col-md-6">
+                                                <div class="card" style=" height: 15rem;">
+                                                        <div class="card-header">
+                                                                {{ form.area.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
+
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                </div>
+
+                                <div class="row mt-3">
+
                                         <div class="col-md-6">
                                                 <div class="card">
                                                         <div class="card-header">
@@ -492,9 +502,6 @@
 
                                         </div>
 
-                                </div>
-
-                                <div class="row mt-3">
 
                                         <div class="col-md-6">
                                                 <div class="card">
@@ -507,6 +514,10 @@
                                                 </div>
 
                                         </div>
+                                </div>
+
+                                <div class="row mt-3">
+                   
                                         <div class="col-md-6">
                                                 <div class="card d-none" id = "issue_affect_other_areas_card">
                                                         <div class="card-header">
@@ -518,7 +529,6 @@
                                                 </div>
 
                                         </div>
-
                                 </div>
 
                                  <!-- image updating is unimplemented -->
