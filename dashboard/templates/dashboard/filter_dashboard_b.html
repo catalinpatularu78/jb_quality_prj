@@ -2,39 +2,152 @@
 
 {% block content %}
 
-{% load static %}
-
 
 <!-- Page content-->
-<div class="container">
+<!-- <div class="container">
     <div class="text-center mt-5">
         <h1>Dashboard</h1>
         <p class="lead">J & B Engineering</p>
-        <a class="btn btn-primary" href="{% url 'operative_create' %}" role="button">+ CREATE NEW RECORD</a>
+        <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
     </div>
 </div>
 
-<hr>
+<hr> -->
 
 
-<div class="row mt-3">
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
 
-                <form method="get">
-                    
-                        <div class="col-md-4 px-5" >
+			<form method="get">
+                <div class="row mt-1">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    Start Date : {{myFilter.form.start_date}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.start_date}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    End Date : {{myFilter.form.end_date}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.end_date}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    Advice No. : {{myFilter.form.advice_number}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.advice_number}}
+                            </div> -->
+                        </div>
+                    </div> 
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    NCR No. : {{myFilter.form.ncr_number}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.ncr_number}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    Issued Solved. :  {{myFilter.form.issue_solved}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.issue_solved}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
+                        <div class="card">
+                            <div class="card-header">
+                                    Severity. : {{myFilter.form.severity}}
+                            </div>
+                            <!-- <div class="card-body">
+                                {{myFilter.form.severity}}
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
 
+                    <div class="row mt-3">
+
+                        <div class="col-sm-6 col-md-6 col-lg-5 col-xl-5 mb-1">
                             <div class="card">
-                                        {{myFilter.form.as_p}}
+                                <div class="card-header">
+                                        Location :
+                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 6rem;" >
+                                            {% for location_obj in myFilter.form.location%}
+                                            <li class="full_width_li list-group-item" >{{location_obj  }}</li>
+                                            {% endfor %}
+                                        </ul> 
+                                </div>
+                                <!-- <div class="card-body"> -->
+
+
+                                    <!-- <div class="dropdown d-flex justify-content-center">
+                                        <button class="btn  btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown button
+                                        </button>
+                                        <ul class="dropdown-menu" id="employeeForm">
+                                        {% for location_obj in myFilter.form.location%}
+                                        <li class="full_width_li list-group-item dropdown-item" >{{location_obj  }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </div> -->
+                                <!-- </div> -->
                             </div>
                         </div>
+                        <div class="col-sm-6 col-md-6 col-lg-5 col-xl-5 mb-1">
+                            <div class="card">
+                                <div class="card-header">
+                                        Area :
+                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 6rem;" >
+                                            {% for area_obj in myFilter.form.area%}
+                                            <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-lg btn-primary mt-1 type="submit">SEARCH</button>
+                        <a class="btn btn-lg btn-light mt-1" href="{% url 'filter_dashboard_b' %}" role="button">CLEAR</a> 
+                        <!-- For operative filer_dasjboard change url to filter_dashboard_b   -->
+                    </div>
+
                     
-                <div class="col-md-4 mt-2 mx-5"> 
-                    <button class="btn btn-primary" type="submit">Search</button>
                     
+                    
+
                 </div>
-                </form>
+
+
+		        
+		    </form>
+
+
+
+		</div>
+	</div>
 	
 </div>
+<br>
 
 <br>
 
@@ -51,9 +164,10 @@
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
+            <th scope="col">Severity</th>
             <th scope="col">Details</th>
             <th scope="col">Update</th>
-            <!-- <th scope="col">Delete</th> -->
+            <th scope="col">Delete</th>
         </tr>
 
         {% for dash in myFilter.qs %}
@@ -97,6 +211,24 @@
             <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
+            <td>
+            {% if dash.severity == 3  %}
+                <button type="button" class="btn btn-danger fw-bolder disabled">
+                    {{dash.severity}} - [Stop the job]
+                </button>
+            {% elif dash.severity == 2 %}
+                <button type="button" class="btn btn-warning fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor and continue working]
+                </button>
+            {% elif dash.severity == 1 %}
+                <button type="button" class="btn btn-secondary fw-bolder  disabled" >
+                    {{dash.severity}} - [inform the supervisor]
+                </button>
+            {% else %}
+                <h1>----</h1>
+            {% endif %}
+
+            </td>
             <!-- <td>{{ dash.downtime_readability }}</td> -->
 
 
@@ -122,9 +254,9 @@
             <td>
                 <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
             </td>
-            <!-- <td>
+            <td>
                 <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
-            </td> -->
+            </td>
 
 
         </tr>
@@ -155,6 +287,5 @@
 
 
 </div>
-
 
 {% endblock content %}

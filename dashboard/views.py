@@ -126,12 +126,13 @@ class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListVie
     template_name = 'dashboard/filter_dashboard.html'
     fields = [
         "issue_date", 
-        "ncr_number", 
         "advice_number",
+        "ncr_number",
+        "issue_solved", 
         "location", 
         "area",
-        "cost",
-        "issue_solved", 
+        "severity",
+        
         ]
     
     

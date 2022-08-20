@@ -1,8 +1,26 @@
 {% extends 'main.html' %}
 
+{% load static %}
+
+{% block additional_styles %}
+<style>
+
+body {
+    background-image:  url("{% static 'img/truck.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    position: relative;}
+</style>
+{% endblock %}
+
 {% block content %}
 
+
+
 <!-- Page content-->
+
 <div class="container">
     <div class="text-center mt-5">
 
@@ -30,6 +48,32 @@
         {% endif %}
         
     </div>
+
+
+<div class="d-flex justify-content-center align-middle mt-5">
+                                        
+    <div class="  col-md-5 col-lg-6 mt-5" >
+        <div class="card">
+            <div class="text-center my-5">
+                <h1>Home page</h1>
+                <p class="lead">J and B Engineering</p>
+
+                    <div class="m-3">
+                        <a class=" font-weight-bold btn btn-primary lg  mt-2 border border-5 border-dark p-5 fs-3" href="{% url 'operative_create' %}" 
+                        role="button">Operative Input : CREATE RECORD</a>
+                    </div>
+
+
+
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a> {% else %}
+                <a href="{% url 'login' %}">Login</a> {% endif %}
+                
+            </div>
+        </div>
+    </div>    
+
+
 </div>
 
 {% endblock content %}

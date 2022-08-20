@@ -1,12 +1,19 @@
 
-.card-header {
+/* .card-header {
     font-weight: bold;
     color:  #e0ebeb !important;
     background-color: #24527a !important;
+} */
+
+
+.card-header {
+    font-weight: bold;
+    color:  #e0ebeb !important;
+    background-color: #25323d !important;
 }
 
 .card-body {
-    background-color: #a7bcb9 !important;
+    background-color: #eafdfa !important;
 }
 
 
