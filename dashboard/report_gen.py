@@ -86,12 +86,14 @@ class Report:
         UTC_time_format = "%Y-%m-%d %H:%M:%S"
         custom_time_format = "%d/%m/%Y %H:%M"
 
-        timestring = datetime.strptime(str(self.record.issue_date + timedelta(hours=1))[:19], UTC_time_format)
+        the_issue_datetime = ""
 
-        #the_issue_datetime = timestring.astimezone(ZoneInfo("Europe/Belfast")).__format__(custom_time_format)
-
-        the_issue_datetime = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_time_format)
-        the_issue_datetime = str(the_issue_datetime)
+        if(self.record.issue_date):
+            timestring = datetime.strptime(str(self.record.issue_date + timedelta(hours=1))[:19], UTC_time_format)
+            the_issue_datetime = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_time_format)
+            the_issue_datetime = str(the_issue_datetime)
+        else:
+            the_issue_datetime = "Please update the record with the time and date of the issue"
 
         if(self.record.closure_date):
             the_closure_date = str(self.record.closure_date)[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
