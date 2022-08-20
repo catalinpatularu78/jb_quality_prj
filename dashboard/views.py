@@ -327,38 +327,38 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['imageform'] = ImageForm
+            context['imageform'] = ImageForm()
              
             return context
     
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+    # def post(self, request, *args, **kwargs):
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
 
-        pk = self.get_object().id
-        d = DashboardModel.objects.get(id=pk)
+    #     pk = self.get_object().id
+    #     d = DashboardModel.objects.get(id=pk)
 
-        files = request.FILES.getlist('image')
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.user = request.user
-            f.save()        
+    #     files = request.FILES.getlist('image')
+    #     if form.is_valid():
+    #         f = form.save(commit=False)
+    #         f.user = request.user
+    #         f.save()        
 
-            if(d.image_set.first()): #if images are present in the set
-                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
-                for i in files:
-                    Image.objects.create(project=f, image=i)    
-            else:
-                for i in files:
-                    Image.objects.create(project=f, image=i)   
-                DashboardModel.objects.first().delete()   
+    #         if(d.image_set.first()): #if images are present in the set
+    #             DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
+    #             for i in files:
+    #                 Image.objects.create(project=f, image=i)    
+    #         else:
+    #             for i in files:
+    #                 Image.objects.create(project=f, image=i)   
+    #             DashboardModel.objects.first().delete()   
     
-            messages.success(request, "New images updated")
+    #         messages.success(request, "New images updated")
 
-            return self.form_valid(form)
-        else:
-            print(form.errors)
+    #         return self.form_valid(form)
+    #     else:
+    #         print(form.errors)
 
 
     def get_success_url(self):
@@ -446,39 +446,39 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
 
     def get_context_data(self, **kwargs):
             context = super().get_context_data(**kwargs)
-            context['imageform'] = ImageForm
+            context['imageform'] = ImageForm()
              
             return context
     
 
-    def post(self, request, *args, **kwargs):
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+    # def post(self, request, *args, **kwargs):
+    #     form_class = self.get_form_class()
+    #     form = self.get_form(form_class)
 
-        pk = self.get_object().id
-        d = DashboardModel.objects.get(id=pk)
+    #     pk = self.get_object().id
+    #     d = DashboardModel.objects.get(id=pk)
 
-        files = request.FILES.getlist('image')
-        if form.is_valid():
-            f = form.save(commit=False)
-            f.user = request.user
-            f.save()        
+    #     files = request.FILES.getlist('image')
+    #     if form.is_valid():
+    #         f = form.save(commit=False)
+    #         f.user = request.user
+    #         f.save()        
 
-            if(d.image_set.first()): #if images are present in the set
-                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
-                #d.image_set.delete()
-                for i in files:
-                    Image.objects.create(project=f, image=i)    
-            else:
-                for i in files:
-                    Image.objects.create(project=f, image=i)   
-                DashboardModel.objects.first().delete()   
+    #         if(d.image_set.first()): #if images are present in the set
+    #             DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
+    #             #d.image_set.delete()
+    #             for i in files:
+    #                 Image.objects.create(project=f, image=i)    
+    #         else:
+    #             for i in files:
+    #                 Image.objects.create(project=f, image=i)   
+    #             DashboardModel.objects.first().delete()   
     
-            messages.success(request, "New images updated")
+    #         messages.success(request, "New images updated")
 
-            return self.form_valid(form)
-        else:
-            print(form.errors)
+    #         return self.form_valid(form)
+    #     else:
+    #         print(form.errors)
 
 
     def get_success_url(self):

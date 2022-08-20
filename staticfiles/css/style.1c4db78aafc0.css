@@ -1,0 +1,17 @@
+
+
+.card-header {
+    font-weight: bold;
+    color:  #e0ebeb !important;
+    background-color: #2ca51d !important;
+}
+
+.card-body {
+    background-color: #860707 !important;
+}
+
+
+.full_width_li label {
+    width:100%  !important;
+    
+}
