@@ -25,7 +25,6 @@ from dashboard.models import (
 
 class RecordForm(ModelForm):
 
-    
     class Meta:
         model = DashboardModel
         

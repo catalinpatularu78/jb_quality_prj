@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.db import connection
 from django.contrib import messages
-#from django.contrib.auth.models import User
 
 # For sending emails
 from django.conf import settings
@@ -33,8 +32,6 @@ from dashboard.models import (
 )
 
 from dashboard.forms import RecordForm, ImageForm
-from django.shortcuts import get_object_or_404
-
 
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
@@ -296,9 +293,10 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
 
+        record_form = form.save(commit=False) # cancel commit to DB
+
         #auto increment NCR number
         number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
-        record_form = form.save(commit=False) # cancel commit to DB
         record_form.ncr_number = int(number) + 1 if number else 1 # increments max by 1 and max starts at 1
         record_form.save() # saves form
 
@@ -314,6 +312,57 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
                 pass
         
         return response 
+
+
+
+class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView):
+    
+    model = DashboardModel
+    template_name = "dashboard/record_update.html"
+    form_class = RecordForm
+    success_url = reverse_lazy("dashboard")
+    context_object_name = 'record'
+
+
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['imageform'] = ImageForm
+             
+            return context
+    
+
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+
+        pk = self.get_object().id
+        d = DashboardModel.objects.get(id=pk)
+
+        files = request.FILES.getlist('image')
+        if form.is_valid():
+            f = form.save(commit=False)
+            f.user = request.user
+            f.save()        
+
+            if(d.image_set.first()): #if images are present in the set
+                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
+                for i in files:
+                    Image.objects.create(project=f, image=i)    
+            else:
+                for i in files:
+                    Image.objects.create(project=f, image=i)   
+                DashboardModel.objects.first().delete()   
+    
+            messages.success(request, "New images updated")
+
+            return self.form_valid(form)
+        else:
+            print(form.errors)
+
+
+    def get_success_url(self):
+        return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
+    
 
 
 class OperativeCreatePage(LoginRequiredMixin , CreateView):
@@ -385,12 +434,12 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
 
 
-class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView):
+class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView):
     
     model = DashboardModel
-    template_name = "dashboard/record_update.html"
+    template_name = "dashboard/operative_update.html"
     form_class = RecordForm
-    success_url = reverse_lazy("dashboard")
+    success_url = reverse_lazy("dashboard_b")
     context_object_name = 'record'
 
 
@@ -432,8 +481,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
     def get_success_url(self):
         return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
-    
-
 
 
 
