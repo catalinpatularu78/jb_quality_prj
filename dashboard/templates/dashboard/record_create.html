@@ -133,14 +133,14 @@
                                         <div class="col-md-4">
                                                 <div class="card" style=" height: 15rem;">
                                                         <div class="card-header">
-                                                                {{ form.client.label }} :
+                                                                {{ form.jb_client.label }} :
                                                         </div>
                                                         <div class="card-body " >
                                                                 <div class="container">
                                                                         <input type="text" class = "form-control mb-2" placeholder=" Search Client..." id="client-search">
                                                                         <!-- overflow-y: scroll; or overflow-scroll -->
                                                                         <ul id="employeeForm" class="list-group overflow-auto" style=" height: 7.5rem; " >
-                                                                                {% for item in form.client %}
+                                                                                {% for item in form.jb_client %}
                                                                                 <li class=" full_width_li list-group-item" id="client_list">{{item}}</li>
                                                                                 {% endfor %}
                                                                         </ul>

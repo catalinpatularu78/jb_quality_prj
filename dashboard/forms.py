@@ -45,6 +45,7 @@ class RecordForm(ModelForm):
             "advice_number",
             "downtime_time",
             "the_subject_responsible", 
+            "jb_client",
             "supervisor",
             "description", 
             "comments", 
@@ -98,9 +99,11 @@ class RecordForm(ModelForm):
             "area_in_specific" : "Specific area of issue",
             "client" : "Client" ,
             "ncr_creator" : "NCR Creator" ,
+            "jb_client" : "J&B Clients",
             "comments" : "Comments" ,
             "severity" : "Severity" ,
             "printed_by" : "Quality Engineering Team"
+
 
             }
         
@@ -134,6 +137,7 @@ class RecordForm(ModelForm):
             "estimated_completion_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Completion time'}),
             "downtime_time" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Total Downtime'}),
             'the_subject_responsible': forms.CheckboxSelectMultiple(attrs={}),
+            'jb_client': forms.CheckboxSelectMultiple(attrs={}),
             'supervisor': forms.CheckboxSelectMultiple(attrs={}),
             "description" :  forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description'}), 
             "root_cause" : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Root Cause'}),

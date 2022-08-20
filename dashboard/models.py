@@ -30,6 +30,7 @@ class DashboardModel(models.Model):
 
     area = models.ManyToManyField('AreaOfIssue',blank=True)
     client = models.ManyToManyField('ClientModel' ,blank=True)
+    jb_client = models.ManyToManyField('JBClient' ,blank=True)
     closure_date = models.DateTimeField(null=True, blank = True)
     target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
@@ -216,8 +217,7 @@ class PersonResponsible(models.Model):
   
   
     title = models.CharField(max_length=255, default='')
-    id = models.UUIDField(default=uuid4, unique=True,
-                        primary_key=True, editable=False)
+    id = models.UUIDField(default=uuid4, unique=True, primary_key=True, editable=False)
 
     def __str__(self):
         return self.title
@@ -232,6 +232,18 @@ class ClientModel(models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Clients'
+
+
+class JBClient(models.Model):
+    name = models.CharField(max_length=200)
+    id = models.UUIDField(default=uuid4, unique=True, primary_key=True, editable=False)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'J&B Clients'
 
 ''' 
 ManyToOne Relationships 
