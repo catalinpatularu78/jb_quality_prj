@@ -12,12 +12,12 @@
 
 .card-header {
     font-weight: bold;
-    color:  #e0ebeb !important;
-    background-color: #080808 !important;
+    color:  #e9ecef !important;
+    background-color: #212529 !important;
 }
 
 .card-body {
-    background-color: #f5f5ff !important;
+    background-color: #f8f9fa !important;
 }
 
 
