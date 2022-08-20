@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load static %}
+
 
 <!-- Page content-->
 <!-- <div class="container">
@@ -24,7 +26,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    Start Date : {{myFilter.form.start_date}}
+                                    Start Date {{myFilter.form.start_date}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.start_date}}
@@ -34,7 +36,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    End Date : {{myFilter.form.end_date}}
+                                    End Date {{myFilter.form.end_date}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.end_date}}
@@ -44,7 +46,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    Advice No. : {{myFilter.form.advice_number}}
+                                    Advice No. {{myFilter.form.advice_number}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.advice_number}}
@@ -54,7 +56,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    NCR No. : {{myFilter.form.ncr_number}}
+                                    NCR No. {{myFilter.form.ncr_number}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.ncr_number}}
@@ -64,7 +66,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    Issued Solved. :  {{myFilter.form.issue_solved}}
+                                    Issued Solved. {{myFilter.form.issue_solved}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.issue_solved}}
@@ -74,7 +76,7 @@
                     <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-1">
                         <div class="card">
                             <div class="card-header">
-                                    Severity. : {{myFilter.form.severity}}
+                                    Severity. {{myFilter.form.severity}}
                             </div>
                             <!-- <div class="card-body">
                                 {{myFilter.form.severity}}
@@ -88,7 +90,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-5 col-xl-5 mb-1">
                             <div class="card">
                                 <div class="card-header">
-                                        Location :
+                                        Location
                                         <ul id="employeeForm" class="list-group overflow-auto" style=" height: 6rem;" >
                                             {% for location_obj in myFilter.form.location%}
                                             <li class="full_width_li list-group-item" >{{location_obj  }}</li>
@@ -114,7 +116,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-5 col-xl-5 mb-1">
                             <div class="card">
                                 <div class="card-header">
-                                        Area :
+                                        Area
                                         <ul id="employeeForm" class="list-group overflow-auto" style=" height: 6rem;" >
                                             {% for area_obj in myFilter.form.area%}
                                             <li class="full_width_li list-group-item" >{{area_obj  }}</li>
@@ -128,17 +130,8 @@
                     <div class="col-sm-6 col-md-6 col-lg-2 col-xl-2 mb-1">
                         <button class="btn btn-lg btn-primary mt-1 type="submit">SEARCH</button>
                         <a class="btn btn-lg btn-light mt-1" href="{% url 'filter_dashboard_b' %}" role="button">CLEAR</a> 
-                        <!-- For operative filer_dasjboard change url to filter_dashboard_b   -->
                     </div>
-
-                    
-                    
-                    
-
-                </div>
-
-
-		        
+                </div> 
 		    </form>
 
 
@@ -167,7 +160,7 @@
             <th scope="col">Severity</th>
             <th scope="col">Details</th>
             <th scope="col">Update</th>
-            <th scope="col">Delete</th>
+            <!-- <th scope="col">Delete</th> -->
         </tr>
 
         {% for dash in myFilter.qs %}
@@ -254,9 +247,9 @@
             <td>
                 <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
             </td>
-            <td>
+            <!-- <td>
                 <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
-            </td>
+            </td> -->
 
 
         </tr>
