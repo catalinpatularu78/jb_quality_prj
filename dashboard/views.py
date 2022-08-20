@@ -465,8 +465,8 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             f.save()        
 
             if(d.image_set.first()): #if images are present in the set
-                #DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
-                d.image_set.delete()
+                DashboardModel.objects.get(image=d.image_set.first()).delete() # delete the previous images before updating     
+                #d.image_set.delete()
                 for i in files:
                     Image.objects.create(project=f, image=i)    
             else:
