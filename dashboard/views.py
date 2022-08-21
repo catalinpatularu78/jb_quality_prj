@@ -291,7 +291,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
         else:
             print(form.errors)
 
-        response
+        return response
 
 
     def form_valid(self,form):
@@ -334,10 +334,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         context['imageform'] = ImageForm
             
         return context
-
-
-    def form_valid(self, form):
-        return super().form_valid(form)
 
 
     def post(self, request, *args, **kwargs):        
@@ -490,12 +486,11 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
                 for i in files:
                     Image.objects.create(project=f, image=i)   
                 DashboardModel.objects.first().delete() #delete duplicated record  
-            messages.success(request, "New images updated")
-
-            #return self.form_valid(form)
-            return response
+            messages.success(request, "New images updated")         
         else:
             print(form.errors)
+
+        return response
         
 
 
