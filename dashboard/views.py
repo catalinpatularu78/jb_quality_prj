@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.db import connection
 from django.contrib import messages
+#from django.core.exceptions import ValidationError, FieldError
+from django.forms import ValidationError
 
 # For sending emails
 from django.conf import settings
@@ -272,6 +274,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
 
 
     def post(self, request, *args, **kwargs):
+        response = super().post(self, request, *args, **kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -287,6 +290,8 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
             return self.form_valid(form)
         else:
             print(form.errors)
+
+        response
 
 
     def form_valid(self,form):
@@ -325,24 +330,31 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
 
     def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['imageform'] = ImageForm
-             
-            return context
-    
+        context = super().get_context_data(**kwargs)
+        context['imageform'] = ImageForm
+            
+        return context
 
-    def post(self, request, *args, **kwargs):
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+    def post(self, request, *args, **kwargs):        
+        response = super().post(self, request, *args, **kwargs)
+
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-
+ 
         pk = self.get_object().id
         d = DashboardModel.objects.get(id=pk)
 
         files = request.FILES.getlist('image')
-        if form.is_valid():
+        
+        if form.is_valid():       
             f = form.save(commit=False)
             f.user = request.user
-            f.save()    
+            f.save()
 
             if(d.image_set.all()): #if images are present in the record  
                 for i in files:
@@ -352,13 +364,15 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             else:
                 for i in files:
                     Image.objects.create(project=f, image=i)   
-                DashboardModel.objects.first().delete() #delete duplicated record  
+                DashboardModel.objects.first().delete() #delete duplicated record 
             messages.success(request, "New images updated")
 
-            return self.form_valid(form)
+            return self.form_valid(form) 
         else:
             print(form.errors)
-
+      
+        return response
+  
 
     def get_success_url(self):
         return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
@@ -391,6 +405,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
 
     def post(self, request, *args, **kwargs):
+        response = super().post(self, request, *args, **kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -406,6 +421,8 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
             return self.form_valid(form)
         else:
             print(form.errors)
+
+        return response
     
     
     def form_valid(self,form):
@@ -451,6 +468,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
     
 
     def post(self, request, *args, **kwargs):
+        response = super().post(self, request, *args, **kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class)
 
@@ -474,9 +492,11 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
                 DashboardModel.objects.first().delete() #delete duplicated record  
             messages.success(request, "New images updated")
 
-            return self.form_valid(form)
+            #return self.form_valid(form)
+            return response
         else:
             print(form.errors)
+        
 
 
     def get_success_url(self):

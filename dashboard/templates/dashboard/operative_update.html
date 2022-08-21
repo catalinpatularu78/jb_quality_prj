@@ -1,9 +1,6 @@
 {% extends 'main.html' %}
-
 {% block content %}
-
 {% load static %}
-
 
 <div class="container mt-5">
         <h1>ADD RECORD</h1>
@@ -15,7 +12,7 @@
 
                                         <input class="btn btn-primary btn-lg px-3" type="submit" value="SUBMIT">
         
-                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard_b' %}" role="button">CANCEL</a>
         
                                 </div>
                                 <div class="row mt-3">
@@ -26,7 +23,7 @@
                                                                 {{ form.ncr_number.label}}
                                                         </div>
                                                         <div class="card-body">
-                                                               <p>NCR Number: {{ context_number }}</p>
+                                                                {{ form.ncr_number }}
                                                                <!-- {{ reset_number }}
                                                                {{ hardcode_ncr_number }} -->
                                                         </div>

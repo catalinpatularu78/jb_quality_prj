@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, HTML, Submit
 from django.core import validators
+from django.forms import ValidationError
 
 from dashboard.models import (
     DashboardModel,
@@ -24,6 +25,20 @@ from dashboard.models import (
 
 
 class RecordForm(ModelForm):
+
+    def clean(self):
+        cleaned_data = super(RecordForm, self).clean()
+   
+        db_first_record = DashboardModel.objects.first()
+        form_NCR_number = self.cleaned_data.get('ncr_number')  
+
+        if(db_first_record.ncr_number <= form_NCR_number):
+            pass
+        else:
+            raise forms.ValidationError('Invalid value.')
+
+        return cleaned_data
+
 
     class Meta:
         model = DashboardModel
@@ -178,6 +193,16 @@ class RecordForm(ModelForm):
             "printed_by": forms.SelectMultiple(attrs={'class':'form-control'}),
 
             }
+
+
+
+
+        # if(form_NCR_number >= db_first_record.ncr_number): #the updated ncr number shouldn't be less than what's on the record
+        #     raise forms.ValidationError("The number should be higher.")
+        # else:
+        #     pass
+
+
 
             
 class ImageForm(forms.ModelForm):
