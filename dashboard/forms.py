@@ -30,12 +30,13 @@ class RecordForm(ModelForm):
         cleaned_data = super(RecordForm, self).clean()
    
         db_first_record = DashboardModel.objects.first()
-        form_NCR_number = self.cleaned_data.get('ncr_number')  
+        form_ncr_num = self.cleaned_data.get('ncr_number')  
 
-        if(db_first_record.ncr_number <= form_NCR_number):
-            pass
-        else:
-            raise forms.ValidationError('Invalid value.')
+        if(form_ncr_num != None):
+            if(db_first_record.ncr_number <= form_ncr_num):
+                pass
+            else:
+                raise forms.ValidationError('Invalid value.')
 
         return cleaned_data
 
