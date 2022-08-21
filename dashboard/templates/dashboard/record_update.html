@@ -6,7 +6,7 @@
 
 
 <div class="container mt-5">
-        <h1>ADD RECORD</h1>
+        <h1>UPDATE RECORD</h1>
         <hr>
 
                 <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
@@ -35,9 +35,7 @@
                                                                 {{ form.ncr_number.label}}
                                                         </div>
                                                         <div class="card-body">
-                                                                <p>NCR Number: {{ context_number }}</p>
-                                                                <!-- {{ reset_number }}
-                                                                {{ hardcode_ncr_number }} -->
+                                                                {{ form.ncr_number}}
                                                         </div>
                                                 </div>
                                         </div>
