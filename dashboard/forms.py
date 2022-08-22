@@ -26,17 +26,23 @@ from dashboard.models import (
 
 class RecordForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        ncr_value = self.fields['ncr_number']
+        ncr_value.disabled = True
+
     def clean(self):
         cleaned_data = super(RecordForm, self).clean()
    
-        db_first_record = DashboardModel.objects.first()
-        form_ncr_num = self.cleaned_data.get('ncr_number')  
+        # removing this implementation
+        # db_first_record = DashboardModel.objects.first()
+        # form_ncr_num = self.cleaned_data.get('ncr_number')  
 
-        if(form_ncr_num != None):
-            if(db_first_record.ncr_number <= form_ncr_num):
-                pass
-            else:
-                raise forms.ValidationError('Invalid value. The number should be left alone or set higher.')
+        # if(form_ncr_num != None):
+        #     if(db_first_record.ncr_number <= form_ncr_num):
+        #         pass
+        #     else:
+        #         raise forms.ValidationError('Invalid value. The number should be left alone or set higher.')
 
         return cleaned_data
 
