@@ -537,10 +537,10 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
                 if(files): #if new files are loaded
                     d.image_set.all().delete() #delete the previous images
                     for i in files:
-                        Image.objects.update_or_create(project=f, image=i)   
+                        Image.objects.update_or_create(project=f, image=i) #create the new images
                 else:
                     pass               
-            else:
+            else: #no images present in the record
                 for i in files:
                     Image.objects.create(project=f, image=i)   
 
