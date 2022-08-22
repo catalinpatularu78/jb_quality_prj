@@ -194,6 +194,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         the_target_completion_date = "None"
         the_closure_date = "None"
 
+
         if(record.target_completion_date!=None):
             timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
             the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
@@ -205,7 +206,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
             the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
         else:
             pass
-        
+
         context['the_target_completion_date'] = the_target_completion_date
         context['the_closure_date'] = the_closure_date
 
@@ -360,30 +361,33 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         context = super().get_context_data(**kwargs)
         context['imageform'] = ImageForm
 
-        utc_date_format = "%Y-%m-%d"
-        custom_date_format = "%d/%m/%Y"
+        # utc_date_format = "%Y-%m-%d"
+        # custom_date_format = "%d/%m/%Y"
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        tgd = form['target_completion_date']
+        tcd = form['target_completion_date']
         cd = form['closure_date']
 
-        the_target_completion_date =""
-        the_closure_date = ""
-        if(tgd.value()!=None):
-            timestring = datetime.strptime(str(tgd.value())[:10], utc_date_format) 
-            the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
-        else:
-            pass
+        # the_target_completion_date =""
+        # the_closure_date = ""
+        # if(str(tgd.value())!="None"):
+        #     timestring = datetime.strptime(str(tgd.value())[:10], utc_date_format) 
+        #     the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+        # else:
+        #     pass
         
-        if(cd.value()!=None):
-            timestring_2 = datetime.strptime(str(cd.value())[:10], utc_date_format) 
-            the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
-        else:
-            pass
+        # if(str(cd.value())!="None"):
+        #     timestring_2 = datetime.strptime(str(cd.value())[:10], utc_date_format) 
+        #     the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+        # else:
+        #     pass
 
-        context['the_target_completion_date'] = the_target_completion_date
-        context['the_closure_date'] = the_closure_date
+        # context['the_target_completion_date'] = the_target_completion_date
+        # context['the_closure_date'] = the_closure_date
+        
+        context['the_target_completion_date'] = str(str(tcd.value())[:10])
+        context['the_closure_date'] = str(cd.value())[:10]
             
         return context
 
