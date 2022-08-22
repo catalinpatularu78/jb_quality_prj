@@ -101,7 +101,8 @@ if (document.querySelector('#the_subject_responsible-search') !== null) {
 $( document ).ready(function ()
 {
     //Render Interactive CSS:
-    var Link = document.createElement('link'); Link.rel = 'stylesheet';
+    var Link = document.createElement('link'); 
+    Link.rel = 'stylesheet';
     Link.href = '/app/jb_quality_prj/static/css/style.css';
     var Head = document.getElementsByTagName('head')[0];
     Head.parentNode.insertBefore(Link, Head);

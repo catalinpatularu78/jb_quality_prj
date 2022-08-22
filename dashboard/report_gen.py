@@ -84,7 +84,9 @@ class Report:
         # https://docs.python.org/3/library/zoneinfo.html#module-zoneinfo
 
         UTC_time_format = "%Y-%m-%d %H:%M:%S"
+        UTC_date_format = "%Y-%m-%d"
         custom_time_format = "%d/%m/%Y %H:%M"
+        custom_date_format = "%d/%m/%Y"
 
         the_issue_datetime = ""
 
@@ -96,14 +98,16 @@ class Report:
             the_issue_datetime = "Please update the record with the time and date of the issue"
 
         if(self.record.closure_date):
-            the_closure_date = str(self.record.closure_date + timedelta(days=1))[8:10] +'/'+str(self.record.closure_date)[5:7] +'/'+str(self.record.closure_date)[0:4]  
-         #   the_closure_time = str(self.record.closure_date)[10:16]
+            timestring = datetime.strptime(str(self.record.closure_date + timedelta(days=1))[:10], UTC_date_format)
+            the_closure_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_closure_date = str(the_closure_date)
         else:
             the_closure_date = ""
 
         if(self.record.target_completion_date):
-            the_target_completion_date = str(self.record.target_completion_date + timedelta(days=1))[8:10] +'/'+str(self.record.target_completion_date)[5:7] +'/'+str(self.record.target_completion_date)[0:4]  
-          #  the_target_completion_time = str(self.record.target_completion_date)[10:16]
+            timestring = datetime.strptime(str(self.record.target_completion_date + timedelta(days=1))[:10], UTC_date_format)
+            the_target_completion_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_target_completion_date = str(the_target_completion_date)
         else:
             the_target_completion_date = ""
 

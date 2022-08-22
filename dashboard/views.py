@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
@@ -10,9 +10,7 @@ from dashboard.filters import DashboardFilter
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
-from django.db import connection
 from django.contrib import messages
-#from django.core.exceptions import ValidationError, FieldError
 from django.forms import ValidationError
 
 # For sending emails
@@ -178,40 +176,33 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
     def form_valid(self,form):         
         response = super().form_valid(form)
-
         return response
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.get_object().id
-
         record = DashboardModel.objects.get(id=pk)
-
-        # utc_date_format = "%Y-%m-%d"
-        # custom_date_format = "%d/%m/%Y"
-        # the_target_completion_date = "None"
-        # the_closure_date = "None"
-        # if(record.target_completion_date!=None):
-        #     timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
-        #     the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
-        # else:
-        #     pass
-        
-        # if(record.closure_date!=None):
-        #     timestring_2 = datetime.strptime(str(record.closure_date)[:10], utc_date_format) 
-        #     the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
-        # else:
-        #     pass
 
         the_target_completion_date=""
         the_closure_date=""
 
-        if(record.target_completion_date):
-            the_target_completion_date = '{:02d}'.format( int(str(record.target_completion_date)[8:10])+1 ) +'/'+str(record.target_completion_date)[5:7]+'/'+str(record.target_completion_date)[:4]
-       
+        UTC_date_format = "%Y-%m-%d"
+        custom_date_format = "%d/%m/%Y"
+ 
         if(record.closure_date):
-            the_closure_date = '{:02d}'.format( int(str(record.closure_date)[8:10])+1 ) +'/'+str(record.closure_date)[5:7]+'/'+str(record.closure_date)[:4]
+            timestring = datetime.strptime(str(record.closure_date + timedelta(days=1))[:10], UTC_date_format)
+            the_closure_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_closure_date = str(the_closure_date)
+        else:
+            the_closure_date = ""
+
+        if(record.target_completion_date):
+            timestring = datetime.strptime(str(record.target_completion_date + timedelta(days=1))[:10], UTC_date_format)
+            the_target_completion_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_target_completion_date = str(the_target_completion_date)
+        else:
+            the_target_completion_date = ""
 
         context['the_target_completion_date'] = the_target_completion_date
         context['the_closure_date'] = the_closure_date
@@ -224,7 +215,6 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
         if("," in person_responsible): #more than one names for the same company type
             person_responsible = person_responsible.split(',')[0]
-
 
         if(person_responsible != ""):         
             p = PersonResponsible.objects.get(title=person_responsible) 
@@ -375,11 +365,15 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         the_closure_date = str(cd.value())[8:10]+'/'+str(cd.value())[5:7]+'/'+str(cd.value())[:4]
         
         if(the_target_completion_date!="//None"):
-            context['the_target_completion_date2'] = the_target_completion_date
+            context['the_target_completion_date2'] = "Current: " + the_target_completion_date
+        else:
+            pass
 
         if(the_closure_date!="//None"):
-            context['the_closure_date2'] = the_closure_date
-  
+            context['the_closure_date2'] = "Current: " + the_closure_date
+        else:
+            pass
+
         return context
 
 
@@ -393,13 +387,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         d = DashboardModel.objects.get(id=pk)
 
         files = request.FILES.getlist('image')
-
-        print("test...", files)
-
-        if not files:
-            print("there are files")
-        else:
-            print("there are no files")
         
         if form.is_valid():           
             f = form.save(commit=False)
@@ -416,8 +403,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             else:
                 for i in files:
                     Image.objects.create(project=f, image=i)   
-
-           # messages.success(request, "New images updated")
 
             return self.form_valid(form) 
         else:
