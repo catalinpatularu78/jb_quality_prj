@@ -36,7 +36,7 @@ class RecordForm(ModelForm):
             if(db_first_record.ncr_number <= form_ncr_num):
                 pass
             else:
-                raise forms.ValidationError('Invalid value.')
+                raise forms.ValidationError('Invalid value. The number should be left alone or set higher.')
 
         return cleaned_data
 
@@ -195,18 +195,14 @@ class RecordForm(ModelForm):
 
             }
 
-
-
-
-        # if(form_NCR_number >= db_first_record.ncr_number): #the updated ncr number shouldn't be less than what's on the record
-        #     raise forms.ValidationError("The number should be higher.")
-        # else:
-        #     pass
-
-
+            
 
             
 class ImageForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super(ImageForm, self).clean()
+        return cleaned_data
 
     class Meta:
         model = Image
@@ -218,8 +214,3 @@ class ImageForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True}),
         }
   
-    #image = CustomImageField(label="Image", widget=forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True}),)
-
-
-        
-        

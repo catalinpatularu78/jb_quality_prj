@@ -353,19 +353,19 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             f.save()
 
             if(d.image_set.all()): #if images are present in the record  
+                d.image_set.all().delete()
                 for i in files:
                     Image.objects.update_or_create(project=f, image=i)    
-                #d.image_set.all().delete() #using Django Cleanup, no need to do this
-                DashboardModel.objects.first().delete() #delete duplicated record
             else:
+                d.image_set.all().delete()
                 for i in files:
                     Image.objects.create(project=f, image=i)   
-                DashboardModel.objects.first().delete() #delete duplicated record 
+
             messages.success(request, "New images updated")
 
             return self.form_valid(form) 
-        else:
-            print(form.errors)
+        # else:
+        #     print(form.errors)
       
         return response
   
@@ -478,14 +478,14 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             f.save()        
             
             if(d.image_set.all()): #if images are present in the record  
+                d.image_set.all().delete()
                 for i in files:
                     Image.objects.update_or_create(project=f, image=i)    
-                #d.image_set.all().delete() #using Django Cleanup, no need to do this
-                DashboardModel.objects.first().delete() #delete duplicated record
             else:
+                d.image_set.all().delete()
                 for i in files:
-                    Image.objects.create(project=f, image=i)   
-                DashboardModel.objects.first().delete() #delete duplicated record  
+                    Image.objects.create(project=f, image=i)  
+                     
             messages.success(request, "New images updated")         
         else:
             print(form.errors)

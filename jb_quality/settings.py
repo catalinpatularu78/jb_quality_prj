@@ -255,13 +255,13 @@ STATIC_URL = "/static/"
 django_heroku.settings(locals() ) #staticfiles=False
 
 
-VALID_IMAGE_EXTENSIONS = [
-    ".jpg",
-    ".jpeg",
-    ".png",
-    ".gif",
-]
+# VALID_IMAGE_EXTENSIONS = [
+#     ".jpg",
+#     ".jpeg",
+#     ".png",
+#     ".gif",
+# ]
 
-def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
+# def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
 
-    return any([url.endswith(e) for e in extension_list])
+#     return any([url.endswith(e) for e in extension_list])
