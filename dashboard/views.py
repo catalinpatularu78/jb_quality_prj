@@ -188,27 +188,34 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
         record = DashboardModel.objects.get(id=pk)
 
-        utc_date_format = "%Y-%m-%d"
-        custom_date_format = "%d/%m/%Y"
-
-        the_target_completion_date = "None"
-        the_closure_date = "None"
-
-
-        if(record.target_completion_date!=None):
-            timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
-            the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
-        else:
-            pass
+        # utc_date_format = "%Y-%m-%d"
+        # custom_date_format = "%d/%m/%Y"
+        # the_target_completion_date = "None"
+        # the_closure_date = "None"
+        # if(record.target_completion_date!=None):
+        #     timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
+        #     the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+        # else:
+        #     pass
         
-        if(record.closure_date!=None):
-            timestring_2 = datetime.strptime(str(record.closure_date)[:10], utc_date_format) 
-            the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
-        else:
-            pass
+        # if(record.closure_date!=None):
+        #     timestring_2 = datetime.strptime(str(record.closure_date)[:10], utc_date_format) 
+        #     the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+        # else:
+        #     pass
 
-        context['the_target_completion_date'] = the_target_completion_date
-        context['the_closure_date'] = the_closure_date
+        the_target_completion_date = '{:02d}'.format( int(str(record.target_completion_date)[8:10])+1 ) +'/'+str(record.target_completion_date)[5:7]+'/'+str(record.target_completion_date)[:4]
+        the_closure_date = '{:02d}'.format( int(str(record.closure_date)[8:10])+1 ) +'/'+str(record.closure_date)[5:7]+'/'+str(record.closure_date)[:4]
+
+        if(the_target_completion_date!="//None"):
+            context['the_target_completion_date'] = the_target_completion_date
+        else:
+            context['the_target_completion_date'] = "None"
+
+        if(the_closure_date!="//None"):
+            context['the_closure_date'] = the_closure_date
+        else:
+            context['the_closure_date'] = "None"
 
         names_list = [str(name) for name in record.the_subject_responsible.all()]
         person_responsible = ', '.join(names_list)
@@ -361,33 +368,22 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         context = super().get_context_data(**kwargs)
         context['imageform'] = ImageForm
 
-        # utc_date_format = "%Y-%m-%d"
-        # custom_date_format = "%d/%m/%Y"
-
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         tcd = form['target_completion_date']
         cd = form['closure_date']
-
-        # the_target_completion_date =""
-        # the_closure_date = ""
-        # if(str(tgd.value())!="None"):
-        #     timestring = datetime.strptime(str(tgd.value())[:10], utc_date_format) 
-        #     the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
-        # else:
-        #     pass
+        the_target_completion_date = str(tcd.value())[8:10]+'/'+str(tcd.value())[5:7]+'/'+str(tcd.value())[:4]
+        the_closure_date = str(cd.value())[8:10]+'/'+str(cd.value())[5:7]+'/'+str(cd.value())[:4]
         
-        # if(str(cd.value())!="None"):
-        #     timestring_2 = datetime.strptime(str(cd.value())[:10], utc_date_format) 
-        #     the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+        if(the_target_completion_date!="//None"):
+            context['the_target_completion_date2'] = the_target_completion_date
         # else:
-        #     pass
+        #     context['the_target_completion_date2'] = ""
 
-        # context['the_target_completion_date'] = the_target_completion_date
-        # context['the_closure_date'] = the_closure_date
-        
-        context['the_target_completion_date'] = str(str(tcd.value())[:10])
-        context['the_closure_date'] = str(cd.value())[:10]
+        if(the_closure_date!="//None"):
+            context['the_closure_date2'] = the_closure_date
+        # else:
+        #     context['the_closure_date2'] = ""
             
         return context
 
@@ -395,8 +391,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
     def post(self, request, *args, **kwargs):        
         response = super().post(self, request, *args, **kwargs)
         
-       
-
         form_class = self.get_form_class()
         form = self.get_form(form_class)
  
