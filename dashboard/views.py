@@ -364,8 +364,8 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             messages.success(request, "New images updated")
 
             return self.form_valid(form) 
-        # else:
-        #     print(form.errors)
+        else:
+            print(form.errors)
       
         return response
   
@@ -485,7 +485,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
                 d.image_set.all().delete()
                 for i in files:
                     Image.objects.create(project=f, image=i)  
-                     
+
             messages.success(request, "New images updated")         
         else:
             print(form.errors)

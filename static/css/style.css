@@ -9,8 +9,18 @@
 }
 
 
-
 .full_width_li label {
     width:100%  !important;
     
 }
+
+.header_text {
+    /* background-color: black; */
+    color: white;
+  }
+
+
+.white_text {
+    /* background-color: black; */
+    color: white;
+  }

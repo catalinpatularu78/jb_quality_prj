@@ -7,7 +7,7 @@
 <style>
 
 body {
-    background-image:  url("{% static 'img/truck.jpg' %}");
+    background-image:  url("{% static 'img/img_5.jpg' %}");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -26,11 +26,11 @@ body {
     <div class="text-center mt-5">
 
         {% if request.user.is_superuser %}
-            <h1>Quality Engineering Admin Panel</h1>
-            <p class="lead">J&B Engineering</p>
+            <h1 class="header_text">Quality Engineering Admin Panel</h1>
+            <h5 class="white_text">J&B Engineering</h5>
         {% else %}
-            <h1>Quality Engineering Board</h1>
-            <p class="lead">J&B Engineering</p>
+            <h1 class="header_text">Quality Engineering Board</h1>
+            <h5 class="white_text">J&B Engineering</h5>
         {% endif %}
             
         {% if not request.user.is_superuser %}
