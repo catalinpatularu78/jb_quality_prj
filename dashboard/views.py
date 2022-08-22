@@ -175,6 +175,11 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
     template_name = "dashboard/record_detail.html"
     context_object_name = 'record'
 
+    def form_valid(self,form):         
+        response = super().form_valid(form)
+
+        return response
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -254,7 +259,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['imageform'] = ImageForm()
+        context['imageform'] = ImageForm
         
         form = RecordForm()      
         record = DashboardModel.objects.first()
@@ -386,7 +391,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['imageform'] = ImageForm()
+        context['imageform'] = ImageForm
         
         record = DashboardModel.objects.first()
 
