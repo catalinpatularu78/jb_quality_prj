@@ -316,6 +316,8 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
         if form.is_valid():
             f = form.save(commit=False)
             f.user = request.user
+            number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
+            f.ncr_number = int(number) + 1 if number else 1 # increments max by 1 and max starts at 1
             f.save()
             for i in files:
                 Image.objects.create(project=f, image=i)
@@ -332,13 +334,11 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
 
-        record_form = form.save(commit=False) # cancel commit to DB
-
-        #auto increment NCR number
-        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
-        record_form.ncr_number = int(number) + 1 if number else 1 # increments max by 1 and max starts at 1
-        record_form.save() # saves form
-
+        # #auto increment NCR number   
+        # record_form = form.save(commit=False) # cancel commit to DB
+        # number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
+        # record_form.ncr_number = int(number) + 1 if number else 1 # increments max by 1 and max starts at 1
+        # record_form.save() # saves form
 
         if severity and severity > 2:
             try:
@@ -464,6 +464,8 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
         files = request.FILES.getlist('image')
         if form.is_valid():
             f = form.save(commit=False)
+            number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
+            f.ncr_number = int(number) + 1 if number else 1 # Sets value to max number plus 1 or 1 if number column is empty 
             f.user = request.user
             f.save()
             for i in files:
@@ -478,13 +480,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
     
     
     def form_valid(self,form):
-        
-        # Auto increment NCR code 
-        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
-        record_form = form.save(commit=False) # cancel commit to DB
-        record_form.ncr_number = int(number) + 0 if number else 1 # Sets value to max number plus 1 or 1 if number column is empty 
-        record_form.save() # saves form
-        
+
         response = super().form_valid(form)
         severity =  form.cleaned_data['severity']
         
