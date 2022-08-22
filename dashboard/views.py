@@ -321,7 +321,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
             f.save()
             for i in files:
                 Image.objects.create(project=f, image=i)
-            messages.success(request, "New image added")
+          #  messages.success(request, "New image added")
 
             return self.form_valid(form)
         else:
@@ -417,7 +417,7 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
                 for i in files:
                     Image.objects.create(project=f, image=i)   
 
-            messages.success(request, "New images updated")
+           # messages.success(request, "New images updated")
 
             return self.form_valid(form) 
         else:
@@ -470,7 +470,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
             f.save()
             for i in files:
                 Image.objects.create(project=f, image=i)
-            messages.success(request, "New image added")
+         #   messages.success(request, "New image added")
 
             return self.form_valid(form)
         else:
@@ -540,7 +540,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
                 for i in files:
                     Image.objects.create(project=f, image=i)   
 
-            messages.success(request, "New images updated")         
+           # messages.success(request, "New images updated")         
         else:
             print(form.errors)
 
