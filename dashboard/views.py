@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
@@ -187,6 +188,23 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
         record = DashboardModel.objects.get(id=pk)
 
+        utc_date_format = "%Y-%m-%d"
+        custom_date_format = "%d/%m/%Y"
+
+        the_target_completion_date = "None"
+        the_closure_date = "None"
+
+        if(record.target_completion_date!=None):
+            timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
+            the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+        
+        if(record.closure_date!=None):
+            timestring_2 = datetime.strptime(str(record.closure_date)[:10], utc_date_format) 
+            the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+
+        context['the_target_completion_date'] = the_target_completion_date
+        context['the_closure_date'] = the_closure_date
+
         names_list = [str(name) for name in record.the_subject_responsible.all()]
         person_responsible = ', '.join(names_list)
         
@@ -337,12 +355,33 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['imageform'] = ImageForm
+
+        utc_date_format = "%Y-%m-%d"
+        custom_date_format = "%d/%m/%Y"
+
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        tgd = form['target_completion_date']
+        cd = form['closure_date']
+
+        the_target_completion_date =""
+        the_closure_date = ""
+        timestring = datetime.strptime(str(tgd.value())[:10], utc_date_format) 
+        the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+
+        timestring_2 = datetime.strptime(str(cd.value())[:10], utc_date_format) 
+        the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+
+        context['the_target_completion_date'] = the_target_completion_date
+        context['the_closure_date'] = the_closure_date
             
         return context
 
 
     def post(self, request, *args, **kwargs):        
         response = super().post(self, request, *args, **kwargs)
+        
+       
 
         form_class = self.get_form_class()
         form = self.get_form(form_class)
@@ -352,7 +391,7 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
         files = request.FILES.getlist('image')
         
-        if form.is_valid():       
+        if form.is_valid():           
             f = form.save(commit=False)
             f.user = request.user
             f.save()

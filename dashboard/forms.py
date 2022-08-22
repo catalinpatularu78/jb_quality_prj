@@ -138,13 +138,13 @@ class RecordForm(ModelForm):
             'area': forms.CheckboxSelectMultiple(), 
             "cost" : forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Cost'}),
             "issue_solved" :  forms.Select(attrs={'class':'form-select', 'placeholder':'Issue Resolved'}),
-            "closure_date" : forms.TextInput( attrs={
+            "closure_date" : forms.DateInput( attrs={
                     'class':'form-control' ,
                     'id':'inputDate' , 
                     'type':'date' ,  
                     'onclick' : 'showPicker()'
                     }),  
-            "target_completion_date" : forms.TextInput( attrs={
+            "target_completion_date" : forms.DateInput( attrs={
             'class':'form-control' ,
             'id':'inputDate' , 
             'type':'date' ,  
