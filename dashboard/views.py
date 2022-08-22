@@ -197,11 +197,15 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         if(record.target_completion_date!=None):
             timestring = datetime.strptime(str(record.target_completion_date)[:10], utc_date_format) 
             the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+        else:
+            pass
         
         if(record.closure_date!=None):
             timestring_2 = datetime.strptime(str(record.closure_date)[:10], utc_date_format) 
             the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
-
+        else:
+            pass
+        
         context['the_target_completion_date'] = the_target_completion_date
         context['the_closure_date'] = the_closure_date
 
@@ -369,10 +373,14 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         if(tgd.value()!=None):
             timestring = datetime.strptime(str(tgd.value())[:10], utc_date_format) 
             the_target_completion_date = str(datetime.fromtimestamp(timestring.timestamp()).strftime(custom_date_format))
+        else:
+            pass
         
         if(cd.value()!=None):
             timestring_2 = datetime.strptime(str(cd.value())[:10], utc_date_format) 
             the_closure_date = str(datetime.fromtimestamp(timestring_2.timestamp()).strftime(custom_date_format))
+        else:
+            pass
 
         context['the_target_completion_date'] = the_target_completion_date
         context['the_closure_date'] = the_closure_date
