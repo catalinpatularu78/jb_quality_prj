@@ -28,12 +28,17 @@ class RecordForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        ncr_value = self.fields['ncr_number']
-        ncr_value.disabled = True
+        ncr_number_field = self.fields['ncr_number']
+        ncr_number_field.disabled = True
+        #self.disable_field()
+
+
+    # def disable_field(self):
+    #     self.fields['ncr_number'].widget.attrs['readonly'] = True
 
     def clean(self):
         cleaned_data = super(RecordForm, self).clean()
-   
+
         # removing this implementation
         # db_first_record = DashboardModel.objects.first()
         # form_ncr_num = self.cleaned_data.get('ncr_number')  

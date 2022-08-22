@@ -65,14 +65,10 @@ class DashboardModel(models.Model):
     area = models.ManyToManyField('AreaOfIssue',blank=True)
     client = models.ManyToManyField('ClientModel' ,blank=True)
     jb_client = models.ManyToManyField('JBClient' ,blank=True)
-    closure_date = models.DateTimeField(null=True, blank = True, auto_now_add=False)
-    target_completion_date = models.DateTimeField(null=True, blank = True,  auto_now_add=False)
+    closure_date = models.DateTimeField(null=True, blank = True)
+    target_completion_date = models.DateTimeField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
   #  issue_date = models.DateTimeField(null=True, blank = True , default = datetime.now().replace(second=0, microsecond=0) )#default = timezone.localtime()
-    
-
-    #issue_date = models.DateTimeField(null=True, blank = True , default = timezone.now )
-
     issue_date = models.DateTimeField(null=True, blank = True, default = timezone.now) #default = timezone.localtime
     store_issue_date = models.CharField(max_length = 100, null=True, blank=True)
     issue_solved = models.CharField(max_length = 5 , null=True, blank=True , choices= issue_solved_type)

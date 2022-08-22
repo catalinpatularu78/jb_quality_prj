@@ -176,6 +176,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
     def form_valid(self,form):         
         response = super().form_valid(form)
+
         return response
 
 
@@ -365,12 +366,12 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         the_closure_date = str(cd.value())[8:10]+'/'+str(cd.value())[5:7]+'/'+str(cd.value())[:4]
         
         if(the_target_completion_date!="//None"):
-            context['the_target_completion_date2'] = "Current: " + the_target_completion_date
+            context['the_target_completion_date'] = "Current: " + the_target_completion_date
         else:
             pass
 
         if(the_closure_date!="//None"):
-            context['the_closure_date2'] = "Current: " + the_closure_date
+            context['the_closure_date'] = "Current: " + the_closure_date
         else:
             pass
 
@@ -378,16 +379,15 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
 
     def post(self, request, *args, **kwargs):        
-        response = super().post(self, request, *args, **kwargs)
-        
+        response = super().post(self, request, *args, **kwargs)       
         form_class = self.get_form_class()
         form = self.get_form(form_class)
- 
+
         pk = self.get_object().id
         d = DashboardModel.objects.get(id=pk)
-
         files = request.FILES.getlist('image')
-        
+
+
         if form.is_valid():           
             f = form.save(commit=False)
             f.user = request.user
