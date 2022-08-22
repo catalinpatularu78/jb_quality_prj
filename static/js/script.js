@@ -9,6 +9,11 @@
 
 // function to convert DD:HH:MM to minutes 
 
+
+
+
+
+
 function add_number() {
 
     const day_number = parseInt((document.getElementById("DayConversion").value)* 1440 || 0) ;  // 0 or get day value multiplied by minutes per day 
@@ -91,3 +96,13 @@ if (document.querySelector('#the_subject_responsible-search') !== null) {
         });
     }
 }
+
+
+$( document ).ready(function ()
+{
+    //Render Interactive CSS:
+    var Link = document.createElement('link'); Link.rel = 'stylesheet';
+    Link.href = 'C:\Users\hp\Desktop\Main Project\jb_quality_prj\static\css\style.css';
+    var Head = document.getElementsByTagName('head')[0];
+    Head.parentNode.insertBefore(Link, Head);
+});

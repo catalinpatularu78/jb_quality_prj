@@ -490,6 +490,7 @@ class Report:
         self.c.drawString(self.width/2 - 3.5*inch, self.height/2 - 5*inch, "Comments")
         self.c.setLineWidth(0.1) 
         text = self.record.comments
+        text += os.path.join(settings.BASE_DIR)
         self.c.bottomup = 1
         self.c.scale(1,-1)
         framedata = []
