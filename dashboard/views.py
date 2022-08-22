@@ -376,14 +376,10 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         
         if(the_target_completion_date!="//None"):
             context['the_target_completion_date2'] = the_target_completion_date
-        # else:
-        #     context['the_target_completion_date2'] = ""
 
         if(the_closure_date!="//None"):
             context['the_closure_date2'] = the_closure_date
-        # else:
-        #     context['the_closure_date2'] = ""
-            
+  
         return context
 
 
@@ -397,6 +393,13 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
         d = DashboardModel.objects.get(id=pk)
 
         files = request.FILES.getlist('image')
+
+        print("test...", files)
+
+        if not files:
+            print("there are files")
+        else:
+            print("there are no files")
         
         if form.is_valid():           
             f = form.save(commit=False)
@@ -404,11 +407,13 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
             f.save()
 
             if(d.image_set.all()): #if images are present in the record  
-                d.image_set.all().delete()
-                for i in files:
-                    Image.objects.update_or_create(project=f, image=i)    
+                if(files): #if new files are loaded
+                    d.image_set.all().delete() #delete the previous images
+                    for i in files:
+                        Image.objects.update_or_create(project=f, image=i)   
+                else:
+                    pass               
             else:
-                d.image_set.all().delete()
                 for i in files:
                     Image.objects.create(project=f, image=i)   
 
@@ -529,13 +534,15 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             f.save()        
             
             if(d.image_set.all()): #if images are present in the record  
-                d.image_set.all().delete()
-                for i in files:
-                    Image.objects.update_or_create(project=f, image=i)    
+                if(files): #if new files are loaded
+                    d.image_set.all().delete() #delete the previous images
+                    for i in files:
+                        Image.objects.update_or_create(project=f, image=i)   
+                else:
+                    pass               
             else:
-                d.image_set.all().delete()
                 for i in files:
-                    Image.objects.create(project=f, image=i)  
+                    Image.objects.create(project=f, image=i)   
 
             messages.success(request, "New images updated")         
         else:
