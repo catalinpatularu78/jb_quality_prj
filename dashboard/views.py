@@ -482,7 +482,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
         # Auto increment NCR code 
         number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max') # gets max ncr_number
         record_form = form.save(commit=False) # cancel commit to DB
-        record_form.ncr_number = int(number) + 1 if number else 1 # Sets value to max number plus 1 or 1 if number column is empty 
+        record_form.ncr_number = int(number) + 0 if number else 1 # Sets value to max number plus 1 or 1 if number column is empty 
         record_form.save() # saves form
         
         response = super().form_valid(form)
