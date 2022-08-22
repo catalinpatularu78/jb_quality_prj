@@ -204,18 +204,17 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         # else:
         #     pass
 
-        the_target_completion_date = '{:02d}'.format( int(str(record.target_completion_date)[8:10])+1 ) +'/'+str(record.target_completion_date)[5:7]+'/'+str(record.target_completion_date)[:4]
-        the_closure_date = '{:02d}'.format( int(str(record.closure_date)[8:10])+1 ) +'/'+str(record.closure_date)[5:7]+'/'+str(record.closure_date)[:4]
+        the_target_completion_date=""
+        the_closure_date=""
 
-        if(the_target_completion_date!="//None"):
-            context['the_target_completion_date'] = the_target_completion_date
-        else:
-            context['the_target_completion_date'] = "None"
+        if(record.target_completion_date):
+            the_target_completion_date = '{:02d}'.format( int(str(record.target_completion_date)[8:10])+1 ) +'/'+str(record.target_completion_date)[5:7]+'/'+str(record.target_completion_date)[:4]
+       
+        if(record.closure_date):
+            the_closure_date = '{:02d}'.format( int(str(record.closure_date)[8:10])+1 ) +'/'+str(record.closure_date)[5:7]+'/'+str(record.closure_date)[:4]
 
-        if(the_closure_date!="//None"):
-            context['the_closure_date'] = the_closure_date
-        else:
-            context['the_closure_date'] = "None"
+        context['the_target_completion_date'] = the_target_completion_date
+        context['the_closure_date'] = the_closure_date
 
         names_list = [str(name) for name in record.the_subject_responsible.all()]
         person_responsible = ', '.join(names_list)
