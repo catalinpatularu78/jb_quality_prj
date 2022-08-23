@@ -8,6 +8,7 @@
 <div class="container mt-5">
         <h1>UPDATE RECORD</h1>
         <hr>
+
                 <form action="" method="post" class="row g-3 pb-4" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <!-- {% for hidden in form.hidden_fields %}
@@ -128,22 +129,22 @@
                                         </div>
 
                                 </div>
-                                <div class="row mt-3">                   
+                                <div class="row mt-3"> 
+                                        
                                         <div class="col-md-4">
-                                                <div class="card" style=" height: 15rem;">
+                                                <div class="card">
                                                         <div class="card-header">
-                                                                {{ form.production_issue.label }}
+                                                                {{ form.issue_date.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
-                                                                        {% for production_issue_obj in form.production_issue%}
-                                                                        <li class="full_width_li list-group-item" >{{production_issue_obj  }}</li>
-                                                                        {% endfor %}
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >                                                                
+                                                                        {{ form.issue_date}}
+
+
                                                                 </ul>
                                                         </div>
                                                 </div>
                                         </div>
-                        
                               
                                         <div class="col-md-4">
                                                 <div class="card" style=" height: 15rem;">
@@ -161,22 +162,20 @@
                                                 </div>
                                         </div>
 
-                       
-
                                         <div class="col-md-4">
-                                                <div class="card">
+                                                <div class="card" style=" height: 15rem;">
                                                         <div class="card-header">
-                                                                {{ form.issue_date.label }}
+                                                                {{ form.production_issue.label }}
                                                         </div>
                                                         <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >                                                                
-                                                                        {{ form.issue_date}}
-
-
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for production_issue_obj in form.production_issue%}
+                                                                        <li class="full_width_li list-group-item" >{{production_issue_obj  }}</li>
+                                                                        {% endfor %}
                                                                 </ul>
                                                         </div>
                                                 </div>
-                                        </div>
+                                        </div>                      
                                 </div>
 
                                 <div class="row mt-3">
