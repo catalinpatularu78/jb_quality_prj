@@ -32,7 +32,6 @@ class RecordForm(ModelForm):
         ncr_number_field.disabled = True
         #self.disable_field()
 
-
     # def disable_field(self):
     #     self.fields['ncr_number'].widget.attrs['readonly'] = True
 

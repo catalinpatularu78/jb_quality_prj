@@ -1,5 +1,4 @@
 import io, os, datetime as dt
-
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from dashboard.models import PersonResponsible
@@ -18,7 +17,6 @@ from reportlab.lib.enums import *
 class Report:
 
     def __init__(self, filename, uuid):   
-
         self.filename = filename  
         self.uuid = uuid
         self.pagesize = A4
@@ -89,6 +87,8 @@ class Report:
         custom_date_format = "%d/%m/%Y"
 
         the_issue_datetime = ""
+        the_closure_date = ""
+        the_target_completion_date = ""
 
         if(self.record.issue_date):
             timestring = datetime.strptime(str(self.record.issue_date + timedelta(hours=1))[:19], UTC_time_format)
@@ -119,7 +119,6 @@ class Report:
         self.c.scale(1,-1)
         self.c.drawImage(logo, width=logoSize, x=logoX, y=-logoY, preserveAspectRatio=True)
         self.c.restoreState()
-
 
         lineStart = 1*cm
         lineEnd = self.width - inch + 1.05*cm
@@ -224,16 +223,15 @@ class Report:
         a1 = "NCR ID:"
         a2 = "Date of NCR:"
         a3 = "Advice Number:"
-        a4 = "Job Reference Number:"
-        a5 = "Status:"
-        a6 = "Area:"
-        a7 = "Area in specific:"
-        a8 = "Severity:"
-        a9 = "Responsible for the issue:"
-        a10 = "Category:"
-        a11 = "Company:"
-        a12 = "Target completion date:"
-        a13 = "Date of completion:"
+        a4 = "Status:"
+        a5 = "Area:"
+        a6 = "Area in specific:"
+        a7 = "Severity:"
+        a8 = "Responsible for the issue:"
+        a9 = "Category:"
+        a10 = "Company:"
+        a11 = "Target completion date:"
+        a12 = "Date of completion:"
        
    
         if(self.record.issue_solved == "no"):
@@ -350,22 +348,20 @@ class Report:
         b1 = str(self.record.ncr_number)
         b2 = the_issue_datetime
         b3 = self.record.advice_number
-        b4 = self.record.job_reference_number
-        b5 = the_issue_status
-        b6 = site_name 
-        b7 = the_issues
-        b8 = the_severity
-        b9 = names_stored
-        b10 = area_of_subject
-        b11 = subject_information
-        b12 = the_target_completion_date 
-        b13 = the_closure_date
+        b4 = the_issue_status
+        b5 = site_name 
+        b6 = the_issues
+        b7 = the_severity
+        b8 = names_stored
+        b9 = area_of_subject
+        b10 = subject_information
+        b11 = the_target_completion_date 
+        b12 = the_closure_date
       
-     
 
         # tuples containing the data for the text objects
-        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13)
-        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13)
+        headings = (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12)
+        answers = (b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12)
         
         # summary title
         textobject = self.c.beginText() 
@@ -412,7 +408,7 @@ class Report:
         frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=6*mm, showBoundary=1)
 
         '''the paragraph flowable uses XML markup so <br/> creates a new line'''
-        root_cause_description = "<b>Root cause of the issue: </b><br/><br/><br/>" + self.record.root_cause + "<br/><br/><br/>"
+        root_cause_description = "<b>Root cause of the issue: </b><br/><br/>" + self.record.root_cause + "<br/><br/><br/>"
         basic_description = "<b>Description of the issue: </b><br/><br/>" + self.record.description + "<br/><br/><br/>"
 
         issue_description = ""
@@ -453,20 +449,20 @@ class Report:
             framedImage = None
 
             if(images_uploaded == 1):
-                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0])).replace('\\','/') #make the URL for the image
                 framedImage = KeepInFrame(maxWidth=5*inch, maxHeight=6*inch, content=[Image(var1)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded == 2):     
-                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
-                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')).replace('\\','/')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0])).replace('\\','/')
+                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1])).replace('\\','/')
                 framedImage = KeepInFrame(maxWidth=7*inch, maxHeight=8*inch, content=[Image(var1),Image(var2)], hAlign='LEFT', mode='shrink', fakeWidth=False) 
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)
             elif(images_uploaded >= 3):     
-                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0]).replace('/','\\')).replace('\\','/')
-                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1]).replace('/','\\')).replace('\\','/')
-                var3 = str(os.path.join(settings.BASE_DIR) + str(image_list[2]).replace('/','\\')).replace('\\','/')
+                var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0])).replace('\\','/')
+                var2 = str(os.path.join(settings.BASE_DIR) + str(image_list[1])).replace('\\','/')
+                var3 = str(os.path.join(settings.BASE_DIR) + str(image_list[2])).replace('\\','/')
                 framedImage = KeepInFrame(maxWidth=8*inch, maxHeight=9*inch, content=[Image(var1),Image(var2),Image(var3)], hAlign='LEFT', mode='shrink', fakeWidth=False)
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)           
@@ -498,7 +494,7 @@ class Report:
         self.c.bottomup = 1
         self.c.scale(1,-1)
         framedata = []
-        frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=3*mm, showBoundary=1)
+        frame = Frame(1.6*cm, -10*inch, 7*inch, 9*inch, leftPadding=4*mm, topPadding=4*mm, showBoundary=1)
         textstyle = self.styles['Normal']   
         p = Paragraph(text, textstyle)
         framedText = KeepInFrame(maxWidth=0, maxHeight=9*inch, content=[p], mode='shrink')   

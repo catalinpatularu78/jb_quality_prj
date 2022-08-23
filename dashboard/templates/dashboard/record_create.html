@@ -15,11 +15,11 @@
                                         {{ hidden }}
                                 {% endfor %} -->
                                 
-                                <div class="col-md-12 sticky-top p-2 border border-dark rounded" style="background-color: gainsboro;">
+                                <div class="col-md-6 m-2 p-2 sticky-top border border-dark rounded" style="background-color: gainsboro; width: 34.3rem;">
 
-                                        <input class="btn btn-primary btn-lg px-3" type="submit" value="SUBMIT">
+                                        <input class="btn btn-lg btn-primary px-4" type="submit" value="SUBMIT">
         
-                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                                        <a class="btn btn-lg btn-danger px-4" href="{% url 'dashboard' %}" role="button">CANCEL</a>
 
                                         <a class="btn btn-light btn-outline-dark btn-lg px-2" href="{% url 'admin:index' %}" role="button" target="_blank">Open DB in new tab</a>
 
@@ -129,28 +129,7 @@
                                         </div>
 
                                 </div>
-                                <div class="row mt-3">
-                                        <div class="col-md-4">
-                                                <div class="card" style=" height: 15rem;">
-                                                        <div class="card-header">
-                                                                {{ form.jb_client.label }}
-                                                        </div>
-                                                        <div class="card-body " >
-                                                                <div class="container">
-                                                                        <input type="text" class = "form-control mb-2" placeholder=" Search Client..." id="client-search">
-                                                                        <!-- overflow-y: scroll; or overflow-scroll -->
-                                                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 7.5rem; " >
-                                                                                {% for item in form.jb_client %}
-                                                                                <li class=" full_width_li list-group-item" id="client_list">{{item}}</li>
-                                                                                {% endfor %}
-                                                                        </ul>
-
-                                                                </div>
-                                                        </div>
-                                                </div>
-
-                                        </div>
-
+                                <div class="row mt-3">                   
                                         <div class="col-md-4">
                                                 <div class="card" style=" height: 15rem;">
                                                         <div class="card-header">
@@ -165,8 +144,25 @@
                                                         </div>
                                                 </div>
                                         </div>
+                        
+                              
+                                        <div class="col-md-4">
+                                                <div class="card" style=" height: 15rem;">
+                                                        <div class="card-header">
+                                                                {{ form.area.label }}
+                                                        </div>
+                                                        <div class="card-body">
+                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
+                                                                        {% for area_obj in form.area%}
+                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
+                                                                        {% endfor %}
 
+                                                                </ul>
+                                                        </div>
+                                                </div>
+                                        </div>
 
+                       
 
                                         <div class="col-md-4">
                                                 <div class="card">
@@ -182,12 +178,8 @@
                                                         </div>
                                                 </div>
                                         </div>
-
-
-                            
-
-                                        
                                 </div>
+
                                 <div class="row mt-3">
                                         <div class="col-md-4">
                                                 <div class="card">
@@ -296,10 +288,6 @@
                                                         </div>
                                                 </div>
                                         </div>
-
-
-
-
                                 </div>
 
 
@@ -469,22 +457,32 @@
                                                 </div>
 
                                         </div>
-                        
-                                        <div class="col-md-6">
-                                                <div class="card" style=" height: 15rem;">
-                                                        <div class="card-header">
-                                                                {{ form.area.label }}
-                                                        </div>
-                                                        <div class="card-body">
-                                                                <ul id="employeeForm" class="list-group overflow-auto" style=" height: 10rem;" >
-                                                                        {% for area_obj in form.area%}
-                                                                        <li class="full_width_li list-group-item" >{{area_obj  }}</li>
-                                                                        {% endfor %}
 
-                                                                </ul>
+                                        <div class="col-md-6">
+                                                <div class="card" style=" height: 21.835rem;">
+                                                        <div class="card-header">
+                                                                {{ form.jb_client.label }}
+                                                        </div>
+                                                        <div class="card-body" >
+                                                                <div class="container">
+                                                                        <input type="text" class = "form-control mb-2" placeholder=" Search Client..." id="client-search">
+                                                                        <!-- overflow-y: scroll; or overflow-scroll -->
+                                                                        <ul id="employeeForm" class="list-group overflow-auto" style=" height: 7.5rem; " >
+                                                                                {% for item in form.jb_client %}
+                                                                                <li class=" full_width_li list-group-item" id="client_list">{{item}}</li>
+                                                                                {% endfor %}
+                                                                        </ul>
+
+                                                                </div>
                                                         </div>
                                                 </div>
+
                                         </div>
+
+
+                        
+                        
+                           
 
                                 </div>
 
@@ -508,16 +506,21 @@
                                                         <div class="card-header">
                                                                 {{ form.issue_affect_other_areas.label }}
                                                         </div>
-                                                        <div class="card-body">
+                                                        <div class="card-body" style="height: 8.2rem">
                                                                 {{ form.issue_affect_other_areas}}
                                                         </div>
                                                 </div>
 
                                         </div>
+
+                 
                                 </div>
 
+                           
+
+                      
                                 <div class="row mt-3">
-                   
+
                                         <div class="col-md-6">
                                                 <div class="card d-none" id = "issue_affect_other_areas_card">
                                                         <div class="card-header">
@@ -529,10 +532,7 @@
                                                 </div>
 
                                         </div>
-                                </div>
-
-                      
-                                <div class="row mt-3">
+                                        
                                         <div class="col-md-12">
                                                 <div class="card">
                                                         <div class="card-header">
@@ -549,11 +549,11 @@
                                         </div>
                                 </div>
 
-                                <div class="col-md-12 m-2 p-2 border border-dark rounded" style="background-color: gainsboro;">
+                                <div class="col-md-11 m-2 p-2 border border-dark rounded" style="background-color: gainsboro; width: 79.55rem;">
 
-                                        <input class="btn btn-primary btn-lg px-3" type="submit" value="SUBMIT">
+                                        <input class="btn btn-primary btn-lg px-4" type="submit" value="SUBMIT">
         
-                                        <a class="btn btn-danger btn-lg px-2" href="{% url 'dashboard' %}" role="button">CANCEL</a>
+                                        <a class="btn btn-danger btn-lg px-4" href="{% url 'dashboard' %}" role="button">CANCEL</a>
         
                                 </div>
                         </form>
