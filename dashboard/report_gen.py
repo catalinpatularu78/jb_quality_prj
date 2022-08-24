@@ -1,5 +1,6 @@
 import io, os, datetime as dt
 from datetime import datetime, timedelta
+from tkinter.font import names
 from zoneinfo import ZoneInfo
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
@@ -24,7 +25,8 @@ class Report:
         self.buffer = io.BytesIO()
         self.styles = getSampleStyleSheet()
         self.c = self.createCanvas(self.buffer)
-        self.record = DashboardModel.objects.get(pk=uuid) #obtain context for the primary key
+        self.record = DashboardModel.objects.get(id=uuid) #obtain context for the primary key
+      #  print("test...", self.record.id)
 
 
     def createCanvas(self, buffer):           
@@ -159,7 +161,6 @@ class Report:
         textobject.textLine(self.record.advice_number)
         self.c.drawText(textobject)
         
-
         q_engineers_list = [str(name) for name in self.record.printed_by.all()]
         quality_engineers = ', '.join(q_engineers_list)
 
@@ -241,107 +242,103 @@ class Report:
         else:
             the_issue_status = "No status provided"
 
+
         names_list = [str(name) for name in self.record.the_subject_responsible.all()]
         person_responsible = ', '.join(names_list)
-        names_stored = person_responsible
 
         area_list = [str(name) for name in self.record.area.all()]
         site_name = ', '.join(area_list)
 
 
         production_issue_list = [str(name) for name in self.record.production_issue.all()]
-        production_issue_name = ', '.join(production_issue_list) 
+        production_issue_name = "Production: " + '[' + ', '.join(production_issue_list) + ']  '
 	
         supplier_issue_list = [str(name) for name in self.record.supplier_issue.all()]
-        supplier_issue_name = ', '.join(supplier_issue_list)
+        supplier_issue_name = "Supplier: " + '[' + ', '.join(supplier_issue_list) + ']  '
 
         customer_issues_list = [str(name) for name in self.record.customer_issues.all()]
-        the_customer_issues = ', '.join(customer_issues_list)
+        the_customer_issues = "Customer: " + '[' + ', '.join(customer_issues_list) + ']  '
 
         other_issues_list = [str(name) for name in self.record.other_issues.all()]
-        the_other_issues = ', '.join(other_issues_list)
+        the_other_issues = "Other: " + '[' + ', '.join(other_issues_list) + ']  '
 
         the_issues = ""
 
         if (production_issue_list): #if the list is not empty - examines boolean value of list
             the_issues += production_issue_name
-
         if (supplier_issue_list):
              the_issues += supplier_issue_name
-
         if (customer_issues_list):
-             the_issues += the_customer_issues
-        
+             the_issues += the_customer_issues       
         if (other_issues_list):
              the_issues += the_other_issues
-
 
         the_severity = ""
 
         if(self.record.severity == 1):
             the_severity = "Low"
-
         elif(self.record.severity == 2):
             the_severity = "Medium"
-
         elif(self.record.severity == 3):
             the_severity = "High"
 
         area_of_subject =""
         subject_information=""
 
-        if(person_responsible == ""):
-            person_responsible ="[Please correctly assign names in admin]"
-            names_stored = person_responsible
+        if(person_responsible):
+            subject_areas = []
+            information_of_subjects = []
 
-        if("," in person_responsible): #more than one names for the same company type
-            person_responsible = person_responsible.split(',')[0]
+            for the_name in names_list:
+                p = PersonResponsible.objects.get(title=the_name)
 
+                data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
-        if(person_responsible != "[Please correctly assign names in admin]"):
-            
-            p = PersonResponsible.objects.get(title=person_responsible) 
+                if(data_in_supplier): 
+                    area_of_subject = "Supplier"         
+                    subject_areas.append(area_of_subject)
+                    subject_information = ''.join(data_in_supplier)
+                    information_of_subjects.append(subject_information)
 
-            data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+                data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+                
+                if(data_in_delivery_partner):
+                    area_of_subject = "Delivery Partner"
+                    subject_areas.append(area_of_subject)
+                    subject_information = ''.join(data_in_delivery_partner)
+                    information_of_subjects.append(subject_information)
 
-            if(data_in_supplier): 
-                area_of_subject = "Supplier"
-                subject_information = ''.join(data_in_supplier)
-        
+                data_in_customer = [str(info) for info in p.customer_set.all()] 
+                
+                if(data_in_customer): 
+                    area_of_subject = "Customer"
+                    subject_areas.append(area_of_subject)
+                    subject_information = ''.join(data_in_customer)
+                    information_of_subjects.append(subject_information)
 
-            data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
-            
-            if(data_in_delivery_partner):
-                area_of_subject = "Delivery Partner"
-                subject_information = ''.join(data_in_delivery_partner)
+                data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+                
+                if(data_in_production_company): 
+                    area_of_subject = "Production"
+                    subject_areas.append(area_of_subject)
+                    subject_information = ''.join(data_in_production_company)
+                    information_of_subjects.append(subject_information)
 
+                data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+                
+                if(data_in_other_company): 
+                    area_of_subject = "Other"
+                    subject_areas.append(area_of_subject)
+                    subject_information = ''.join(data_in_other_company)
+                    information_of_subjects.append(subject_information)
 
-            data_in_customer = [str(info) for info in p.customer_set.all()] 
-            
-            if(data_in_customer): 
-                area_of_subject = "Customer"
-                subject_information = ''.join(data_in_customer)
-
-
-            data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
-            
-            if(data_in_production_company): 
-                area_of_subject = "Production"
-                subject_information = ''.join(data_in_production_company)
-
-
-            data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
-            
-            if(data_in_other_company): 
-                area_of_subject = "Other"
-                subject_information = ''.join(data_in_other_company)
-
-
-            data_in_employee = [str(info) for info in p.employee_set.all()] 
-            
-            if(data_in_employee): 
-                area_of_subject = "Employee"
-                subject_information = "Internal Employee"
+                data_in_employee = [str(info) for info in p.employee_set.all()] 
+                
+                if(data_in_employee): 
+                    area_of_subject = "Employee"
+                    subject_areas.append(area_of_subject)
+                    subject_information = "Internal Employee"
+                    information_of_subjects.append(subject_information)
 
 
         '''answer fields'''
@@ -352,9 +349,9 @@ class Report:
         b5 = site_name 
         b6 = the_issues
         b7 = the_severity
-        b8 = names_stored
-        b9 = area_of_subject
-        b10 = subject_information
+        b8 = person_responsible
+        b9 = ', '.join(subject_areas)
+        b10 = ', '.join(information_of_subjects)
         b11 = the_target_completion_date 
         b12 = the_closure_date
       

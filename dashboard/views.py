@@ -212,57 +212,50 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         person_responsible = ', '.join(names_list)
         
         subject_information = ""
-        area_of_subject = ""
 
-        if("," in person_responsible): #more than one names for the same company type
-            person_responsible = person_responsible.split(',')[0]
+        if(person_responsible):
+            information_of_subjects = []
 
-        if(person_responsible != ""):         
-            p = PersonResponsible.objects.get(title=person_responsible) 
+            for the_name in names_list:
+                p = PersonResponsible.objects.get(title=the_name)
 
-            data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+                data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
-            if(data_in_supplier): 
-                area_of_subject = "(Type: Supplier)"
-                subject_information = ''.join(data_in_supplier)
+                if(data_in_supplier):  
+                    subject_information = ''.join(data_in_supplier) + " (Type: Supplier)"    
+                    information_of_subjects.append(subject_information)
 
+                data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+                
+                if(data_in_delivery_partner):
+                    subject_information = ''.join(data_in_delivery_partner) + " (Type: Delivery Partner)"   
+                    information_of_subjects.append(subject_information)
 
-            data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
-            
-            if(data_in_delivery_partner):
-                area_of_subject = "(Type: Delivery Partner)"
-                subject_information = ''.join(data_in_delivery_partner)
+                data_in_customer = [str(info) for info in p.customer_set.all()] 
+                
+                if(data_in_customer): 
+                    subject_information = ''.join(data_in_customer) + " (Type: Customer)"   
+                    information_of_subjects.append(subject_information)
 
+                data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+                
+                if(data_in_production_company): 
+                    subject_information = ''.join(data_in_production_company) + " (Type: Supplier)"   
+                    information_of_subjects.append(subject_information)
 
-            data_in_customer = [str(info) for info in p.customer_set.all()] 
-            
-            if(data_in_customer): 
-                area_of_subject = "(Type: Customer)"
-                subject_information = ''.join(data_in_customer)
+                data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+                
+                if(data_in_other_company): 
+                    subject_information = ''.join(data_in_other_company) + " (Type: Other)"   
+                    information_of_subjects.append(subject_information)
 
-
-            data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
-            
-            if(data_in_production_company): 
-                area_of_subject = "(Type: Production)"
-                subject_information = ''.join(data_in_production_company)
-
-
-            data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
-            
-            if(data_in_other_company): 
-                area_of_subject = "(Type: Other)"
-                subject_information = ''.join(data_in_other_company)
-
-
-            data_in_employee = [str(info) for info in p.employee_set.all()] 
-            
-            if(data_in_employee): 
-                area_of_subject = ""
-                subject_information = "Internal Employee"
+                data_in_employee = [str(info) for info in p.employee_set.all()] 
+                
+                if(data_in_employee): 
+                    subject_information = "Internal Employee" + " (Type: Employee)"
+                    information_of_subjects.append(subject_information)
         
-        context['company_category'] = area_of_subject
-        context['company_name'] = subject_information
+        context['company_name_and_category'] = (information_of_subjects)
 
         return context
     
