@@ -173,27 +173,47 @@
                                 <p class="mb-0"> Issues:</p>
                                 </div>
                                 <div class="col-sm-9">
+                                        <p>
+                                        {% if record.production_issue.all|length %}
+                                            Production:{% for issue in record.production_issue.all %}
+                                            {% if not forloop.first %}
+                                            , 
+                                            {% endif %}   
+                                            {{issue}}                
+                                            {% endfor %}
+                                            &nbsp;
+                                        {% endif %}  
 
-                                        {% for issue in record.production_issue.all %}
-                                        {% if not forloop.first %}, {% endif %}   
-                                        {{issue}}                          
-                                        {% endfor %}
-                                 
-                                        {% for issue in record.supplier_issue.all %}
-                                        {% if not forloop.first %}, {% endif %}   
-                                        {{issue}}                          
-                                        {% endfor %}
-                                 
-                                        {% for issue in record.customer_issues.all %}
-                                        {% if not forloop.first %}, {% endif %}   
-                                        {{issue}}                          
-                                        {% endfor %}
-                                 
-                                        {% for issue in record.other_issues.all %}
-                                        {% if not forloop.first %}, {% endif %}   
-                                        {{issue}}                          
-                                        {% endfor %}
-                    
+                                        {% if record.supplier_issue.all|length %}
+                                            Supplier:{% for issue in record.supplier_issue.all %}
+                                            {% if not forloop.first %}
+                                            , 
+                                            {% endif %}   
+                                            {{issue}}                     
+                                            {% endfor %}
+                                            &nbsp;
+                                        {% endif %}  
+
+                                        {% if record.customer_issues.all|length %}
+                                            Customer:{% for issue in record.customer_issues.all %}
+                                            {% if not forloop.first %}
+                                            , 
+                                            {% endif %}   
+                                            {{issue}}                         
+                                            {% endfor %}
+                                            &nbsp;
+                                        {% endif %}
+
+                                        {% if record.other_issues.all|length %}
+                                            Other:{% for issue in record.other_issues.all %}
+                                            {% if not forloop.first %}
+                                            , 
+                                            {% endif %}   
+                                            {{issue}}                  
+                                            {% endfor %}
+                                            &nbsp;
+                                        {% endif %}
+                                        </p>
                                 </div>
                             </div>
                             <hr>
