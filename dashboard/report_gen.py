@@ -250,27 +250,27 @@ class Report:
 
 
         production_issue_list = [str(name) for name in self.record.production_issue.all()]
-        production_issue_name = "Production: " + '[' + ', '.join(production_issue_list) + ']  '
+        production_issue_name = "Production: " + '[' + ', '.join(production_issue_list) + ']'
 	
         supplier_issue_list = [str(name) for name in self.record.supplier_issue.all()]
-        supplier_issue_name = "Supplier: " + '[' + ', '.join(supplier_issue_list) + ']  '
+        supplier_issue_name = "Supplier: " + '[' + ', '.join(supplier_issue_list) + ']'
 
         customer_issues_list = [str(name) for name in self.record.customer_issues.all()]
-        the_customer_issues = "Customer: " + '[' + ', '.join(customer_issues_list) + ']  '
+        the_customer_issues = "Customer: " + '[' + ', '.join(customer_issues_list) + ']'
 
         other_issues_list = [str(name) for name in self.record.other_issues.all()]
-        the_other_issues = "Other: " + '[' + ', '.join(other_issues_list) + ']  '
+        the_other_issues = "Other: " + '[' + ', '.join(other_issues_list) + ']'
 
-        the_issues = ""
+        the_issues = []
 
         if (production_issue_list): #if the list is not empty - examines boolean value of list
-            the_issues += production_issue_name
+            the_issues.append(production_issue_name)
         if (supplier_issue_list):
-             the_issues += supplier_issue_name
+            the_issues.append(supplier_issue_name)
         if (customer_issues_list):
-             the_issues += the_customer_issues       
+            the_issues.append(the_customer_issues)     
         if (other_issues_list):
-             the_issues += the_other_issues
+             the_issues.append(the_other_issues)
 
         the_severity = ""
 
@@ -346,7 +346,7 @@ class Report:
         b3 = self.record.advice_number
         b4 = the_issue_status
         b5 = site_name 
-        b6 = the_issues
+        b6 = ', '.join(the_issues)
         b7 = the_severity
         b8 = person_responsible
         b9 = ', '.join(subject_areas)

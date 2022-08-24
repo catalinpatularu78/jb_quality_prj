@@ -184,12 +184,12 @@
                                         {{issue}}                          
                                         {% endfor %}
                                  
-                                        {% for issue in record.supplier_issue.all %}
+                                        {% for issue in record.customer_issues.all %}
                                         {% if not forloop.first %}, {% endif %}   
                                         {{issue}}                          
                                         {% endfor %}
                                  
-                                        {% for issue in record.supplier_issue.all %}
+                                        {% for issue in record.other_issues.all %}
                                         {% if not forloop.first %}, {% endif %}   
                                         {{issue}}                          
                                         {% endfor %}
