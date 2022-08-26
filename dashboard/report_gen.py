@@ -1,6 +1,5 @@
 import io, os, datetime as dt
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
 from django.conf import settings
