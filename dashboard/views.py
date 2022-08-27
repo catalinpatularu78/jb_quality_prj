@@ -221,10 +221,6 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
 
                 data_in_supplier = [str(info) for info in p.supplier_set.all()] 
 
-                s = Supplier.objects.all()
-
-                print("test...", p.supplier_set['company_name'])
-
                 if(data_in_supplier):  
                     subject_information = ''.join(data_in_supplier) + " (Type: Supplier)"    
                     information_of_subjects.append(subject_information)
