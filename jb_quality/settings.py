@@ -14,7 +14,7 @@ from pathlib import Path
 
 import os
 
-import django_heroku
+#import django_heroku
 import dj_database_url
 
 
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
-    'dashboard.apps.DashboardConfig', # Dashboard app added
+    #'dashboard.apps.DashboardConfig', # Dashboard app added
+    'dashboard'
     
 ]
 
@@ -251,7 +252,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-django_heroku.settings(locals() ) #staticfiles=False
+#django_heroku.settings(locals() ) #staticfiles=False
 
 
 # VALID_IMAGE_EXTENSIONS = [

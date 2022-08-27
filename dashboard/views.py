@@ -212,10 +212,10 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         person_responsible = ', '.join(names_list)
         
         subject_information = ""
+        information_of_subjects = []
 
         if(person_responsible):
-            information_of_subjects = []
-
+           
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
 

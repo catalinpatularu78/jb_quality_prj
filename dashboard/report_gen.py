@@ -282,10 +282,10 @@ class Report:
 
         area_of_subject =""
         subject_information=""
+        subject_areas = []
+        information_of_subjects = []
 
         if(person_responsible):
-            subject_areas = []
-            information_of_subjects = []
 
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
@@ -462,7 +462,8 @@ class Report:
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)           
             else:
-                p = Paragraph("", None)
+                textstyle = self.styles['Normal'] 
+                p = Paragraph("Empty",textstyle)
                 framedata.append(p)
                 frame.addFromList(framedata, self.c)
         except IOError:
