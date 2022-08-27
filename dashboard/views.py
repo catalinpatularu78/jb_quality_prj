@@ -30,6 +30,7 @@ from dashboard.models import (
     CustomerIssues,
     OtherIssues,
     Image,
+    Supplier
 )
 
 from dashboard.forms import RecordForm, ImageForm
@@ -212,14 +213,17 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         person_responsible = ', '.join(names_list)
         
         subject_information = ""
+        information_of_subjects = []
 
         if(person_responsible):
-            information_of_subjects = []
-
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
 
                 data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+
+                s = Supplier.objects.all()
+
+                print("test...", p.supplier_set['company_name'])
 
                 if(data_in_supplier):  
                     subject_information = ''.join(data_in_supplier) + " (Type: Supplier)"    
@@ -255,7 +259,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
                     subject_information = "Internal Employee" + " (Type: Employee)"
                     information_of_subjects.append(subject_information)
         
-        context['company_name_and_category'] = (information_of_subjects)
+        context['company_name_and_category'] = information_of_subjects
 
         return context
     
