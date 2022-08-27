@@ -30,6 +30,7 @@ from dashboard.models import (
     CustomerIssues,
     OtherIssues,
     Image,
+    Supplier
 )
 
 from dashboard.forms import RecordForm, ImageForm
@@ -215,7 +216,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         information_of_subjects = []
 
         if(person_responsible):
-           
+
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
 
@@ -255,7 +256,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
                     subject_information = "Internal Employee" + " (Type: Employee)"
                     information_of_subjects.append(subject_information)
         
-        context['company_name_and_category'] = (information_of_subjects)
+        context['company_name_and_category'] = information_of_subjects
 
         return context
     
