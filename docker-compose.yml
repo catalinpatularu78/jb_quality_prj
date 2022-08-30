@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
   app:
@@ -7,8 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      #  - .:/django
-      - ./dashboard:/app
+      - $PWD:/app
     command: sh -c "python manage.py runserver 0.0.0.0:8000" # 0.0.0.0 will make the application externally visible from outside the container
     environment:
       - DEBUG=1
