@@ -26,18 +26,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b'
+#SECRET_KEY = 'django-insecure-lp-(ja5oo9(-ah3*u%*kac!g5p(sl#+rypm@qhiv1p90e6r(@b'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 #ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
 
 #ALLOWED_HOSTS = ['127.0.0.1','jbmanufacturingtests.herokuapp.com']
 
-ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
-
-
+#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 # Application definition
 
 INSTALLED_APPS = [
@@ -240,17 +244,21 @@ EMAIL_HOST_USER = 'jbdjango@outlook.com'
 EMAIL_HOST_PASSWORD = 'JBengineering'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # the path becomes [project dir]\media\
-MEDIA_URL = 'media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # the path becomes [project dir]\media\
+
 
 #DISABLE_SERVER_SIDE_CURSORS = True
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = "/static/"
+MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
+STATIC_URL = '/static/static/'
+
+STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
+MEDIA_ROOT = '/vol/web/media'
 
 #django_heroku.settings(locals() ) #staticfiles=False
 
