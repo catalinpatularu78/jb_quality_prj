@@ -38,8 +38,10 @@ DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 #ALLOWED_HOSTS = ['127.0.0.1','jbmanufacturingtests.herokuapp.com']
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+
+print("test...", ALLOWED_HOSTS_ENV)
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 # Application definition
@@ -68,8 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',   
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
 ]
 
 ROOT_URLCONF = 'jb_quality.urls'
@@ -245,14 +246,20 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 
 
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # the path becomes [project dir]\media\
-
-
 #DISABLE_SERVER_SIDE_CURSORS = True
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# MEDIA_URL = '/media/' #/static here is the proxy and it will serve both static and media files
+# STATIC_URL = '/static/'
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+''' Django docker deployment walkthrough https://www.youtube.com/watch?v=nh1ynJGJuT8 '''
 
 MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
 STATIC_URL = '/static/static/'
