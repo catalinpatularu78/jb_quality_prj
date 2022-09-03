@@ -1,6 +1,5 @@
 import io, os, datetime as dt
 from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 from dashboard.models import PersonResponsible
 from .views import DashboardModel
 from django.conf import settings
@@ -12,6 +11,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import Paragraph, Image, Frame, KeepInFrame
 from reportlab.lib.colors import *
 from reportlab.lib.enums import *
+from reportlab.lib.utils import ImageReader
 
 
 class Report:
@@ -120,6 +120,7 @@ class Report:
         self.c.scale(1,-1)
         self.c.drawImage(logo, width=logoSize, x=logoX, y=-logoY, preserveAspectRatio=True)
         self.c.restoreState()
+
 
         lineStart = 1*cm
         lineEnd = self.width - inch + 1.05*cm
@@ -283,10 +284,10 @@ class Report:
 
         area_of_subject =""
         subject_information=""
+        subject_areas = []
+        information_of_subjects = []
 
-        if(person_responsible):
-            subject_areas = []
-            information_of_subjects = []
+        if(person_responsible): 
 
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
@@ -463,7 +464,8 @@ class Report:
                 framedata.append(framedImage)
                 frame.addFromList(framedata, self.c)           
             else:
-                p = Paragraph("", None)
+                textstyle = self.styles['Normal']
+                p = Paragraph("Empty", textstyle)
                 framedata.append(p)
                 frame.addFromList(framedata, self.c)
         except IOError:
@@ -499,5 +501,3 @@ class Report:
         self.c.bottomup = 0
         self.c.restoreState()
         self.includeFooter(pagenumber)
-
-    

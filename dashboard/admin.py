@@ -445,7 +445,7 @@ admin.site.register(ClientModel , ClientAdmin)
 admin.site.register(JBClient, ClientAdmin)
 
 #ManyToOne
-admin.site.register(Employee )
+admin.site.register(Employee)
 admin.site.register(Supplier)
 admin.site.register(Customer)
 admin.site.register(ProductionCompany)
