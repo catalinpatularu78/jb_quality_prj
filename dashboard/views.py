@@ -17,7 +17,6 @@ from django.forms import ValidationError
 from django.conf import settings
 from django.core.mail import send_mail
 
-
     
 from dashboard.models import (
     DashboardModel,
@@ -30,6 +29,7 @@ from dashboard.models import (
     CustomerIssues,
     OtherIssues,
     Image,
+    Supplier
 )
 
 from dashboard.forms import RecordForm, ImageForm
@@ -254,7 +254,7 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
                     subject_information = "Internal Employee" + " (Type: Employee)"
                     information_of_subjects.append(subject_information)
         
-        context['company_name_and_category'] = (information_of_subjects)
+        context['company_name_and_category'] = information_of_subjects
 
         return context
     

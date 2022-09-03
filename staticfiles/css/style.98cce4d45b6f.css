@@ -1,0 +1,26 @@
+.card-header {
+    font-weight: bold;
+    color:  #f5efef !important;
+    background-color: #292929 !important;
+}
+
+.card-body {
+    background-color: #dbdbdb !important;
+}
+
+
+.full_width_li label {
+    width:100%  !important;
+    
+}
+
+.header_text {
+    /* background-color: black; */
+    color: white;
+  }
+
+
+.white_text {
+    /* background-color: black; */
+    color: white;
+  }
