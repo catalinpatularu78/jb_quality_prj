@@ -39,11 +39,11 @@ DEBUG = True
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+# ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 
 
-if ALLOWED_HOSTS_ENV:
-    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
+# if ALLOWED_HOSTS_ENV:
+#     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 # Application definition
 
 INSTALLED_APPS = [
@@ -104,25 +104,25 @@ WSGI_APPLICATION = 'jb_quality.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 #heroku app credentials (Conor)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'df3iogc6kqm1t8',
-#         'USER': 'ykykmwpsnncxna',
-#         'PASSWORD': '1319e9ceae205af0c3047cf7e73ee86fbfdf25377dec4d1efa7ce575b9c272b3',
-#         'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'df3iogc6kqm1t8',
+        'USER': 'ykykmwpsnncxna',
+        'PASSWORD': '1319e9ceae205af0c3047cf7e73ee86fbfdf25377dec4d1efa7ce575b9c272b3',
+        'HOST': 'ec2-34-239-241-121.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
