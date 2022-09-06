@@ -41,11 +41,10 @@ DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 
-print("test...", ALLOWED_HOSTS_ENV)
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -249,7 +248,7 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 #DISABLE_SERVER_SIDE_CURSORS = True
 
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 

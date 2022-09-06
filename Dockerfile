@@ -1,33 +1,25 @@
-FROM python:3.8-alpine
-#FROM python:3.8-slim-buster
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.8-slim
 
-ENV PATH="/scripts:${PATH}"
+EXPOSE 8000
 
-COPY requirements.txt /requirements.txt
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
 
-RUN apk add --update --no-cache --virtual .tmp gcc libc-dev linux-headers
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
 
-RUN apk add libffi-dev
+# Install pip requirements
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
 
-RUN pip install -r requirements.txt
-RUN apk del .tmp
-
-RUN mkdir /app
-COPY ./dashboard /app
 WORKDIR /app
-COPY ./scripts /scripts
+COPY . /app
 
-RUN chmod +x /scripts/*
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
-RUN mkdir -p /vol/web/media
-RUN mkdir -p /vol/web/
-
-RUN adduser -D user
-RUN chown -R user:user /vol
-RUN chmod -R 755 /vol/web
-USER user
-
-# COPY cmd.sh /  
-# RUN chmod +x /cmd.sh
-
-CMD ["entrypoint.sh"]
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jb_quality.wsgi"]

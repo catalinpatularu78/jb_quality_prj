@@ -8,42 +8,25 @@ from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import User
 from django.db.models import IntegerField
 from django.utils import timezone
-
 from django.core.validators import BaseValidator
 
+#image compression
+from io import BytesIO
+from PIL import ImageOps
+from django.core.files import File
+import sys, PIL.Image
 
-# class CustomValidator(BaseValidator):
-#     message = _("Ensure this value is %(limit_value)s (it is %(show_value)s).")
-#     code = "limit_value"
 
-#     def __init__(self, limit_value, message=None):
-#         self.limit_value = limit_value
-#         if message:
-#             self.message = message
+def compress(image):
+    im = PIL.Image.open(image)
+    im = ImageOps.exif_transpose(im)
+    im_bytes = BytesIO()
+    im.save(im_bytes, 'JPEG', quality=60)
+    new_image = File(im_bytes, name=image.name)
 
-#     def __call__(self, value):
-#         cleaned = self.clean(value)
-#         limit_value = (
-#             self.limit_value() if callable(self.limit_value) else self.limit_value
-#         )
-#         params = {"limit_value": limit_value, "show_value": cleaned, "value": value}
-#         if self.compare(cleaned, limit_value):
-#             raise ValidationError(self.message, code=self.code, params=params)
+    return new_image
 
-#     def __eq__(self, other):
-#         if not isinstance(other, self.__class__):
-#             return NotImplemented
-#         return (
-#             self.limit_value == other.limit_value
-#             and self.message == other.message
-#             and self.code == other.code
-#         )
 
-#     def compare(self, a, b):
-#         return a is not b
-
-#     def clean(self, x):
-#         return x
 
 class DashboardModel(models.Model):
 
@@ -353,6 +336,12 @@ class OtherCompany(models.Model):
 class Image(models.Model):
     project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images", validators=[validators.validate_image_file_extension], blank=True)
+
+    def save(self, *args, **kwargs):    
+        #sys.setrecursionlimit(12000)
+        new_image = compress(self.image)
+        self.image = new_image
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.image.url
