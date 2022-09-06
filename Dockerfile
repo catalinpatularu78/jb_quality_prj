@@ -1,25 +1,16 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.8-slim
+FROM tiangolo/uwsgi-nginx:python3.8
+
+LABEL NAME=my_app Version=0.0.1
 
 EXPOSE 8000
+ENV LISTEN_PORT=8000
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
+ENV UWSGI_INI uwsgi.ini
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
-
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install -r requirements.txt
-
+ADD . /app
 WORKDIR /app
-COPY . /app
 
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
-RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-USER appuser
+RUN chmod g+w /app
+RUN chmod g+w /app/db.sqlite3
 
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jb_quality.wsgi"]
+RUN python -m pip install -r requirements.txt
