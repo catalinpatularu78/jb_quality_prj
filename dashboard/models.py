@@ -335,12 +335,16 @@ class OtherCompany(models.Model):
 
 class Image(models.Model):
     project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="images", validators=[validators.validate_image_file_extension], blank=True)
+    image = models.ImageField(upload_to="images", blank=True)
 
     def save(self, *args, **kwargs):    
         #sys.setrecursionlimit(12000)
-        new_image = compress(self.image)
-        self.image = new_image
+
+        if self.image in ('RGBA', 'LA'):
+            new_image = compress(self.image)
+            self.image = new_image
+        else:
+            pass
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:

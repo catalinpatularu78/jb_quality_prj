@@ -221,6 +221,6 @@ class ImageForm(forms.ModelForm):
         labels = {"image" : "Image upload"}
 
         widgets = {
-            'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True}),
+            'image': forms.ClearableFileInput(attrs={'class': 'file-upload-input', 'id': 'file-selector',"multiple": True, 'accept': 'image/jpg'}),
         }
   

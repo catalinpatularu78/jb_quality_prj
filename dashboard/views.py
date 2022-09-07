@@ -288,7 +288,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
         #     context['context_number'] = num
 
         number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
-        context['new_number'] = int(number) + 1
+        context['new_number'] = int(number) + 1 if number else 1
  
         return context
 
@@ -435,7 +435,7 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
         #     context['context_number'] = num
 
         number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
-        context['new_number'] = int(number) + 1
+        context['new_number'] = int(number) + 1 if number else 1
 
         return context
 
