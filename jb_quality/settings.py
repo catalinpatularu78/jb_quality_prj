@@ -30,8 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'changeme')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+DEBUG = True
+#DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 #ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
 
@@ -248,23 +248,21 @@ EMAIL_HOST_PASSWORD = 'JBengineering'
 #DISABLE_SERVER_SIDE_CURSORS = True
 
 
-#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# MEDIA_URL = '/media/' #/static here is the proxy and it will serve both static and media files
-# STATIC_URL = '/static/'
+MEDIA_URL = '/media/' #/static here is the proxy and it will serve both static and media files
+STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-''' Django docker deployment walkthrough https://www.youtube.com/watch?v=nh1ynJGJuT8 '''
+# MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
+# STATIC_URL = '/static/static/'
 
-MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
-STATIC_URL = '/static/static/'
-
-STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
-MEDIA_ROOT = '/vol/web/media'
+# STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
+# MEDIA_ROOT = '/vol/web/media'
 
 #django_heroku.settings(locals() ) #staticfiles=False
 

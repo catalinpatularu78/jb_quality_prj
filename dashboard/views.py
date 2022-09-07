@@ -275,19 +275,22 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
 
         context['imageform'] = ImageForm
         
-        form = RecordForm()      
-        record = DashboardModel.objects.first()
+        #form = RecordForm()      
+        # record = DashboardModel.objects.first()
 
-        if(record == None):
-            context['reset_number'] = "Overwrite NCR Number:"
-            context['hardcode_ncr_number'] = form['ncr_number']
+        # if(record == None):
+        #     context['reset_number'] = "Overwrite NCR Number:"
+        #     context['hardcode_ncr_number'] = form['ncr_number']
 
-        num = 1
-        if(record != None):
-            num = record.ncr_number + 1
-            context['context_number'] = num
-        else:
-            context['context_number'] = num
+        # num = 1
+        # if(record != None):
+        #     num = record.ncr_number + 1
+        #     context['context_number'] = num
+        # else:
+        #     context['context_number'] = num
+
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
+        context['new_number'] = int(number) + 1 if number else 1
  
         return context
 
@@ -423,17 +426,26 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
         context['imageform'] = ImageForm
         
-        record = DashboardModel.objects.first()
+        #form = RecordForm()      
+        # record = DashboardModel.objects.first()
 
-        num = 1
-        if(record != None):
-            num = record.ncr_number + 1
-            context['context_number'] = num
-        else:
-            context['context_number'] = num
+        # if(record == None):
+        #     context['reset_number'] = "Overwrite NCR Number:"
+        #     context['hardcode_ncr_number'] = form['ncr_number']
 
+        # num = 1
+        # if(record != None):
+        #     num = record.ncr_number + 1
+        #     context['context_number'] = num
+        # else:
+        #     context['context_number'] = num
+
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
+        context['new_number'] = int(number) + 1 if number else 1
+ 
         return context
 
+        
 
     def post(self, request, *args, **kwargs):
         response = super().post(self, request, *args, **kwargs)
