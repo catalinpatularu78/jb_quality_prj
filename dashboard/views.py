@@ -280,12 +280,15 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
             context['reset_number'] = "Overwrite NCR Number:"
             context['hardcode_ncr_number'] = form['ncr_number']
 
-        num = 1
-        if(record != None):
-            num = record.ncr_number + 1
-            context['context_number'] = num
-        else:
-            context['context_number'] = num
+        # num = 1
+        # if(record != None):
+        #     num = record.ncr_number + 1
+        #     context['context_number'] = num
+        # else:
+        #     context['context_number'] = num
+
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
+        context['new_number'] = int(number) + 1
  
         return context
 
@@ -315,6 +318,7 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
 
     def form_valid(self,form):
         response = super().form_valid(form)
+
         severity =  form.cleaned_data['severity']
 
         # #auto increment NCR number   
@@ -421,14 +425,17 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
         context['imageform'] = ImageForm
         
-        record = DashboardModel.objects.first()
+        # record = DashboardModel.objects.first()
 
-        num = 1
-        if(record != None):
-            num = record.ncr_number + 1
-            context['context_number'] = num
-        else:
-            context['context_number'] = num
+        # num = 1
+        # if(record != None):
+        #     num = record.ncr_number + 1
+        #     context['context_number'] = num
+        # else:
+        #     context['context_number'] = num
+
+        number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
+        context['new_number'] = int(number) + 1
 
         return context
 
@@ -472,7 +479,6 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
                 pass
         
         return response  
-
 
 
 
