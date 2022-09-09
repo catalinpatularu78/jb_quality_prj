@@ -502,15 +502,12 @@
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-
-                                    {% for path in record.image_set.all %}
+                                    {% for img_url in record.image_set.all %}
                                     {% if not forloop.first %}
                                         <br>
                                     {% endif %}
 
-                                    <img src="{{ path }}" width='600'>
-                                    <!-- {{ path }} -->
-                            
+                                    {{ img_url }}
                                     {% endfor %}
                                 </p>
                                 </div>
