@@ -1,4 +1,4 @@
-FROM python:3.8.5-alpine
+FROM python:3.8.5
 
 LABEL NAME=my_app Version=0.0.1
 
@@ -16,5 +16,5 @@ RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
 
 COPY ./entrypoint.sh /
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
   
