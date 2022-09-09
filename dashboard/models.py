@@ -15,10 +15,13 @@ from io import BytesIO
 from PIL import ImageOps
 from django.core.files import File
 import sys, PIL.Image
+from PIL import Image
+#import PIL.Image
+#import sys
 
 
 def compress(image):
-    im = PIL.Image.open(image)
+    im = Image.open(image)
     im = ImageOps.exif_transpose(im)
     im_bytes = BytesIO()
     im.save(im_bytes, 'JPEG', quality=60)
@@ -339,7 +342,6 @@ class Image(models.Model):
 
     def save(self, *args, **kwargs):    
         #sys.setrecursionlimit(12000)
-
         if self.image in ('RGBA', 'LA'):
             new_image = compress(self.image)
             self.image = new_image

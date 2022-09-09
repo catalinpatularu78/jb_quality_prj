@@ -273,12 +273,12 @@ class RecordCreatePage(StaffMemberRequiredMixin,LoginRequiredMixin , CreateView)
 
         context['imageform'] = ImageForm
         
-        form = RecordForm()      
-        record = DashboardModel.objects.first()
+        #form = RecordForm()      
+        # record = DashboardModel.objects.first()
 
-        if(record == None):
-            context['reset_number'] = "Overwrite NCR Number:"
-            context['hardcode_ncr_number'] = form['ncr_number']
+        # if(record == None):
+        #     context['reset_number'] = "Overwrite NCR Number:"
+        #     context['hardcode_ncr_number'] = form['ncr_number']
 
         # num = 1
         # if(record != None):
@@ -436,9 +436,10 @@ class OperativeCreatePage(LoginRequiredMixin , CreateView):
 
         number = DashboardModel.objects.all().aggregate(Max('ncr_number')).get('ncr_number__max')
         context['new_number'] = int(number) + 1 if number else 1
-
+ 
         return context
 
+        
 
     def post(self, request, *args, **kwargs):
         response = super().post(self, request, *args, **kwargs)

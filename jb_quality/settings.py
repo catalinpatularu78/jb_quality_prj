@@ -14,7 +14,7 @@ from pathlib import Path
 
 import os
 
-import django_heroku
+#import django_heroku
 import dj_database_url
 
 
@@ -39,13 +39,14 @@ DEBUG = True
 
 #ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
 
+if ALLOWED_HOSTS_ENV:
+    ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 # if ALLOWED_HOSTS_ENV:
 #     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -259,15 +260,21 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-''' Django docker deployment walkthrough https://www.youtube.com/watch?v=nh1ynJGJuT8 '''
-
 # MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
 # STATIC_URL = '/static/static/'
 
 # STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
 # MEDIA_ROOT = '/vol/web/media'
 
-django_heroku.settings(locals() ) #staticfiles=False
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
+# STATIC_URL = '/static/static/'
+
+# STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
+# MEDIA_ROOT = '/vol/web/media'
+#django_heroku.settings(locals() ) #staticfiles=False
 
 
 # VALID_IMAGE_EXTENSIONS = [

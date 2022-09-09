@@ -288,7 +288,6 @@ class Report:
         information_of_subjects = []
 
         if(person_responsible): 
-
             for the_name in names_list:
                 p = PersonResponsible.objects.get(title=the_name)
 

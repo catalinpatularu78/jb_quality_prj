@@ -1,0 +1,1 @@
+docker build --rm --pull -f "/home/conor/repo/jb_quality_prj/Dockerfile" -t "jbqualityprj:latest" "/home/conor/repo/jb_quality_prj"
