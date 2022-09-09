@@ -260,20 +260,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
-# STATIC_URL = '/static/static/'
-
-# STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
-# MEDIA_ROOT = '/vol/web/media'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# MEDIA_URL = '/static/media/' #/static here is the proxy and it will serve both static and media files
-# STATIC_URL = '/static/static/'
 
-# STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
-# MEDIA_ROOT = '/vol/web/media'
 #django_heroku.settings(locals() ) #staticfiles=False
 
 
