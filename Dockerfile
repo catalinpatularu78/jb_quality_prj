@@ -14,3 +14,4 @@ RUN chmod g+w /app
 RUN chmod g+w /app/db.sqlite3
 
 RUN python -m pip install -r requirements.txt
+

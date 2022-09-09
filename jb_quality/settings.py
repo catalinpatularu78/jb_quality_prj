@@ -263,7 +263,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATIC_ROOT = '/vol/web/static' #the static root tells the container where it expects the static files to be stored
 # MEDIA_ROOT = '/vol/web/media'
-
 #django_heroku.settings(locals() ) #staticfiles=False
 
 
