@@ -1,0 +1,1 @@
+docker build --rm --pull -f ".\Dockerfile" -t "jbqualityprj:latest" "C:\Users\hp\Desktop\Main Project\jb_quality_prj"
