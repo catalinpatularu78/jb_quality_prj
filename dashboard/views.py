@@ -33,6 +33,9 @@ from dashboard.models import (
 )
 
 from dashboard.forms import RecordForm, ImageForm
+decorators = [csrf_exempt]
+
+
 
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
@@ -40,7 +43,7 @@ class StaffMemberRequiredMixin(UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_staff
 
-
+@method_decorator(decorators, name='dispatch')
 class CustomLoginView(LoginView):
     template_name = 'dashboard/login.html'
     fields = '__all__'
@@ -165,9 +168,8 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
 
 
 
-#decorators = [csrf_exempt]
 
-#@method_decorator(decorators, name='dispatch')
+@method_decorator(decorators, name='dispatch')
 class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView):
     
     model = DashboardModel
