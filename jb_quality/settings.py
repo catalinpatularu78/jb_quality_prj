@@ -259,19 +259,11 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/' #/static here is the proxy and it will serve both static and media files
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #the static root tells the container where it expects the static files to be stored
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-#django_heroku.settings(locals() ) #staticfiles=False
-
 
 # VALID_IMAGE_EXTENSIONS = [
 #     ".jpg",
