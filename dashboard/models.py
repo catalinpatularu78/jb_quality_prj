@@ -340,14 +340,24 @@ class Image(models.Model):
     project = models.ForeignKey(DashboardModel, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="images", blank=True)
 
-    def save(self, *args, **kwargs):    
-        #sys.setrecursionlimit(12000)
-        if self.image in ('RGBA', 'LA'):
-            new_image = compress(self.image)
-            self.image = new_image
-        else:
-            pass
+    # def save(self, *args, **kwargs):    
+    #     #sys.setrecursionlimit(12000)
+    #     if self.image in ('RGBA', 'LA'):
+    #         new_image = compress(self.image)
+    #         self.image = new_image
+    #     else:
+    #         pass
+    #     super().save(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+        img = PIL.Image.open(self.image)
+        width, height = img.size
+        target_width = 500
+        h_coefficient = width/500
+        target_height = height/h_coefficient
+        img = img.resize((int(target_width), int(target_height)), PIL.Image.ANTIALIAS)
+        img.save(self.image.path, quality=100)
 
     def __str__(self) -> str:
         return self.image.url
