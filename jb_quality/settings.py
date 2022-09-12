@@ -31,26 +31,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
+#DEBUG = True
 DEBUG = os.getenv('DEBUG')
-#DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-#ALLOWED_HOSTS = ['127.0.0.1', 'jbdjangoapp.herokuapp.com', 'http://jbmanufacturingtests.herokuapp.com/']
-
-#ALLOWED_HOSTS = ['127.0.0.1','jbmanufacturingtests.herokuapp.com']
-
-#ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
-ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS_ENV = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = []
+ALLOWED_HOSTS_ENV = os.getenv('ALLOWED_HOSTS')
 
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
-CSRF_TRUSTED_ORIGINS = ['http://51.142.154.216'] # Azure server's public IP
+CSRF_TRUSTED_ORIGINS = ['http://51.142.154.216'] # azure server's public IP
 
 
-# if ALLOWED_HOSTS_ENV:
-#     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -237,7 +229,7 @@ LOGGING = {
 }
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
-COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
+#COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', True)
 
 
 # Email functionality TEST - NOT FOR PRODUCTION 
@@ -251,13 +243,12 @@ EMAIL_HOST_USER = 'jbdjango@outlook.com'
 EMAIL_HOST_PASSWORD = 'JBengineering'
 
 
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # the path becomes [project dir]\media\
 #DISABLE_SERVER_SIDE_CURSORS = True
 
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
@@ -268,8 +259,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # VALID_IMAGE_EXTENSIONS = [
 #     ".jpg",
 #     ".jpeg",
-#     # ".png",
-#     # ".gif",
+#     ".png",
+#     ".gif",
 # ]
 
 # def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):

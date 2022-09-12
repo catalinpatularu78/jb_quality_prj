@@ -442,8 +442,9 @@ class Report:
             framedata = []                    
             image_list = [str(path) for path in self.record.image_set.all()]
             images_uploaded = len(image_list)
-            spacing = Spacer(0,30)
-            framedImage = None
+		spacing = Spacer(0,30)
+            
+framedImage = None
 
             if(images_uploaded == 1):
                 var1 = str(os.path.join(settings.BASE_DIR) + str(image_list[0])).replace('\\','/') #make the URL for the image

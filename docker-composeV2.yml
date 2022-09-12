@@ -1,0 +1,17 @@
+
+version: '3.9'
+
+services:
+  django_app:
+    image: jbqualityprj
+    volumes:
+      - static_data:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "80:8000" 
+
+volumes:
+  static_data:
