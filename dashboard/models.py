@@ -353,8 +353,8 @@ class Image(models.Model):
         super().save(*args, **kwargs)
         img = PIL.Image.open(self.image)
         width, height = img.size
-        target_width = 500
-        h_coefficient = width/500
+        target_width = 600
+        h_coefficient = width/600
         target_height = height/h_coefficient
         img = img.resize((int(target_width), int(target_height)), PIL.Image.ANTIALIAS)
         img.save(self.image.path, quality=100)

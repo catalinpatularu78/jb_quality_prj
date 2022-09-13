@@ -10,8 +10,8 @@
             <div class="col">
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                 <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">DASHBOARD</a></li>
-                <!-- <li class="breadcrumb-item"><a href="{% url 'record_update' record.pk%}">UPDATE</a></li> -->
+                <li class="breadcrumb-item"><a href="{% url 'dashboard_b' %}">DASHBOARD</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'operative_update' record.pk%}">UPDATE</a></li> -->
                 <li class="breadcrumb-item active" aria-current="page">Advice no. {{ record.advice_number}}</li>
                 </ol>
             </nav>
@@ -67,14 +67,10 @@
                         <hr>
 
                         <div class="d-flex justify-content-evenly mb-2">
-                            <a class="btn btn-info " href="{% url 'record_update' record.pk %}" role="button">
+                            <a class="btn btn-info " href="{% url 'operative_update' record.pk %}" role="button">
                                 UPDATE
                             </a>
-                            <a class="btn btn-secondary" href="{% url 'record_delete' record.pk %}"  role="button">
-                                <!-- style=" background-color: #68889E; color:#FFF; border-color: #2F3E48;" -->
-                                DELETE
-                            </a>
-                            <a class="btn btn-dark" href="{% url 'dashboard' %}" role="button">BACK</a>
+                            <a class="btn btn-dark" href="{% url 'dashboard_b' %}" role="button">BACK</a>
                         </div>
 
                     </div>

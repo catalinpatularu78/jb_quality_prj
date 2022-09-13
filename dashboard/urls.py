@@ -12,6 +12,7 @@ from .views import (
     DashboardPage,
     OperativeDashboardPage,
     OperativeUpdatePage,
+    OperativeDetailPage,
     RecordDetailPage,
     RecordCreatePage,
     RecordUpdatePage,
@@ -43,6 +44,7 @@ urlpatterns = [
     path('filter_dashboard/', FilterDashboardPage.as_view(),  name= 'filter_dashboard'),
     
     path('dashboard/record_create/', RecordCreatePage.as_view(),  name= 'record_create'),
+    path('dashboard/operative_record_details/<str:pk>/', OperativeDetailPage.as_view(), name="operative_detail"),
     path('dashboard/record_details/<str:pk>/', RecordDetailPage.as_view(), name="record_detail"),
     path('dashboard/record_update/<str:pk>/', RecordUpdatePage.as_view(),  name= 'record_update'),
     path('dashboard/record_delete/<str:pk>', RecordDeletePage.as_view(),  name= 'record_delete'),

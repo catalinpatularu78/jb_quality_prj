@@ -36,14 +36,13 @@ from dashboard.forms import RecordForm, ImageForm
 decorators = [csrf_exempt]
 
 
-
-
 class StaffMemberRequiredMixin(UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user.is_staff
 
-@method_decorator(decorators, name='dispatch')
+
+#@method_decorator(decorators, name='dispatch')
 class CustomLoginView(LoginView):
     template_name = 'dashboard/login.html'
     fields = '__all__'
@@ -168,12 +167,102 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
 
 
 
-
-@method_decorator(decorators, name='dispatch')
 class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView):
     
     model = DashboardModel
     template_name = "dashboard/record_detail.html"
+    context_object_name = 'record'
+
+    def form_valid(self,form):         
+        response = super().form_valid(form)
+
+        return response
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.get_object().id
+        record = DashboardModel.objects.get(id=pk)
+
+        the_target_completion_date=""
+        the_closure_date=""
+
+        UTC_date_format = "%Y-%m-%d"
+        custom_date_format = "%d/%m/%Y"
+ 
+        if(record.closure_date):
+            timestring = datetime.strptime(str(record.closure_date + timedelta(days=1))[:10], UTC_date_format)
+            the_closure_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_closure_date = str(the_closure_date)
+        else:
+            the_closure_date = ""
+
+        if(record.target_completion_date):
+            timestring = datetime.strptime(str(record.target_completion_date + timedelta(days=1))[:10], UTC_date_format)
+            the_target_completion_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
+            the_target_completion_date = str(the_target_completion_date)
+        else:
+            the_target_completion_date = ""
+
+        context['the_target_completion_date'] = the_target_completion_date
+        context['the_closure_date'] = the_closure_date
+
+        names_list = [str(name) for name in record.the_subject_responsible.all()]
+        person_responsible = ', '.join(names_list)
+        
+        subject_information = ""
+        information_of_subjects = []
+
+        if(person_responsible):
+            for the_name in names_list:
+                p = PersonResponsible.objects.get(title=the_name)
+
+                data_in_supplier = [str(info) for info in p.supplier_set.all()] 
+
+                if(data_in_supplier):  
+                    subject_information = ''.join(data_in_supplier) + " (Type: Supplier)"    
+                    information_of_subjects.append(subject_information)
+
+                data_in_delivery_partner = [str(info) for info in p.deliverypartner_set.all()]
+                
+                if(data_in_delivery_partner):
+                    subject_information = ''.join(data_in_delivery_partner) + " (Type: Delivery Partner)"   
+                    information_of_subjects.append(subject_information)
+
+                data_in_customer = [str(info) for info in p.customer_set.all()] 
+                
+                if(data_in_customer): 
+                    subject_information = ''.join(data_in_customer) + " (Type: Customer)"   
+                    information_of_subjects.append(subject_information)
+
+                data_in_production_company = [str(info) for info in p.productioncompany_set.all()] 
+                
+                if(data_in_production_company): 
+                    subject_information = ''.join(data_in_production_company) + " (Type: Supplier)"   
+                    information_of_subjects.append(subject_information)
+
+                data_in_other_company = [str(info) for info in p.othercompany_set.all()] 
+                
+                if(data_in_other_company): 
+                    subject_information = ''.join(data_in_other_company) + " (Type: Other)"   
+                    information_of_subjects.append(subject_information)
+
+                data_in_employee = [str(info) for info in p.employee_set.all()] 
+                
+                if(data_in_employee): 
+                    subject_information = "Internal Employee" + " (Type: Employee)"
+                    information_of_subjects.append(subject_information)
+        
+        context['company_name_and_category'] = information_of_subjects
+
+        return context
+
+
+
+class OperativeDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView):
+    
+    model = DashboardModel
+    template_name = "dashboard/operative_detail.html"
     context_object_name = 'record'
 
     def form_valid(self,form):         
@@ -535,7 +624,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
 
 
     def get_success_url(self):
-        return reverse_lazy('record_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy('operative_detail', kwargs={'pk': self.object.pk})
 
 
 

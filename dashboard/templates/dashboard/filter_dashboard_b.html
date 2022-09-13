@@ -171,7 +171,7 @@
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
             <td>
 
-                <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
+                <a href="{% url 'operative_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
             </td>
             <td>{{ dash.advice_number }}</td>
 
@@ -241,11 +241,11 @@
 
             <td>
 
-                <a class="btn btn-primary" href="{% url 'record_detail' dash.pk %}" role="button">DETAILS</a>
+                <a class="btn btn-primary" href="{% url 'operative_detail' dash.pk %}" role="button">DETAILS</a>
 
             </td>
             <td>
-                <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
+                <a class="btn btn-warning" href="{% url 'operative_update' dash.pk %}" role="button">UPDATE</a>
             </td>
             <!-- <td>
                 <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
