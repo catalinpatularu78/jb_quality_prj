@@ -16,7 +16,9 @@ from PIL import ImageOps
 from django.core.files import File
 import sys, PIL.Image
 #from PIL import Image
-import PIL.Image
+#import PIL.Image
+import os
+
 #import sys
 
 
@@ -350,7 +352,7 @@ class Image(models.Model):
     #     super().save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
+        super(Image, self).save(*args, **kwargs)
         img = PIL.Image.open(self.image)
         width, height = img.size
         target_width = 600
@@ -358,6 +360,9 @@ class Image(models.Model):
         target_height = height/h_coefficient
         img = img.resize((int(target_width), int(target_height)), PIL.Image.ANTIALIAS)
         img.save(self.image.path, quality=100)
+        img.close()
+        self.image.close()
+ 
 
     def __str__(self) -> str:
         return self.image.url
