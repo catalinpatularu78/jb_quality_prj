@@ -3,7 +3,8 @@ version: '3.9'
 services:
   django_gunicorn:
     volumes:
-      - static_data:/static
+      - static_data:/app/static
+      - media_data:/app/media/images
     env_file:
       - .env
     build:
@@ -13,7 +14,8 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_data:/static
+      - static_data:/app/static
+      - media_data:/app/media/images
     ports:
       - "80:80"
     depends_on:
@@ -21,3 +23,14 @@ services:
 
 volumes:
   static_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./static
+  media_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./media/images

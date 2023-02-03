@@ -1,4 +1,4 @@
-FROM python:3.8.5
+FROM tiangolo/uwsgi-nginx:python3.8
 
 LABEL NAME=my_app Version=0.0.1
 

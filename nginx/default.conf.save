@@ -1,0 +1,37 @@
+upstream django {
+    server django_gunicorn:8000;  #we want the nginx server to proxy for this server and port
+}
+
+server {
+    listen 80;
+    client_max_body_size 30M; # max upload file size
+
+    location / { #if it's not a static file, the request gets passed back to port 8000
+
+	proxy_pass http://django; #"django" is inferred from what the upstream name was defined as
+    }
+
+    location /static/img {
+        root /app;
+    }
+
+    location /static/css {
+        root /app;
+    }
+
+    location /static/js {
+        root /app;
+    }
+
+#    location /media/ {
+ #       proxy_pass http://django_gunicorn:8000/media/images;
+        #alias /app/media/images;
+  #  }
+
+   # location /home/APPROOT/app/jb_quality_prj/media/ {
+#	alias /media; # make nginx serve the media files
+ #   }
+    location /media/ { root /app;
+    }    
+}
+
