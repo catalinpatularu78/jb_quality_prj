@@ -99,14 +99,14 @@ class Report:
             the_issue_datetime = "Please update the record with the time and date of the issue"
 
         if(self.record.closure_date):
-            timestring = datetime.strptime(str(self.record.closure_date + timedelta(days=1))[:10], UTC_date_format)
+            timestring = datetime.strptime(str(self.record.closure_date)[:10], UTC_date_format)
             the_closure_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
             the_closure_date = str(the_closure_date)
         else:
             the_closure_date = ""
 
         if(self.record.target_completion_date):
-            timestring = datetime.strptime(str(self.record.target_completion_date + timedelta(days=1))[:10], UTC_date_format)
+            timestring = datetime.strptime(str(self.record.target_completion_date)[:10], UTC_date_format)
             the_target_completion_date = datetime.fromtimestamp(timestring.timestamp()).__format__(custom_date_format)
             the_target_completion_date = str(the_target_completion_date)
         else:
