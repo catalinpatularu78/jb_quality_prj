@@ -1,4 +1,4 @@
-
+{% load static %}
 
 <!-- Responsive navbar-->
 {% if request.user.is_authenticated %}
@@ -6,7 +6,8 @@
     <div class="container">
 
         {% if request.user.is_superuser %}
-            <a class="navbar-brand" href="{% url 'dashboard' %}">Admin Dashboard</a>
+            <a  href="{% url 'dashboard' %}"> <img src="{% static 'img/logo.jpg' %}" alt="Logo" style="width:60%;height:80%;"  />
+</a>
         {% else %}
             <a class="navbar-brand" href="{% url 'dashboard_b' %}">Operative Dashboard</a>
         {% endif %}
