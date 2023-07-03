@@ -158,9 +158,7 @@
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
-            <th scope="col">Details</th>
-            <th scope="col">Update</th>
-            <th scope="col">Delete</th>
+            <th scope="col">Person/Company responsible</th>
         </tr>
 
         {% for dash in myFilter.qs %}
@@ -207,15 +205,15 @@
             <td>
             {% if dash.severity == 3  %}
                 <button type="button" class="btn btn-danger fw-bolder disabled">
-                    {{dash.severity}} - [Stop the job]
+                	      HIGH  
                 </button>
             {% elif dash.severity == 2 %}
                 <button type="button" class="btn btn-warning fw-bolder  disabled" >
-                    {{dash.severity}} - [inform the supervisor and continue working]
+                	      MEDIUM 
                 </button>
             {% elif dash.severity == 1 %}
                 <button type="button" class="btn btn-secondary fw-bolder  disabled" >
-                    {{dash.severity}} - [inform the supervisor]
+                	      LOW 
                 </button>
             {% else %}
                 <h1>----</h1>
@@ -239,18 +237,17 @@
             </td> -->
 
 
-            <td>
+            <td class="d-none d-md-table-cell ">
+			 	{% for employee_obj in dash.the_subject_responsible.all %}
 
-                <a class="btn btn-primary" href="{% url 'record_detail' dash.pk %}" role="button">DETAILS</a>
+                {% if not forloop.first %}
+                    ,
+                {% endif %}
 
-            </td>
-            <td>
-                <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
-            </td>
-            <td>
-                <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
-            </td>
+                {{ employee_obj }}
 
+                {% endfor %}
+			</td>
 
         </tr>
 
