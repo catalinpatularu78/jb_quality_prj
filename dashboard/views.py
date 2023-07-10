@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from django.views.generic import ListView, DetailView, TemplateView
+from django.views import View
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
 from django.http import HttpResponse, HttpResponseRedirect
@@ -649,6 +651,17 @@ class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteVi
   
     #     return context
 
+class SelectedRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    success_url = reverse_lazy("dashboard")
+    context_object_name = 'selected_records_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_records = request.POST.getlist('ids')
+        records_deleted = DashboardModel.objects.filter(id__in=selected_records).delete()
+
+        return HttpResponseRedirect(self.success_url)
 
 class IssueFormPage(LoginRequiredMixin , CreateView):
     

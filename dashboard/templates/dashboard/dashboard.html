@@ -8,6 +8,17 @@
         <h1>Quality Engineering Dashboard</h1>
         <p class="lead">J & B Engineering</p>
         <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
+     	<form  method="POST" action="{% url 'selected_records_delete' %}"  style="display: inline;"  onsubmit="window.delete_selected()">
+        	{% csrf_token %}
+		    {% if messages %}
+		    {%for message in messages%}
+		        <div role="alert">
+		            {{ message }}
+		        </div>
+		    {% endfor %}
+		    {% endif %}
+		<button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" >DELETE</button>
+	
     </div>
 </div>
 
@@ -27,7 +38,7 @@
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
             <th scope="col">Person/Company responsible</th>
-            
+            <th scope="col">Select records to Delete</th>
         </tr>
 
         {% for dash in dashboard %}
@@ -116,14 +127,31 @@
 
                 {% endfor %}
 			</td>
-
+            <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" > </td>
 
         </tr>
 
         {% endfor %}
 
     </table>
-
+	</form>
+	
+	<script type="text/javascript">
+	window.delete_selected = function() { 
+		var selected = document.getElementById("delete-selected");
+		if(selected.checked){
+			var isValid = confirm('Are you sure you want to delete the selected records ?');
+			if (!isValid) { 
+				event.preventDefault();  
+				alert("The records will not be deleted !"); 
+				}
+		}else{
+			alert("You didn't select any records !")
+		}}
+		
+		
+	</script>
+	
     <div class="row">
         <div class="col-12">
             <span class="step-links">
@@ -146,6 +174,5 @@
 
 
 </div>
-
 
 {% endblock content %}
