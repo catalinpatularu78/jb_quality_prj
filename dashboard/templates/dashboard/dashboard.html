@@ -17,10 +17,10 @@
 		        </div>
 		    {% endfor %}
 		    {% endif %}
-		<button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" >DELETE</button>
-	
-    </div>
+		
+     </div>
 </div>
+      
 
 <hr>
 
@@ -38,7 +38,9 @@
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
             <th scope="col">Person/Company responsible</th>
-            <th scope="col">Select records to Delete</th>
+            <th scope="col">Select records to
+             <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" >DELETE</button>
+             </th>
         </tr>
 
         {% for dash in dashboard %}
