@@ -32,12 +32,13 @@
             <th scope="col">NCR Number</th>
             <th scope="col">Advice Number</th>
             <th scope="col" class="d-none d-md-table-cell ">Location</th>
+            <th scope="col" class="d-none d-md-table-cell ">Department</th>
             <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
-            <th scope="col">Person/Company responsible</th>
+            <th scope="col">Person or Company responsible</th>
             <th scope="col">Select records to
              <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" >DELETE</button>
              </th>
@@ -78,7 +79,47 @@
         
                 {% endfor %}
             </td>
+            <td class="d-none d-md-table-cell ">
+                 {% if dash.production_issue.all|length %}
+                     {% for issue in dash.production_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
 
+                 {% if dash.supplier_issue.all|length %}
+                     {% for issue in dash.supplier_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                     
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
+
+                 {% if dash.customer_issues.all|length %}
+                     {% for issue in dash.customer_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                         
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+
+                 {% if dash.other_issues.all|length %}
+                     {% for issue in dash.other_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                  
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+ 			</td>
 
             <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>

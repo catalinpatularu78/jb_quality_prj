@@ -151,7 +151,7 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Area:</p>
+                                <p class="mb-0">Department:</p>
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
@@ -170,12 +170,12 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0"> Issues:</p>
+                                <p class="mb-0"> Area:</p>
                                 </div>
                                 <div class="col-sm-9">
                                         <p>
                                         {% if record.production_issue.all|length %}
-                                            Production:{% for issue in record.production_issue.all %}
+                                            {% for issue in record.production_issue.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -185,7 +185,7 @@
                                         {% endif %}  
 
                                         {% if record.supplier_issue.all|length %}
-                                            Supplier:{% for issue in record.supplier_issue.all %}
+                                            {% for issue in record.supplier_issue.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -195,7 +195,7 @@
                                         {% endif %}  
 
                                         {% if record.customer_issues.all|length %}
-                                            Customer:{% for issue in record.customer_issues.all %}
+                                            {% for issue in record.customer_issues.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
