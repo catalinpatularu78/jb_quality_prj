@@ -4,18 +4,7 @@
 
 {% load static %}
 
-
-<!-- Page content-->
-<!-- <div class="container">
-    <div class="text-center mt-5">
-        <h1>Dashboard</h1>
-        <p class="lead">J & B Engineering</p>
-        <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
-    </div>
-</div>
-
-<hr> -->
-
+{% load templatetags %}
 
 <div class="row">
 	<div class="col">
@@ -145,27 +134,38 @@
 <br>
 
 <div class="  px-5">
+	<form  method="POST" action="{% url 'selected_filter_records_delete' %}"  style="display: inline;" >
+        	{% csrf_token %}
+		    {% if messages %}
+		    {%for message in messages%}
+		        <div role="alert">
+		            {{ message }}
+		        </div>
+		    {% endfor %}
+		    {% endif %}
     <table class="table table-striped table-hover table-bordered align-middle table-responsive ">
 
         <tr class="table-info">
-
             <th scope="col">Issue Date</th>
             <th scope="col">NCR Number</th>
             <th scope="col">Advice Number</th>
             <th scope="col" class="d-none d-md-table-cell ">Location</th>
+            <th scope="col" class="d-none d-md-table-cell ">Department</th>
             <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
-            <th scope="col">Person/Company responsible</th>
+            <th scope="col">Person or Company responsible</th>
+            <th scope="col">Select records to
+             <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button"  onclick="return delete_filtered_selected();" >DELETE</button>
+             </th>
         </tr>
 
-        {% for dash in myFilter.qs %}
-
+         {% for dash in myFilter_result %}
+         
         <tr class="align-top">
-            <!-- <th scope="row">{{ forloop.counter }}</th> -->
-            
+            <!-- <th scope="row">{{ forloop.counter }}</th> -->               
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
             <td>
 
@@ -197,7 +197,47 @@
         
                 {% endfor %}
             </td>
+            <td class="d-none d-md-table-cell ">
+                 {% if dash.production_issue.all|length %}
+                     {% for issue in dash.production_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
 
+                 {% if dash.supplier_issue.all|length %}
+                     {% for issue in dash.supplier_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                     
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
+
+                 {% if dash.customer_issues.all|length %}
+                     {% for issue in dash.customer_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                         
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+
+                 {% if dash.other_issues.all|length %}
+                     {% for issue in dash.other_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                  
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+ 			</td>
 
             <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>
@@ -248,28 +288,53 @@
 
                 {% endfor %}
 			</td>
+            <td> <input type="checkbox" class="action-select" name="filtered_ids" value="{{dash.id}}" id="filtered_delete-selected" > </td>
 
         </tr>
 
         {% endfor %}
 
     </table>
+	</form>
+	
+	<script type="text/javascript">
+	 function delete_filtered_selected() { 
+		var checkboxes = document.getElementsByName("filtered_ids");
+		var selected_checkboxes=0;
+		for(var i = 0; i < checkboxes.length; i++)  {
+			if(checkboxes[i].checked){
+				selected_checkboxes=selected_checkboxes+1;
+			}
+		}
+		if(selected_checkboxes > 0){
+			var isValid = confirm('Are you sure you want to delete the selected records ?');
+			if (!isValid) { 
+				event.preventDefault();  
+				alert("The records will not be deleted !"); 
+				}
+		}else{
+			alert("You didn't select any records !")
+		}
+	}
+		
+		
+	</script>
 
-    <div class="row">
+<div class="row">
         <div class="col-12">
             <span class="step-links">
-                {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% if myFilter_result.has_previous %}
+                <a href="?{% query_transform request page=1 %}">&laquo; first</a>
+                <a href="?{% query_transform request page=myFilter_result.previous_page_number %}">previous</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    Page {{ myFilter_result.number }} of {{ myFilter_result.paginator.num_pages }}.
                 </span>
 
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if myFilter_result.has_next %}
+                <a href="?{% query_transform request page=myFilter_result.next_page_number %}">next</a>
+                <a href="?{% query_transform request page=myFilter_result.paginator.num_pages %}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>
@@ -277,5 +342,7 @@
 
 
 </div>
+
+
 
 {% endblock content %}

@@ -3,7 +3,7 @@
 {% block content %}
 
 {% load static %}
-
+{% load templatetags %}
 
 <!-- Page content-->
 <!-- <div class="container">
@@ -153,17 +153,18 @@
             <th scope="col">NCR Number</th>
             <th scope="col">Advice Number</th>
             <th scope="col" class="d-none d-md-table-cell ">Location</th>
+            <th scope="col" class="d-none d-md-table-cell ">Department</th>
             <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
-            <th scope="col">Details</th>
-            <th scope="col">Update</th>
+            <th scope="col">Person or Company responsible</th>
             <!-- <th scope="col">Delete</th> -->
         </tr>
 
-        {% for dash in myFilter.qs %}
+        	 {% for dash in myFilter_result %} 
+         
 
         <tr class="align-top">
             <!-- <th scope="row">{{ forloop.counter }}</th> -->
@@ -199,23 +200,63 @@
         
                 {% endfor %}
             </td>
+			 <td class="d-none d-md-table-cell ">
+                 {% if dash.production_issue.all|length %}
+                     {% for issue in dash.production_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
 
+                 {% if dash.supplier_issue.all|length %}
+                     {% for issue in dash.supplier_issue.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                     
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}  
+
+                 {% if dash.customer_issues.all|length %}
+                     {% for issue in dash.customer_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                         
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+
+                 {% if dash.other_issues.all|length %}
+                     {% for issue in dash.other_issues.all %}
+                     {% if not forloop.first %}
+                     , 
+                     {% endif %}   
+                     {{issue}}                  
+                     {% endfor %}
+                     &nbsp;
+                 {% endif %}
+ 			</td>
 
             <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
             <td>
-            {% if dash.severity == 3  %}
+             {% if dash.severity == 3  %}
                 <button type="button" class="btn btn-danger fw-bolder disabled">
-                    {{dash.severity}} - [Stop the job]
+                	      HIGH  
                 </button>
             {% elif dash.severity == 2 %}
                 <button type="button" class="btn btn-warning fw-bolder  disabled" >
-                    {{dash.severity}} - [inform the supervisor and continue working]
+                	      MEDIUM 
                 </button>
             {% elif dash.severity == 1 %}
                 <button type="button" class="btn btn-secondary fw-bolder  disabled" >
-                    {{dash.severity}} - [inform the supervisor]
+                	      LOW 
                 </button>
             {% else %}
                 <h1>----</h1>
@@ -239,18 +280,21 @@
             </td> -->
 
 
-            <td>
 
-                <a class="btn btn-primary" href="{% url 'operative_detail' dash.pk %}" role="button">DETAILS</a>
-
-            </td>
             <td>
-                <a class="btn btn-warning" href="{% url 'operative_update' dash.pk %}" role="button">UPDATE</a>
+                {% for employee_obj in dash.the_subject_responsible.all %}
+
+                {% if not forloop.first %}
+                    ,
+                {% endif %}
+
+                {{ employee_obj }}
+
+                {% endfor %}
             </td>
             <!-- <td>
                 <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
             </td> -->
-
 
         </tr>
 
@@ -258,21 +302,21 @@
 
     </table>
 
-    <div class="row">
+ <div class="row">
         <div class="col-12">
             <span class="step-links">
-                {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% if myFilter_result.has_previous %}
+                <a href="?{% query_transform request page=1 %}">&laquo; first</a>
+                <a href="?{% query_transform request page=myFilter_result.previous_page_number %}">previous</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    Page {{ myFilter_result.number }} of {{ myFilter_result.paginator.num_pages }}.
                 </span>
 
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% if myFilter_result.has_next %}
+                <a href="?{% query_transform request page=myFilter_result.next_page_number %}">next</a>
+                <a href="?{% query_transform request page=myFilter_result.paginator.num_pages %}">last &raquo;</a>
                 {% endif %}
             </span>
         </div>

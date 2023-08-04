@@ -205,7 +205,7 @@
                                         {% endif %}
 
                                         {% if record.other_issues.all|length %}
-                                            Other:{% for issue in record.other_issues.all %}
+                                            {% for issue in record.other_issues.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   

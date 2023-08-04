@@ -8,7 +8,13 @@
         <h1>Quality Engineering Dashboard</h1>
         <p class="lead">J & B Engineering</p>
         <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
-     	<form  method="POST" action="{% url 'selected_records_delete' %}"  style="display: inline;"  onsubmit="window.delete_selected()">
+     </div>
+</div>
+
+<hr>
+
+<div class="  px-5">
+	<form  method="POST" action="{% url 'selected_records_delete' %}"  style="display: inline;"  >
         	{% csrf_token %}
 		    {% if messages %}
 		    {%for message in messages%}
@@ -17,14 +23,6 @@
 		        </div>
 		    {% endfor %}
 		    {% endif %}
-		
-     </div>
-</div>
-      
-
-<hr>
-
-<div class="  px-5">
     <table class="table table-striped table-hover table-bordered align-middle table-responsive ">
 
         <tr class="table-info">
@@ -40,7 +38,7 @@
             <th scope="col">Severity</th>
             <th scope="col">Person or Company responsible</th>
             <th scope="col">Select records to
-             <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" >DELETE</button>
+             <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" onclick="return delete_selected();" >DELETE</button>
              </th>
         </tr>
 
@@ -170,7 +168,7 @@
 
                 {% endfor %}
 			</td>
-            <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" > </td>
+            <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" ></td>
 
         </tr>
 
@@ -180,9 +178,15 @@
 	</form>
 	
 	<script type="text/javascript">
-	window.delete_selected = function() { 
-		var selected = document.getElementById("delete-selected");
-		if(selected.checked){
+	 function delete_selected() { 
+		var checkboxes = document.getElementsByName("ids");
+		var selected_checkboxes=0;
+		for(var i = 0; i < checkboxes.length; i++)  {
+			if(checkboxes[i].checked){
+				selected_checkboxes=selected_checkboxes+1;
+			}
+		}
+		if(selected_checkboxes > 0){
 			var isValid = confirm('Are you sure you want to delete the selected records ?');
 			if (!isValid) { 
 				event.preventDefault();  
@@ -190,7 +194,9 @@
 				}
 		}else{
 			alert("You didn't select any records !")
-		}}
+		}
+
+	}
 		
 		
 	</script>

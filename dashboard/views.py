@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView  # new
 from django.urls import reverse_lazy  # new
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.contrib import messages
 from django.forms import ValidationError
+from django.core.paginator import Paginator
 
 # For sending emails
 from django.conf import settings
@@ -137,12 +138,20 @@ class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListVie
         "area",
         "cost",
         "issue_solved", 
-        ]
-    
-    
+    ]
+
+ 
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
+        filter_form = DashboardFilter(self.request.GET,queryset=self.get_queryset())
+      
+        result = filter_form.qs
+        paginator = Paginator(result, 20) 
+        page = self.request.GET.get('page', 1)
+        context['myFilter_result'] = paginator.page(page)
+       
+        context['myFilter'] = filter_form
+   
         return context
     
 
@@ -161,10 +170,18 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
         "issue_solved", 
         ]
 
-
+    
+    
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['myFilter'] = DashboardFilter(self.request.GET, queryset= self.get_queryset())
+        filter_form = DashboardFilter(self.request.GET,queryset=self.get_queryset())
+      
+        result = filter_form.qs
+        paginator = Paginator(result, 20) 
+        page = self.request.GET.get('page', 1)
+        context['myFilter_result'] = paginator.page(page)
+       
+        context['myFilter'] = filter_form
         return context
 
 
@@ -661,7 +678,21 @@ class SelectedRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, Cr
         selected_records = request.POST.getlist('ids')
         records_deleted = DashboardModel.objects.filter(id__in=selected_records).delete()
 
-        return HttpResponseRedirect(self.success_url)
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
+class SelectedFilterRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'selected_filter_records_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_records = request.POST.getlist('filtered_ids')
+        records_deleted = DashboardModel.objects.filter(id__in=selected_records).delete()
+
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
 
 class IssueFormPage(LoginRequiredMixin , CreateView):
     

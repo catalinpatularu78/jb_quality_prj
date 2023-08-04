@@ -17,6 +17,7 @@ from .views import (
     RecordCreatePage,
     RecordUpdatePage,
     RecordDeletePage,
+    SelectedFilterRecordsDeletePage,
     SelectedRecordsDeletePage,
     IssueFormPage,
     FilterDashboardPage,
@@ -50,8 +51,8 @@ urlpatterns = [
     path('dashboard/record_update/<str:pk>/', RecordUpdatePage.as_view(),  name= 'record_update'),
     path('dashboard/record_delete/<str:pk>', RecordDeletePage.as_view(),  name= 'record_delete'),
     path('dashboard/selected_records_delete', SelectedRecordsDeletePage.as_view(),  name='selected_records_delete'),
+    path('dashboard/selected_filter_records_delete', SelectedFilterRecordsDeletePage.as_view(),  name='selected_filter_records_delete'),
     path('record_details/<str:pk>/<int:param>.pdf', Report.generate, name='run_pdfgen'),
-    
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
 
 
