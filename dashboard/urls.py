@@ -7,6 +7,8 @@ from .report_gen import Report
 
 
 from .views import (
+    BackToPreviousRecord,
+    ForwardToNextRecord,
     HomePage,
     CustomLoginView,
     DashboardPage,
@@ -53,6 +55,8 @@ urlpatterns = [
     path('dashboard/selected_records_delete', SelectedRecordsDeletePage.as_view(),  name='selected_records_delete'),
     path('dashboard/selected_filter_records_delete', SelectedFilterRecordsDeletePage.as_view(),  name='selected_filter_records_delete'),
     path('record_details/<str:pk>/<int:param>.pdf', Report.generate, name='run_pdfgen'),
+    path('record_details/previous_record', BackToPreviousRecord.as_view(), name="previous_record"),
+     path('record_details/next_record', ForwardToNextRecord.as_view(), name="next_record"),
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
 
 

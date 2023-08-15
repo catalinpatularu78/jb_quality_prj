@@ -2,27 +2,84 @@
 {% load static %}
 {% block content %}
 
-<div class="record-entry">
 
+<style>
+
+.previous:hover {
+  background-color: #16A131;
+  color: black;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.next:hover {
+  background-color: #16A131;
+  color: black;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.previous {
+  background-color: #148E2C;
+  color: white;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.next {
+  background-color: #148E2C;
+  color: white;
+  float: right;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+
+</style>
+
+<div class="record-entry">	
     <section style="background-color: #eee;">
+             
         <div class="container py-5">
+        <form  method="POST" action="{% url 'previous_record'  %}"  style="display: inline;"  >
+        	{% csrf_token %}
+        	 {% if previous %}
+        	    <button class="previous" type="submit" name="ncr" value="{{record.ncr_number}}" >&laquo; Previous Record</button>
+        	  {% else %}
+        	  	<button  disabled type="submit" >&laquo; Previous Record</button>
+        	  {% endif %}
+		    </form>
+		    
+      <form  method="POST" action="{% url 'next_record'  %}"  style="display: inline;"  >
+        	{% csrf_token %}
+        	 {% if next %}
+				<button class="next" type="submit" name="ncr" value="{{record.ncr_number}}" >&raquo; Next Record</button>
+        	  {% else %}
+				<button disabled style="float: right;" type="submit" >&raquo; Next Record</button>
+        	  {% endif %}
+		    </form>
+  			
         <div class="row">
             <div class="col">
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                 <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">DASHBOARD</a></li>
                 <!-- <li class="breadcrumb-item"><a href="{% url 'record_update' record.pk%}">UPDATE</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page">Advice no. {{ record.advice_number}}</li>
+                <li class="breadcrumb-item active" aria-current="page">Advice no. {{ record.advice_number}}</li> 
                 </ol>
+	           
             </nav>
-            </div>
+ 			 </div>
         </div>
 
         <div class="row">
+
             <div class="col-lg-4">
-                <div class="card mb-4">
+                   <div class="card mb-4">
                     <div class="card-body text-center">
-                        <h5 class="my-3">Advice no. {{ record.advice_number}}</h5>
+                      <!--  <a href="">&#11013; Previous Record</a> -->
+                  		<h5 class="my-3">Advice no. {{ record.advice_number}}</h5>
+     				<!--	<a href="">&#10145; Next Record</a> -->
                         <hr>
                         <div class="row">
 
@@ -75,6 +132,7 @@
                                 DELETE
                             </a>
                             <input class="btn btn-dark" type=button value="BACK" onClick="window.history.back();return false;">
+
                         </div>
 
                     </div>
@@ -205,7 +263,7 @@
                                         {% endif %}
 
                                         {% if record.other_issues.all|length %}
-                                            {% for issue in record.other_issues.all %}
+                                            Other:{% for issue in record.other_issues.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
