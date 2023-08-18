@@ -242,7 +242,11 @@
                  {% endif %}
  			</td>
 
-            <td>{{ dash.cost }}</td>
+            <td> {% if dash.cost is None  %}
+            		0
+              {% else %}
+                {{ dash.cost }}
+            {% endif %}</td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
             <td>

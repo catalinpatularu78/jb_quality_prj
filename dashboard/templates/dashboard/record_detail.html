@@ -46,7 +46,7 @@
         	 {% if previous %}
         	    <button class="previous" type="submit" name="ncr" value="{{record.ncr_number}}" >&laquo; Previous Record</button>
         	  {% else %}
-        	  	<button  disabled type="submit" >&laquo; Previous Record</button>
+        	  	<button  disabled  style="margin-bottom: 15px;" type="submit" >&laquo; Previous Record</button>
         	  {% endif %}
 		    </form>
 		    
@@ -55,7 +55,7 @@
         	 {% if next %}
 				<button class="next" type="submit" name="ncr" value="{{record.ncr_number}}" >&raquo; Next Record</button>
         	  {% else %}
-				<button disabled style="float: right;" type="submit" >&raquo; Next Record</button>
+				<button disabled style="margin-bottom: 15px; float: right;"  type="submit" >&raquo; Next Record</button>
         	  {% endif %}
 		    </form>
   			
@@ -159,7 +159,12 @@
                             <h5 class="mb-0 font-weight-bold ">:</>
                             </div>
                         <div class="col-sm-6">
-                            <p class="text-muted mb-0">{{ record.cost }}</p>
+                            <p class="text-muted mb-0">
+                            {% if record.cost is None  %}
+				            		0
+				              {% else %}
+				                {{ record.cost }}
+				            {% endif %}</p>
                         </div>
                     </div>
                     <hr>
@@ -540,7 +545,13 @@
                                 <p class="mb-0">Estimated Completion Time:</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.estimated_readability }}</p>
+                                <p class="text-muted mb-0">
+                                    {% if record.estimated_readability  %}
+					            		 {{ record.estimated_readability }}
+					                {% else %}
+					                0d: 0h: 0m 
+					                {% endif %}
+                              </p>
                                 </div>
                             </div>
                             <hr>
@@ -550,7 +561,13 @@
                                 <p class="mb-0">Downtime:</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{ record.downtime_readability }}</p>
+                                <p class="text-muted mb-0">
+                                    {% if record.downtime_readability  %}
+					            	     {{ record.downtime_readability }}
+					                {% else %}
+					               0d: 0h: 0m 
+					                {% endif %}
+					            </p>
                                 </div>
                             </div>
                             <hr>
