@@ -134,6 +134,7 @@
 <br>
 
 <div class="  px-5">
+
 	<form  method="POST" action="{% url 'selected_filter_records_delete' %}"  style="display: inline;" >
         	{% csrf_token %}
 		    {% if messages %}
@@ -161,15 +162,15 @@
              <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button"  onclick="return delete_filtered_selected();" >DELETE</button>
              </th>
         </tr>
-
+ 
          {% for dash in myFilter_result %}
          
         <tr class="align-top">
             <!-- <th scope="row">{{ forloop.counter }}</th> -->               
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
             <td>
-
-                <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
+			
+                 <a href="{% url 'record_detail' dash.pk %}" >{{ dash.ncr_number }} </a>
             </td>
             <td>{{ dash.advice_number }}</td>
 
@@ -239,7 +240,12 @@
                  {% endif %}
  			</td>
 
-            <td>{{ dash.cost }}</td>
+            <td> {% if dash.cost is None  %}
+            		0
+              {% else %}
+                {{ dash.cost }}
+            {% endif %}
+            </td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
             <td>
