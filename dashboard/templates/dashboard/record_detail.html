@@ -572,21 +572,39 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-3">
-                                <p class="mb-0">Images:</p>
-                                </div>
-                                <div class="col-sm-9">
-                                <p class="text-muted mb-0">
-                                    {% for img_url in record.image_set.all %}
-                                    {% if not forloop.first %}
-                                        <br>
-                                    {% endif %}
+                            <form  method="POST" action="{% url 'selected_pictures_delete' record.pk %}"  style="display: inline;"  >
+						        	{% csrf_token %}
+								    {% if messages %}
+								    {%for message in messages%}
+								        <div role="alert">
+								            {{ message }}
+								        </div>
+								    {% endfor %}
+								    {% endif %}
+                                
+                                   <table class="table table-striped table-hover table-bordered table-responsive ">
 
-                                    <img src="{{ img_url }}" width="450">
-				    	            <br>
-                                    {% endfor %}
-                                </p>
-                                </div>
+								        <tr class="table-info">
+								            <th scope="col">Images</th>
+								            <th scope="col">Select images to
+								            <div>											
+								            <button class="btn btn-danger" style="position: relative" type="submit" value="DELETE" id="delete-button" onclick="return delete_selected();" >DELETE</button>
+								             </div>
+								             </th>
+								        </tr>
+								          {% for img_url in record.image_set.all %}
+		                                    {% if not forloop.first %}
+		                                        <br>
+		                                    {% endif %}
+										 <tr class="align-top">
+                   
+           								 <td><img src="{{ img_url }}" width="450"> </td>
+           								 <td>    <input type="checkbox" class="action-select" name="urls" value="{{ img_url.id }}" id="delete-selected" ></td>
+           								 </tr>
+           								  {% endfor %}
+                                </table>
+                                
+                                </form>
                             </div>
                             <hr>
                             
@@ -623,7 +641,31 @@
             </div>
         </div>
     </section>
+<script type="text/javascript">
+	 function delete_selected() { 
+		var checkboxes = document.getElementsByName("urls");
+		var selected_checkboxes=0;
+		
+		for(var i = 0; i < checkboxes.length; i++)  {
+			if(checkboxes[i].checked){
+				selected_checkboxes=selected_checkboxes+1;
+			}
+		}
+		
+		if(selected_checkboxes > 0){
+			var isValid = confirm('Are you sure you want to delete the selected pictures ?');
+			if (!isValid) { 
+				event.preventDefault();  
+				alert("The pictures will not be deleted !"); 
+				}
+		}else{
+			alert("You didn't select any pictures !")
+		}
 
+	}
+		
+		
+	</script>
 
 
 </div>

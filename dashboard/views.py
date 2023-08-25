@@ -15,6 +15,7 @@ from django.db.models import Max, Min
 from django.contrib import messages
 from django.forms import ValidationError
 from django.core.paginator import Paginator
+from urllib.parse import urlparse, parse_qs
 
 # For sending emails
 from django.conf import settings
@@ -511,7 +512,7 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
-                    d.image_set.all().delete() #delete the previous images
+                  
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i)   
                 else:
@@ -635,7 +636,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
-                    d.image_set.all().delete() #delete the previous images
+
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i) #create the new images
                 else:
@@ -732,6 +733,42 @@ class ForwardToNextRecord(StaffMemberRequiredMixin, LoginRequiredMixin,  View):
         pk = next_record.id
 
         return HttpResponseRedirect('/dashboard/record_details/'+ str(pk))
+    
+
+class SelectedPicturesToDelete(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'selected_pictures_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_pictures_id = request.POST.getlist('urls')
+        print(selected_pictures_id, flush=True)
+        pk = self.get_object().id
+       
+        record = DashboardModel.objects.get(id=pk)
+        result = record.image_set.all()
+        records_dict = result.values()
+        print(records_dict, flush=True)
+  
+        for image in records_dict:
+
+            print(image, flush=True)
+            for k,v in image.items():
+                if k == 'id':
+                            
+                    print(v, flush=True)
+                    for id in selected_pictures_id:
+                        print(id, flush=True)
+                    
+                        if int(id) == v:
+                            print("true", flush=True)
+                            Image.objects.get(id=id).delete()
+            
+                
+    
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
     
 
 class IssueFormPage(LoginRequiredMixin , CreateView):

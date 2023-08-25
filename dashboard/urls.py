@@ -20,6 +20,7 @@ from .views import (
     RecordUpdatePage,
     RecordDeletePage,
     SelectedFilterRecordsDeletePage,
+    SelectedPicturesToDelete,
     SelectedRecordsDeletePage,
     IssueFormPage,
     FilterDashboardPage,
@@ -56,9 +57,9 @@ urlpatterns = [
     path('dashboard/selected_filter_records_delete', SelectedFilterRecordsDeletePage.as_view(),  name='selected_filter_records_delete'),
     path('record_details/<str:pk>/<int:param>.pdf', Report.generate, name='run_pdfgen'),
     path('record_details/previous_record', BackToPreviousRecord.as_view(), name="previous_record"),
-     path('record_details/next_record', ForwardToNextRecord.as_view(), name="next_record"),
+    path('record_details/next_record', ForwardToNextRecord.as_view(), name="next_record"),
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
-
+    path('record_details/selected_pictures_delete/<str:pk>', SelectedPicturesToDelete.as_view(),  name='selected_pictures_delete'),
 
     
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
