@@ -1,0 +1,12 @@
+# pack-refs with: peeled fully-peeled sorted 
+c6e4bb330d78cd4f33145b8cf62583d322112ba5 refs/remotes/origin/Filter-page-updated-+-small-UI-changes-as-per-PDF
+8d784a61eb11c2d0f0e5d86420aa4109b552b31f refs/remotes/origin/Tests
+1d528eeae1c013767841ac4e9aa06e7fa030c0e7 refs/remotes/origin/auto-increment-ncr
+e61e9941ea1a4ce342a4f256e9e841b215ad730d refs/remotes/origin/bulk-upload
+05a7fdb36315d620ded0489653bd5df30cd9319f refs/remotes/origin/datefield-hour-+-minute-test
+e110d1e122abf1414c27ca7c452837b613c4f857 refs/remotes/origin/dep_gunicorn
+9ed5a29e083958932d85e173c15eb4a1afc10a58 refs/remotes/origin/image_tests
+5100e8cf7978fd5b4e3776160e0f5a55e2365b2b refs/remotes/origin/image_tests2
+9edfac685045845bb93c9110903f14c9c376f240 refs/remotes/origin/master
+986556a9086fc39d41c87641d7320d2b8d4f8c04 refs/remotes/origin/reportlab_addition
+62636f917447fc0785ada041d2a97c3ded5a0cc8 refs/remotes/origin/updates

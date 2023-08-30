@@ -5,9 +5,8 @@ from django.shortcuts import render
 from django import forms
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
-
-
+from django.db import IntegrityError 
+from django.core.exceptions import ValidationError
 
 # Register your models here.
 from .models import (
@@ -77,7 +76,7 @@ class ClientAdmin(admin.ModelAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
-
+'''
 class CompanyResponsibleAdmin(admin.ModelAdmin):
     list_display = ['name']
 
@@ -102,21 +101,52 @@ class CompanyResponsibleAdmin(admin.ModelAdmin):
             for x in csv_data:
                 if x == "" : continue
                 fields = x.split(",")
-
-                obj, created = ClientModel.objects.update_or_create(
+                created = ClientModel.objects.update_or_create(
                     name = fields[0]
                     )
-                if not created:
-                    messages.warning(request, "Duplicate entry detected: {} already exists.".format(fields[0]))
- 
-
             url = reverse('admin:index')
             return HttpResponseRedirect(url)
 
         form = CsvImportForm()
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
+'''
+class CompanyResponsibleAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
+    def get_urls(self):
+        urls = super().get_urls()
+        new_urls = [path('upload-csv/', self.upload_csv),]
+        return new_urls + urls
+
+    def upload_csv(self, request):
+
+        if request.method == "POST":
+            csv_file = request.FILES["csv_upload"]
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.warning(request, 'The wrong file type was uploaded')
+                return HttpResponseRedirect(request.path_info)
+            
+            file_data = csv_file.read().decode("utf-8")
+            csv_data = file_data.split("\n")
+            
+            # [:-1] returns blank line at end , slice option 
+            for x in csv_data:
+                if x == "" : continue
+                fields = x.split(",")
+                obj, created = ClientModel.objects.update_or_create(
+                    name = fields[0]
+                    )
+                if not created:
+                    messages.warning(request, "Duplicate entry detected: {} already exists.".format(fields[0]))
+ 
+            url = reverse('admin:index')
+            return HttpResponseRedirect(url)
+
+        form = CsvImportForm()
+        data = {"form": form}
+        return render(request, "admin/csv_upload.html", data)
 
     
     def save_model(self, request, obj, form, change):
@@ -125,6 +155,8 @@ class CompanyResponsibleAdmin(admin.ModelAdmin):
             messages.warning(request, f"Duplicate entry detected: {obj.name} already exists.")
         else:
             super().save_model(request, obj, form, change)
+
+
 
 
 
@@ -441,6 +473,7 @@ class QualityEngineerTeamAdmin(admin.ModelAdmin):
         return render(request, "admin/csv_upload.html", data)
 
 
+'''
 class PersonResponsibleAdmin(admin.ModelAdmin):
     list_display = ['title']
 
@@ -474,7 +507,53 @@ class PersonResponsibleAdmin(admin.ModelAdmin):
         form = CsvImportForm()
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
+'''
+class PersonResponsibleAdmin(admin.ModelAdmin):
+    list_display = ['title']
 
+    def get_urls(self):
+        urls = super().get_urls()
+        new_urls = [path('upload-csv/', self.upload_csv),]
+        return new_urls + urls
+
+    def upload_csv(self, request):
+
+        if request.method == "POST":
+            csv_file = request.FILES["csv_upload"]
+            
+            if not csv_file.name.endswith('.csv'):
+                messages.warning(request, 'The wrong file type was uploaded')
+                return HttpResponseRedirect(request.path_info)
+            
+            file_data = csv_file.read().decode("utf-8")
+            csv_data = file_data.split("\n")
+            
+            # [:-1] returns blank line at end , slice option 
+            for x in csv_data:
+                if x == "" : continue
+                fields = x.split(",")
+                
+                exists = PersonResponsible.objects.filter(title=fields[0]).exists()
+                if exists:
+                    messages.warning(request, "Duplicate entry detected: {} already exists.".format(fields[0]))
+                    continue
+                created = PersonResponsible.objects.update_or_create(
+                    title = fields[0]
+                    )
+            url = reverse('admin:index')
+            return HttpResponseRedirect(url)
+
+            form = CsvImportForm()
+            data = {"form": form}
+            return render(request, "admin/csv_upload.html", data)
+
+
+    def save_model(self, request, obj, form, change):
+        exists = PersonResponsible.objects.filter(title=obj.title).exclude(pk=obj.pk).exists()
+        if exists:
+            messages.warning(request, f"Duplicate entry detected: {obj.title} already exists.")
+        else:
+            super().save_model(request, obj, form, change)
 
 
 #ManyToMany

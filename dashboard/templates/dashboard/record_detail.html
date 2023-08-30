@@ -2,84 +2,27 @@
 {% load static %}
 {% block content %}
 
+<div class="record-entry">
 
-<style>
-
-.previous:hover {
-  background-color: #16A131;
-  color: black;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-.next:hover {
-  background-color: #16A131;
-  color: black;
-  border-radius: 6px;
-  margin-bottom: 15px;
-}
-
-.previous {
-  background-color: #148E2C;
-  color: white;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-.next {
-  background-color: #148E2C;
-  color: white;
-  float: right;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
-
-
-</style>
-
-<div class="record-entry">	
     <section style="background-color: #eee;">
-             
         <div class="container py-5">
-        <form  method="POST" action="{% url 'previous_record'  %}"  style="display: inline;"  >
-        	{% csrf_token %}
-        	 {% if previous %}
-        	    <button class="previous" type="submit" name="ncr" value="{{record.ncr_number}}" >&laquo; Previous Record</button>
-        	  {% else %}
-        	  	<button  disabled  style="margin-bottom: 15px;" type="submit" >&laquo; Previous Record</button>
-        	  {% endif %}
-		    </form>
-		    
-      <form  method="POST" action="{% url 'next_record'  %}"  style="display: inline;"  >
-        	{% csrf_token %}
-        	 {% if next %}
-				<button class="next" type="submit" name="ncr" value="{{record.ncr_number}}" >&raquo; Next Record</button>
-        	  {% else %}
-				<button disabled style="margin-bottom: 15px; float: right;"  type="submit" >&raquo; Next Record</button>
-        	  {% endif %}
-		    </form>
-  			
         <div class="row">
             <div class="col">
             <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                 <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">DASHBOARD</a></li>
                 <!-- <li class="breadcrumb-item"><a href="{% url 'record_update' record.pk%}">UPDATE</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page">Advice no. {{ record.advice_number}}</li> 
+                <li class="breadcrumb-item active" aria-current="page">Advice no. {{ record.advice_number}}</li>
                 </ol>
-	           
             </nav>
- 			 </div>
+            </div>
         </div>
 
         <div class="row">
-
             <div class="col-lg-4">
-                   <div class="card mb-4">
+                <div class="card mb-4">
                     <div class="card-body text-center">
-                      <!--  <a href="">&#11013; Previous Record</a> -->
-                  		<h5 class="my-3">Advice no. {{ record.advice_number}}</h5>
-     				<!--	<a href="">&#10145; Next Record</a> -->
+                        <h5 class="my-3">Advice no. {{ record.advice_number}}</h5>
                         <hr>
                         <div class="row">
 
@@ -131,8 +74,7 @@
                                 <!-- style=" background-color: #68889E; color:#FFF; border-color: #2F3E48;" -->
                                 DELETE
                             </a>
-                            <input class="btn btn-dark" type=button value="BACK" onClick="window.history.back();return false;">
-
+                            <a class="btn btn-dark" href="{% url 'dashboard' %}" role="button">BACK</a>
                         </div>
 
                     </div>
@@ -159,12 +101,7 @@
                             <h5 class="mb-0 font-weight-bold ">:</>
                             </div>
                         <div class="col-sm-6">
-                            <p class="text-muted mb-0">
-                            {% if record.cost is None  %}
-				            		0
-				              {% else %}
-				                {{ record.cost }}
-				            {% endif %}</p>
+                            <p class="text-muted mb-0">{{ record.cost }}</p>
                         </div>
                     </div>
                     <hr>
@@ -200,6 +137,10 @@
                             <h5 class="mb-0 font-weight-bold ">:</>
                         </div>
                         <div class="col-sm-6">
+                            <!-- 
+ 							BOC 04072023
+                            <p class="text-muted mb-0">{{ the_target_completion_date }}</p>
+                            -->
                             <p class="text-muted mb-0">{{ the_target_completion_date }}</p>
                         </div>
                     </div>
@@ -214,7 +155,7 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0">Department:</p>
+                                <p class="mb-0">Area:</p>
                                 </div>
                                 <div class="col-sm-9">
                                 <p class="text-muted mb-0">
@@ -233,12 +174,12 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0"> Area:</p>
+                                <p class="mb-0"> Issues:</p>
                                 </div>
                                 <div class="col-sm-9">
                                         <p>
                                         {% if record.production_issue.all|length %}
-                                            {% for issue in record.production_issue.all %}
+                                            Production:{% for issue in record.production_issue.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -248,9 +189,7 @@
                                         {% endif %}  
 
                                         {% if record.supplier_issue.all|length %}
-
-                                            {% for issue in record.supplier_issue.all %}
-
+                                            Supplier:{% for issue in record.supplier_issue.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -260,8 +199,7 @@
                                         {% endif %}  
 
                                         {% if record.customer_issues.all|length %}
-                                            {% for issue in record.customer_issues.all %}
-
+                                            Customer:{% for issue in record.customer_issues.all %}
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -548,13 +486,7 @@
                                 <p class="mb-0">Estimated Completion Time:</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">
-                                    {% if record.estimated_readability  %}
-					            		 {{ record.estimated_readability }}
-					                {% else %}
-					                0d: 0h: 0m 
-					                {% endif %}
-                              </p>
+                                <p class="text-muted mb-0">{{ record.estimated_readability }}</p>
                                 </div>
                             </div>
                             <hr>
@@ -564,52 +496,26 @@
                                 <p class="mb-0">Downtime:</p>
                                 </div>
                                 <div class="col-sm-9">
-                                <p class="text-muted mb-0">
-                                    {% if record.downtime_readability  %}
-					            	     {{ record.downtime_readability }}
-					                {% else %}
-					               0d: 0h: 0m 
-					                {% endif %}
-					            </p>
-
+                                <p class="text-muted mb-0">{{ record.downtime_readability }}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                            <form  method="POST" action="{% url 'selected_pictures_delete' record.pk %}"  style="display: inline;"  >
-						        	{% csrf_token %}
-								    {% if messages %}
-								    {%for message in messages%}
-								        <div role="alert">
-								            {{ message }}
-								        </div>
-								    {% endfor %}
-								    {% endif %}
-                                
-                                   <table class="table table-striped table-hover table-bordered table-responsive ">
+                                <div class="col-sm-3">
+                                <p class="mb-0">Images:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                <p class="text-muted mb-0">
+                                    {% for img_url in record.image_set.all %}
+                                    {% if not forloop.first %}
+                                        <br>
+                                    {% endif %}
 
-
-								        <tr class="table-info">
-								            <th scope="col">Images</th>
-								            <th scope="col">Select images to
-								            <div>											
-								            <button class="btn btn-danger" style="position: relative" type="submit" value="DELETE" id="delete-button" onclick="return delete_selected();" >DELETE</button>
-								             </div>
-								             </th>
-								        </tr>
-								          {% for img_url in record.image_set.all %}
-		                                    {% if not forloop.first %}
-		                                        <br>
-		                                    {% endif %}
-										 <tr class="align-top">
-                   
-           								 <td><img src="{{ img_url }}" width="450"> </td>
-           								 <td>    <input type="checkbox" class="action-select" name="urls" value="{{ img_url.id }}" id="delete-selected" ></td>
-           								 </tr>
-           								  {% endfor %}
-                                </table>
-                                
-                                </form>
+                                    <img src="{{ img_url }}" width="450">
+				    	            <br>
+                                    {% endfor %}
+                                </p>
+                                </div>
                             </div>
                             <hr>
                             
@@ -646,54 +552,7 @@
             </div>
         </div>
     </section>
-<script type="text/javascript">
-	 function delete_selected() { 
-		var checkboxes = document.getElementsByName("urls");
-		var selected_checkboxes=0;
-		
-		for(var i = 0; i < checkboxes.length; i++)  {
-			if(checkboxes[i].checked){
-				selected_checkboxes=selected_checkboxes+1;
-			}
-		}
-		
-		if(selected_checkboxes > 0){
-			var isValid = confirm('Are you sure you want to delete the selected pictures ?');
-			if (!isValid) { 
-				event.preventDefault();  
-				alert("The pictures will not be deleted !"); 
-				}
-		}else{
-			alert("You didn't select any pictures !")
-		}
 
-
-<script type="text/javascript">
-	 function delete_selected() { 
-		var checkboxes = document.getElementsByName("urls");
-		var selected_checkboxes=0;
-		
-		for(var i = 0; i < checkboxes.length; i++)  {
-			if(checkboxes[i].checked){
-				selected_checkboxes=selected_checkboxes+1;
-			}
-		}
-		
-		if(selected_checkboxes > 0){
-			var isValid = confirm('Are you sure you want to delete the selected pictures ?');
-			if (!isValid) { 
-				event.preventDefault();  
-				alert("The pictures will not be deleted !"); 
-				}
-		}else{
-			alert("You didn't select any pictures !")
-		}
-
-
-	}
-		
-		
-	</script>
 
 
 </div>

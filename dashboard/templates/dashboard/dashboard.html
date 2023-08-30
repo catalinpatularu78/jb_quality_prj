@@ -9,45 +9,34 @@
         <p class="lead">J & B Engineering</p>
         <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
     </div>
-
-
 </div>
 
 <hr>
 
 <div class="  px-5">
-	<form  method="POST" action="{% url 'selected_records_delete' %}"  style="display: inline;"  >
-        	{% csrf_token %}
-		    {% if messages %}
-		    {%for message in messages%}
-		        <div role="alert">
-		            {{ message }}
-		        </div>
-		    {% endfor %}
-		    {% endif %}
     <table class="table table-striped table-hover table-bordered align-middle table-responsive ">
 
         <tr class="table-info">
+
             <th scope="col">Issue Date</th>
             <th scope="col">NCR Number</th>
             <th scope="col">Advice Number</th>
             <th scope="col" class="d-none d-md-table-cell ">Location</th>
-            <th scope="col" class="d-none d-md-table-cell ">Department</th>
             <th scope="col" class="d-none d-md-table-cell ">Area</th>
             <th scope="col">Cost</th>
             <th scope="col">Issue Solved</th>
             <th scope="col">Closure Date</th>
             <th scope="col">Severity</th>
-            <th scope="col">Person or Company responsible</th>
-            <th scope="col">Select records to
-             <button class="btn btn-danger" type="submit" value="DELETE" id="delete-button" onclick="return delete_selected();" >DELETE</button>
-             </th>
+            <th scope="col">Details</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
         </tr>
 
         {% for dash in dashboard %}
 
         <tr class="align-top">
-            <!-- <th scope="row">{{ forloop.counter }}</th> -->               
+            <!-- <th scope="row">{{ forloop.counter }}</th> -->
+            
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
             <td>
 
@@ -79,68 +68,23 @@
         
                 {% endfor %}
             </td>
-            <td class="d-none d-md-table-cell ">
-                 {% if dash.production_issue.all|length %}
-                     {% for issue in dash.production_issue.all %}
-                     {% if not forloop.first %}
-                     , 
-                     {% endif %}   
-                     {{issue}}                
-                     {% endfor %}
-                     &nbsp;
-                 {% endif %}  
 
-                 {% if dash.supplier_issue.all|length %}
-                     {% for issue in dash.supplier_issue.all %}
-                     {% if not forloop.first %}
-                     , 
-                     {% endif %}   
-                     {{issue}}                     
-                     {% endfor %}
-                     &nbsp;
-                 {% endif %}  
 
-                 {% if dash.customer_issues.all|length %}
-                     {% for issue in dash.customer_issues.all %}
-                     {% if not forloop.first %}
-                     , 
-                     {% endif %}   
-                     {{issue}}                         
-                     {% endfor %}
-                     &nbsp;
-                 {% endif %}
-
-                 {% if dash.other_issues.all|length %}
-                     {% for issue in dash.other_issues.all %}
-                     {% if not forloop.first %}
-                     , 
-                     {% endif %}   
-                     {{issue}}                  
-                     {% endfor %}
-                     &nbsp;
-                 {% endif %}
- 			</td>
-
-            <td> {% if dash.cost is None  %}
-            		0
-              {% else %}
-                {{ dash.cost }}
-            {% endif %}
-            </td>
+            <td>{{ dash.cost }}</td>
             <td>{{ dash.issue_solved }}</td>
             <td>{{ dash.closure_date|date:"d/m/Y"  }}</td>
             <td>
             {% if dash.severity == 3  %}
                 <button type="button" class="btn btn-danger fw-bolder disabled">
-                	      HIGH  
+                    {{dash.severity}} - [Stop the job]
                 </button>
             {% elif dash.severity == 2 %}
                 <button type="button" class="btn btn-warning fw-bolder  disabled" >
-                	      MEDIUM 
+                    {{dash.severity}} - [inform the supervisor and continue working]
                 </button>
             {% elif dash.severity == 1 %}
                 <button type="button" class="btn btn-secondary fw-bolder  disabled" >
-                	      LOW 
+                    {{dash.severity}} - [inform the supervisor]
                 </button>
             {% else %}
                 <h1>----</h1>
@@ -164,53 +108,25 @@
             </td> -->
 
 
-            <td class="d-none d-md-table-cell ">
-			 	{% for employee_obj in dash.the_subject_responsible.all %}
+            <td>
 
-                {% if not forloop.first %}
-                    ,
-                {% endif %}
+                <a class="btn btn-primary" href="{% url 'record_detail' dash.pk %}" role="button">DETAILS</a>
 
-                {{ employee_obj }}
+            </td>
+            <td>
+                <a class="btn btn-warning" href="{% url 'record_update' dash.pk %}" role="button">UPDATE</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
+            </td>
 
-                {% endfor %}
-			</td>
-            <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" ></td>
 
-                {% endfor %}
-			</td>
-            <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" ></td>
         </tr>
 
         {% endfor %}
 
     </table>
-	</form>
-	
-	<script type="text/javascript">
-	 function delete_selected() { 
-		var checkboxes = document.getElementsByName("ids");
-		var selected_checkboxes=0;
-		for(var i = 0; i < checkboxes.length; i++)  {
-			if(checkboxes[i].checked){
-				selected_checkboxes=selected_checkboxes+1;
-			}
-		}
-		if(selected_checkboxes > 0){
-			var isValid = confirm('Are you sure you want to delete the selected records ?');
-			if (!isValid) { 
-				event.preventDefault();  
-				alert("The records will not be deleted !"); 
-				}
-		}else{
-			alert("You didn't select any records !")
-		}
 
-	}
-		
-		
-	</script>
-	
     <div class="row">
         <div class="col-12">
             <span class="step-links">
@@ -233,5 +149,6 @@
 
 
 </div>
+
 
 {% endblock content %}
