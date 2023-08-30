@@ -286,6 +286,9 @@
             <td class="d-none d-md-table-cell ">
 			 	{% for employee_obj in dash.the_subject_responsible.all %}
 
+            <td class="d-none d-md-table-cell ">
+			 	{% for employee_obj in dash.the_subject_responsible.all %}
+
                 {% if not forloop.first %}
                     ,
                 {% endif %}
@@ -348,6 +351,7 @@
 
 
 </div>
+
 
 
 {% endblock content %}

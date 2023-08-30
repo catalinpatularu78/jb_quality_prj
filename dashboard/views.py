@@ -14,6 +14,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.contrib import messages
 from django.forms import ValidationError
+from django.core.paginator import Paginator
+from urllib.parse import urlparse, parse_qs
 
 from django.core.paginator import Paginator
 from urllib.parse import urlparse, parse_qs
@@ -42,6 +44,7 @@ decorators = [csrf_exempt]
 
 
 
+
 #    from rest_framework import generics
 #    from .serializers import DashboardModelSerializer
 
@@ -53,6 +56,7 @@ decorators = [csrf_exempt]
 #    class DashboardModelRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     #    queryset = DashboardModel.objects.all()
     #    serializer_class = DashboardModelSerializer
+
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
 
@@ -166,6 +170,7 @@ class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListVie
         context['myFilter_result'] = paginator.page(page)
        
         context['myFilter'] = filter_form
+
         return context
     
 
@@ -183,6 +188,7 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
         "cost",
         "issue_solved", 
         ]
+
 
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -217,12 +223,18 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         previous_record = DashboardModel.objects.filter(ncr_number__gt=int(record.ncr_number)).order_by('ncr_number').first()
         next_record =  DashboardModel.objects.filter(ncr_number__lt=int(record.ncr_number)).order_by('ncr_number').last()      
 
+
+        previous_record = DashboardModel.objects.filter(ncr_number__gt=int(record.ncr_number)).order_by('ncr_number').first()
+        next_record =  DashboardModel.objects.filter(ncr_number__lt=int(record.ncr_number)).order_by('ncr_number').last()      
+
+
         context['previous']= True
         context['next']=True
         if previous_record is None:
             context['previous']=False
         if next_record is None:
             context['next']=False
+
         the_target_completion_date=""
         the_closure_date=""
 
@@ -521,6 +533,7 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
+
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i)   
                 else:
@@ -644,6 +657,7 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
+
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i) #create the new images
                 else:
@@ -686,6 +700,97 @@ class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteVi
   
     #     return context
 
+class SelectedRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    success_url = reverse_lazy("dashboard")
+    context_object_name = 'selected_records_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_records = request.POST.getlist('ids')
+        records_deleted = DashboardModel.objects.filter(id__in=selected_records).delete()
+
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
+class SelectedFilterRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'selected_filter_records_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_records = request.POST.getlist('filtered_ids')
+        records_deleted = DashboardModel.objects.filter(id__in=selected_records).delete()
+
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
+
+class BackToPreviousRecord(StaffMemberRequiredMixin, LoginRequiredMixin,  View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'previous_record'
+    template_name = "dashboard/record_detail.html"
+    
+    def post(self, request, *args, **kwargs):
+        current_record_ncr = request.POST.get('ncr')
+
+        previous_record = DashboardModel.objects.filter(ncr_number__gt=int(current_record_ncr)).order_by('ncr_number').first()
+        pk = previous_record.id
+
+        return HttpResponseRedirect('/dashboard/record_details/'+ str(pk))
+
+
+class ForwardToNextRecord(StaffMemberRequiredMixin, LoginRequiredMixin,  View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'next_record'
+    template_name = "dashboard/record_detail.html"
+    
+    def post(self, request, *args, **kwargs):
+        current_record = request.POST.get('ncr')
+
+        next_record =  DashboardModel.objects.filter(ncr_number__lt=int(current_record)).order_by('ncr_number').last()      
+        pk = next_record.id
+
+        return HttpResponseRedirect('/dashboard/record_details/'+ str(pk))
+    
+
+class SelectedPicturesToDelete(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
+    model = DashboardModel
+    fields = "__all__"
+    context_object_name = 'selected_pictures_delete'
+
+    def post(self, request, *args, **kwargs):
+        selected_pictures_id = request.POST.getlist('urls')
+        print(selected_pictures_id, flush=True)
+        pk = self.get_object().id
+       
+        record = DashboardModel.objects.get(id=pk)
+        result = record.image_set.all()
+        records_dict = result.values()
+        print(records_dict, flush=True)
+  
+        for image in records_dict:
+
+            print(image, flush=True)
+            for k,v in image.items():
+                if k == 'id':
+                            
+                    print(v, flush=True)
+                    for id in selected_pictures_id:
+                        print(id, flush=True)
+                    
+                        if int(id) == v:
+                            print("true", flush=True)
+                            Image.objects.get(id=id).delete()
+            
+                
+    
+        return HttpResponseRedirect( request.META.get('HTTP_REFERER', '/'))
+
+
+    
 
 class SelectedRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
     model = DashboardModel

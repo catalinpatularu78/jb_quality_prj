@@ -41,6 +41,7 @@ if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
 
+
 # CSRF_TRUSTED_ORIGINS = ['http://51.142.154.216'] # azure server's public IP
 
 # Adding localhost to run in dev environment
@@ -48,6 +49,7 @@ CSRF_TRUSTED_ORIGINS = [
     'http://51.142.154.216',  # Azure server's public IP
     'http://localhost',  # Added localhost
 ]
+
 
 
 # Application definition
@@ -64,6 +66,7 @@ INSTALLED_APPS = [
     #'dashboard.apps.DashboardConfig', # Dashboard app added
     'dashboard',
     'rest_framework',
+
 ]
 
 
@@ -286,4 +289,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
 

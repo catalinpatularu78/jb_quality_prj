@@ -26,8 +26,6 @@ from .views import (
     FilterDashboardPage,
     OperativeFilterDashboardPage,
     OperativeCreatePage,
-#        DashboardModelListCreateView, 
-    #    DashboardModelRetrieveUpdateDestroyView,
 )
 
 
@@ -63,6 +61,6 @@ urlpatterns = [
     path('dashboard/production_issue_update/', IssueFormPage.as_view(),  name= 'production_issue_update'),
     path('record_details/selected_pictures_delete/<str:pk>', SelectedPicturesToDelete.as_view(),  name='selected_pictures_delete'),
 
-   
+
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -170,8 +170,7 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(heading_font, heading_fontsize)
-        # textobject.textLine("Printed by:")    // WPJ2-36 Rename the “Printed by“ field to “Quality Engineer“ and “Created by“ to “Supervised by“.
-        textobject.textLine("Quality Engineer:")
+        textobject.textLine("Printed by:")
         self.c.drawText(textobject)
         ''' answer blob '''
         textobject = self.c.beginText()
@@ -189,8 +188,7 @@ class Report:
         textobject.setTextOrigin(1.3*cm, 2*inch+1.5*cm)
         textobject.moveCursor(3*inch,0)
         textobject.setFont(heading_font, heading_fontsize)
-        # textobject.textLine("Created by:")     // WPJ2-36 Rename the “Printed by“ field to “Quality Engineer“ and “Created by“ to “Supervised by“.
-        textobject.textLine("Supervised by:")     
+        textobject.textLine("Created by:")
         self.c.drawText(textobject)
         ''' answer blob '''
         textobject = self.c.beginText()

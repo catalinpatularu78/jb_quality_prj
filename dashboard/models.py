@@ -55,7 +55,6 @@ class DashboardModel(models.Model):
     jb_client = models.ManyToManyField('JBClient' ,blank=True)
     closure_date = models.DateTimeField(null=True, blank = True)
     target_completion_date = models.DateTimeField(null=True, blank = True)
-#    target_completion_date = models.DateField(null=True, blank = True)
     cost = models.FloatField(null=True ,blank = True)
   #  issue_date = models.DateTimeField(null=True, blank = True , default = datetime.now().replace(second=0, microsecond=0) )#default = timezone.localtime()
     issue_date = models.DateTimeField(null=True, blank = True, default = timezone.now) #default = timezone.localtime
