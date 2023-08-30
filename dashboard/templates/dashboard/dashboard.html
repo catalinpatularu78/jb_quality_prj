@@ -8,7 +8,8 @@
         <h1>Quality Engineering Dashboard</h1>
         <p class="lead">J & B Engineering</p>
         <a class="btn btn-primary" href="{% url 'record_create' %}" role="button">+ CREATE NEW RECORD</a>
-     </div>
+    </div>
+
 </div>
 
 <hr>
@@ -46,6 +47,7 @@
 
         <tr class="align-top">
             <!-- <th scope="row">{{ forloop.counter }}</th> -->               
+            <!-- <th scope="row">{{ forloop.counter }}</th> -->
             <td> {{ dash.issue_date|date:"d/m/Y"  }} </td>
             <td>
 
@@ -162,6 +164,7 @@
             </td> -->
 
 
+
             <td class="d-none d-md-table-cell ">
 			 	{% for employee_obj in dash.the_subject_responsible.all %}
 
@@ -174,7 +177,6 @@
                 {% endfor %}
 			</td>
             <td> <input type="checkbox" class="action-select" name="ids" value="{{dash.id}}" id="delete-selected" ></td>
-
         </tr>
 
         {% endfor %}

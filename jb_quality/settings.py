@@ -40,7 +40,14 @@ ALLOWED_HOSTS_ENV = os.getenv('ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS.extend(ALLOWED_HOSTS_ENV.split(','))
 
-CSRF_TRUSTED_ORIGINS = ['http://51.142.154.216'] # azure server's public IP
+
+# CSRF_TRUSTED_ORIGINS = ['http://51.142.154.216'] # azure server's public IP
+
+# Adding localhost to run in dev environment
+CSRF_TRUSTED_ORIGINS = [
+    'http://51.142.154.216',  # Azure server's public IP
+    'http://localhost',  # Added localhost
+]
 
 
 # Application definition
@@ -55,8 +62,8 @@ INSTALLED_APPS = [
     'django_filters',
     'django_cleanup.apps.CleanupConfig',
     #'dashboard.apps.DashboardConfig', # Dashboard app added
-    'dashboard'
-    
+    'dashboard',
+    'rest_framework',
 ]
 
 
@@ -266,4 +273,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # def valid_url_extension(url, extension_list=VALID_IMAGE_EXTENSIONS):
 
 #     return any([url.endswith(e) for e in extension_list])
+
+# settings.py
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # Optional, to support session-based authentication
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 

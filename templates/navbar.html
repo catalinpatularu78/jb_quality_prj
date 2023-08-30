@@ -1,4 +1,6 @@
+
 {% load static %}
+
 
 <!-- Responsive navbar-->
 {% if request.user.is_authenticated %}
@@ -6,6 +8,7 @@
     <div class="container">
 
         {% if request.user.is_superuser %}
+
             <a  href="{% url 'dashboard' %}"> <img src="{% static 'img/modified_logo.jpg' %}" alt="Logo" style="width:65%;height:5%;float: left;"  />
 </a>
         {% else %}

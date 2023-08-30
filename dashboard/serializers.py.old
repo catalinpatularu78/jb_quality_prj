@@ -1,0 +1,750 @@
+from django.db import models
+from rest_framework import serializers
+#    from dashboard.models import DashboardModel
+from .models import DashboardModel, SpecificAreaOfIssue, AreaOfIssue, ProductionIssues, \
+    SupplierIssues, CustomerIssues, OtherIssues, Locations, SupervisorTeam, QualityEngineerTeam, \
+    PersonResponsible, ClientModel, JBClient
+
+
+
+#    class CustomDateField(serializers.ReadOnlyField):
+#        def to_representation(self, value):
+#            if value:
+#                return value.date()
+#            return None
+    
+    
+#    class DashboardModelSerializer(serializers.ModelSerializer):
+#        target_completion_date = serializers.DateField()
+
+#        class Meta:
+#            model = DashboardModel
+        #    fields = '__all__'  # Include all fields from the model
+#        fields = ['ncr_number', 'ncr_creator', 'issue_date', 'root_cause', 'description', 'severity' ]  # Include all fields from the model
+        # If you want to include specific fields, you can use a list of field names instead, like: fields = ['id', 'area', 'client', ...]
+
+
+
+
+class SpecificAreaOfIssueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SpecificAreaOfIssue
+        fields = '__all__'
+
+class AreaOfIssueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AreaOfIssue
+        fields = '__all__'
+
+class ProductionIssuesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductionIssues
+        fields = '__all__'
+
+class SupplierIssuesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupplierIssues
+        fields = '__all__'
+
+class CustomerIssuesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomerIssues
+        fields = '__all__'
+
+class OtherIssuesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OtherIssues
+        fields = '__all__'
+
+class LocationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Locations
+        fields = '__all__'
+
+class SupervisorTeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupervisorTeam
+        fields = '__all__'
+
+class QualityEngineerTeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QualityEngineerTeam
+        fields = '__all__'
+
+class PersonResponsibleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonResponsible
+        fields = '__all__'
+
+class ClientModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClientModel
+        fields = '__all__'
+
+class JBClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JBClient
+        fields = '__all__'
+
+""" 1) Nested JSON
+ class DashboardModelSerializer(serializers.ModelSerializer):
+    area = AreaOfIssueSerializer(many=True)
+    client = ClientModelSerializer(many=True)
+    jb_client = JBClientSerializer(many=True)
+    location = LocationsSerializer(many=True)
+    supervisor = SupervisorTeamSerializer(many=True)
+    printed_by = QualityEngineerTeamSerializer(many=True)
+    the_subject_responsible = PersonResponsibleSerializer(many=True)
+    production_issue = ProductionIssuesSerializer(many=True)
+    supplier_issue = SupplierIssuesSerializer(many=True)
+    customer_issues = CustomerIssuesSerializer(many=True)
+    other_issues = OtherIssuesSerializer(many=True)
+    area_in_specific = SpecificAreaOfIssueSerializer(many=True)
+
+
+    # Define SerializerMethodFields to get related field names
+    supervisor_names = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+
+    def get_supervisor_names(self, obj):
+        return [supervisor.name for supervisor in obj.supervisor.all()]
+
+    def get_location_names(self, obj):
+        return [location.name for location in obj.location.all()]
+
+    def get_the_subject_responsible_names(self, obj):
+        return [responsible.title for responsible in obj.the_subject_responsible.all()]
+
+    def get_production_issue_names(self, obj):
+        return [issue.issue_area_name for issue in obj.production_issue.all()]
+
+    def get_supplier_issue_names(self, obj):
+        return [issue.issue_area_name for issue in obj.supplier_issue.all()]
+
+    def get_customer_issues_names(self, obj):
+        return [issue.issue_area_name for issue in obj.customer_issues.all()]
+
+    def get_other_issues_names(self, obj):
+        return [issue.issue_area_name for issue in obj.other_issues.all()]
+
+    def get_area_in_specific_names(self, obj):
+        return [area.name for area in obj.area_in_specific.all()]
+
+
+    class Meta:
+        model = DashboardModel
+        fields = '__all__'
+
+"""
+
+""" 1) Flattened the JSON so that lists aren't showing when retreived in PowerBI. Still returning lists with the UUIDs of the related table entries.
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area_names = serializers.SerializerMethodField()
+    client_names = serializers.SerializerMethodField()
+    jb_client_names = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    supervisor_names = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+
+    def get_area_names(self, obj):
+        return ', '.join([area.name for area in obj.area.all()])
+
+    def get_client_names(self, obj):
+        return ', '.join([client.name for client in obj.client.all()])
+
+    def get_jb_client_names(self, obj):
+        return ', '.join([client.name for client in obj.jb_client.all()])
+
+    def get_location_names(self, obj):
+        return ', '.join([location.name for location in obj.location.all()])
+
+    def get_supervisor_names(self, obj):
+        return ', '.join([supervisor.name for supervisor in obj.supervisor.all()])
+
+    def get_the_subject_responsible_names(self, obj):
+        return ', '.join([responsible.title for responsible in obj.the_subject_responsible.all()])
+
+    def get_production_issue_names(self, obj):
+        return ', '.join([issue.issue_area_name for issue in obj.production_issue.all()])
+
+    def get_supplier_issue_names(self, obj):
+        return ', '.join([issue.issue_area_name for issue in obj.supplier_issue.all()])
+
+    def get_customer_issues_names(self, obj):
+        return ', '.join([issue.issue_area_name for issue in obj.customer_issues.all()])
+
+    def get_other_issues_names(self, obj):
+        return ', '.join([issue.issue_area_name for issue in obj.other_issues.all()])
+
+    def get_area_in_specific_names(self, obj):
+        return ', '.join([area.name for area in obj.area_in_specific.all()])
+
+    class Meta:
+        model = DashboardModel
+        fields = '__all__'
+
+"""
+
+""" 3) Remove UUIDs and use __str__ method in each model to return fields 
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area_names = serializers.SerializerMethodField()
+    client_names = serializers.SerializerMethodField()
+    jb_client_names = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    supervisor_names = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+
+    def get_area_names(self, obj):
+        return ', '.join([str(area) for area in obj.area.all()])
+
+    def get_client_names(self, obj):
+        return ', '.join([str(client) for client in obj.client.all()])
+
+    def get_jb_client_names(self, obj):
+        return ', '.join([str(jb_client) for jb_client in obj.jb_client.all()])
+
+    def get_location_names(self, obj):
+        return ', '.join([str(location) for location in obj.location.all()])
+
+    def get_supervisor_names(self, obj):
+        return ', '.join([str(supervisor) for supervisor in obj.supervisor.all()])
+
+    def get_the_subject_responsible_names(self, obj):
+        return ', '.join([str(responsible) for responsible in obj.the_subject_responsible.all()])
+
+    def get_production_issue_names(self, obj):
+        return ', '.join([str(issue) for issue in obj.production_issue.all()])
+
+    def get_supplier_issue_names(self, obj):
+        return ', '.join([str(issue) for issue in obj.supplier_issue.all()])
+
+    def get_customer_issues_names(self, obj):
+        return ', '.join([str(issue) for issue in obj.customer_issues.all()])
+
+    def get_other_issues_names(self, obj):
+        return ', '.join([str(issue) for issue in obj.other_issues.all()])
+
+    def get_area_in_specific_names(self, obj):
+        return ', '.join([str(area) for area in obj.area_in_specific.all()])
+
+    class Meta:
+        model = DashboardModel
+        exclude = ['area', 'client', 'jb_client', 'location', 'supervisor', 'the_subject_responsible', 'production_issue', 'supplier_issue', 'customer_issues', 'other_issues', 'area_in_specific']
+        
+""" 
+
+""" 4) have to add additional methods so that fields with multiple entries return them all separately e.g. not joined by a comma
+Should be no more than 3 but if there are then that and subsequent can be joined        
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area_names = serializers.SerializerMethodField()
+    area_names2 = serializers.SerializerMethodField()
+    area_names3 = serializers.SerializerMethodField()
+    client_names = serializers.SerializerMethodField()
+    client_names2 = serializers.SerializerMethodField()
+    client_names3 = serializers.SerializerMethodField()
+    jb_client_names = serializers.SerializerMethodField()
+    jb_client_names2 = serializers.SerializerMethodField()
+    jb_client_names3 = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    location_names2 = serializers.SerializerMethodField()
+    location_names3 = serializers.SerializerMethodField()
+    supervisor_names = serializers.SerializerMethodField()
+    supervisor_names2 = serializers.SerializerMethodField()
+    supervisor_names3 = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    the_subject_responsible_names2 = serializers.SerializerMethodField()
+    the_subject_responsible_names3 = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    production_issue_names2 = serializers.SerializerMethodField()
+    production_issue_names3 = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names2 = serializers.SerializerMethodField()
+    supplier_issue_names3 = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    customer_issues_names2 = serializers.SerializerMethodField()
+    customer_issues_names3 = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    other_issues_names2 = serializers.SerializerMethodField()
+    other_issues_names3 = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+    area_in_specific_names2 = serializers.SerializerMethodField()
+    area_in_specific_names3 = serializers.SerializerMethodField()
+
+    # Methods for area_names
+    def get_area_names(self, obj):
+        return self.get_item(obj.area.all(), 0)
+    def get_area_names2(self, obj):
+        return self.get_item(obj.area.all(), 1)
+    def get_area_names3(self, obj):
+        return self.get_item(obj.area.all(), 2, True)
+
+    # Methods for client_names
+    def get_client_names(self, obj):
+        return self.get_item(obj.client.all(), 0)
+    def get_client_names2(self, obj):
+        return self.get_item(obj.client.all(), 1)
+    def get_client_names3(self, obj):
+        return self.get_item(obj.client.all(), 2, True)
+
+    # Methods for jb_client_names
+    def get_jb_client_names(self, obj):
+        return self.get_item(obj.jb_client.all(), 0)
+    def get_jb_client_names2(self, obj):
+        return self.get_item(obj.jb_client.all(), 1)
+    def get_jb_client_names3(self, obj):
+        return self.get_item(obj.jb_client.all(), 2, True)
+
+    # Methods for location_names
+    def get_location_names(self, obj):
+        return self.get_item(obj.location.all(), 0)
+    def get_location_names2(self, obj):
+        return self.get_item(obj.location.all(), 1)
+    def get_location_names3(self, obj):
+        return self.get_item(obj.location.all(), 2, True)
+
+    # Methods for supervisor_names
+    def get_supervisor_names(self, obj):
+        return self.get_item(obj.supervisor.all(), 0)
+    def get_supervisor_names2(self, obj):
+        return self.get_item(obj.supervisor.all(), 1)
+    def get_supervisor_names3(self, obj):
+        return self.get_item(obj.supervisor.all(), 2, True)
+
+    # Methods for the_subject_responsible_names
+    def get_the_subject_responsible_names(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 0)
+    def get_the_subject_responsible_names2(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 1)
+    def get_the_subject_responsible_names3(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 2, True)
+
+    # Methods for production_issue_names
+    def get_production_issue_names(self, obj):
+        return self.get_item(obj.production_issue.all(), 0)
+    def get_production_issue_names2(self, obj):
+        return self.get_item(obj.production_issue.all(), 1)
+    def get_production_issue_names3(self, obj):
+        return self.get_item(obj.production_issue.all(), 2, True)
+
+    # Methods for supplier_issue_names
+    def get_supplier_issue_names(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 0)
+    def get_supplier_issue_names2(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 1)
+    def get_supplier_issue_names3(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 2, True)
+
+    # Methods for customer_issues_names
+    def get_customer_issues_names(self, obj):
+        return self.get_item(obj.customer_issues.all(), 0)
+    def get_customer_issues_names2(self, obj):
+        return self.get_item(obj.customer_issues.all(), 1)
+    def get_customer_issues_names3(self, obj):
+        return self.get_item(obj.customer_issues.all(), 2, True)
+
+    # Methods for other_issues_names
+    def get_other_issues_names(self, obj):
+        return self.get_item(obj.other_issues.all(), 0)
+    def get_other_issues_names2(self, obj):
+        return self.get_item(obj.other_issues.all(), 1)
+    def get_other_issues_names3(self, obj):
+        return self.get_item(obj.other_issues.all(), 2, True)
+    
+    # Methods for area_in_specific_names
+    def get_area_in_specific_names(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 0)
+    def get_area_in_specific_names2(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 1)
+    def get_area_in_specific_names3(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 2, True)
+    
+
+    
+    def get_item(self, items, index, join_remaining=False):
+        if join_remaining and len(items) > index:
+            return ', '.join(map(str, items[index:]))
+        else:
+            return str(items[index]) if len(items) > index else None
+
+    class Meta:
+        model = DashboardModel
+        exclude = [
+            'area', 'client', 'jb_client', 'location', 'supervisor', 'the_subject_responsible',
+            'production_issue', 'supplier_issue', 'customer_issues', 'other_issues', 'area_in_specific'
+        ]
+
+"""
+
+""" 5) only the first item was being returned since the other fields aren't columns in the model.  Adjust it so dynamic fields are added to the serializer """
+"""
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area = AreaOfIssueSerializer(many=True)
+    client = ClientModelSerializer(many=True)
+    jb_client = JBClientSerializer(many=True)
+    location = LocationsSerializer(many=True)
+    supervisor = SupervisorTeamSerializer(many=True)
+    printed_by = QualityEngineerTeamSerializer(many=True)
+    the_subject_responsible = PersonResponsibleSerializer(many=True)
+    production_issue = ProductionIssuesSerializer(many=True)
+    supplier_issue = SupplierIssuesSerializer(many=True)
+    customer_issues = CustomerIssuesSerializer(many=True)
+    other_issues = OtherIssuesSerializer(many=True)
+    area_in_specific = SpecificAreaOfIssueSerializer(many=True)
+
+    # Define fields dynamically
+    for field_name in [
+        'area', 'client', 'jb_client', 'location', 
+        'supervisor', 'the_subject_responsible', 
+        'production_issue', 'supplier_issue', 
+        'customer_issues', 'other_issues', 'area_in_specific'
+    ]:
+        for i in range(1, 4):
+            exec(f"{field_name}_names{i} = serializers.SerializerMethodField()")
+
+    # Define get methods dynamically
+    def _get_names(self, obj, field_name):
+        values = [getattr(item, 'name', '') for item in getattr(obj, field_name).all()]
+        values += [None, None]  # Make sure there are at least 3 items
+        return values[:3]
+
+    for field_name in [
+        'area', 'client', 'jb_client', 'location', 
+        'supervisor', 'the_subject_responsible', 
+        'production_issue', 'supplier_issue', 
+        'customer_issues', 'other_issues', 'area_in_specific'
+    ]:
+        for i in range(1, 4):
+            exec(f"def get_{field_name}_names{i}(self, obj): return self._get_names(obj, '{field_name}')[{i-1}]")
+
+    class Meta:
+        model = DashboardModel
+        exclude = [
+            'area', 'client', 'jb_client', 'location', 'supervisor', 'the_subject_responsible',
+            'production_issue', 'supplier_issue', 'customer_issues', 'other_issues', 'area_in_specific'
+        ]
+
+"""
+
+"""
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area_names = serializers.SerializerMethodField()
+    area_names2 = serializers.SerializerMethodField()
+    area_names3 = serializers.SerializerMethodField()
+    client_names = serializers.SerializerMethodField()
+    client_names2 = serializers.SerializerMethodField()
+    client_names3 = serializers.SerializerMethodField()
+    jb_client_names = serializers.SerializerMethodField()
+    jb_client_names2 = serializers.SerializerMethodField()
+    jb_client_names3 = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    location_names2 = serializers.SerializerMethodField()
+    location_names3 = serializers.SerializerMethodField()
+    supervisor_names = serializers.SerializerMethodField()
+    supervisor_names2 = serializers.SerializerMethodField()
+    supervisor_names3 = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    the_subject_responsible_names2 = serializers.SerializerMethodField()
+    the_subject_responsible_names3 = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    production_issue_names2 = serializers.SerializerMethodField()
+    production_issue_names3 = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names2 = serializers.SerializerMethodField()
+    supplier_issue_names3 = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    customer_issues_names2 = serializers.SerializerMethodField()
+    customer_issues_names3 = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    other_issues_names2 = serializers.SerializerMethodField()
+    other_issues_names3 = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+    area_in_specific_names2 = serializers.SerializerMethodField()
+    area_in_specific_names3 = serializers.SerializerMethodField()
+
+    def get_area_names(self, obj):
+        names = [area.name for area in obj.area.all()]
+        return names[0] if len(names) > 0 else ''
+
+    def get_area_names2(self, obj):
+        names = [area.name for area in obj.area.all()]
+        return names[1] if len(names) > 1 else ''
+
+    def get_area_names3(self, obj):
+        names = [area.name for area in obj.area.all()]
+        return ', '.join(names[2:]) if len(names) > 2 else ''
+
+    def get_client_names(self, obj):
+        return self._get_names(obj.client.all(), 0)
+    
+    def get_client_names2(self, obj):
+        return self._get_names(obj.client.all(), 1)
+    
+    def get_client_names3(self, obj):
+        return self._get_names(obj.client.all(), 2, join=True)
+    
+    def get_jb_client_names(self, obj):
+        return self._get_names(obj.jb_client.all(), 0)
+    
+    def get_jb_client_names2(self, obj):
+        return self._get_names(obj.jb_client.all(), 1)
+    
+    def get_jb_client_names3(self, obj):
+        return self._get_names(obj.jb_client.all(), 2, join=True)
+    
+    def get_location_names(self, obj):
+        return self._get_names(obj.location.all(), 0)
+    
+    def get_location_names2(self, obj):
+        return self._get_names(obj.location.all(), 1)
+    
+    def get_location_names3(self, obj):
+        return self._get_names(obj.location.all(), 2, join=True)
+    
+    def get_supervisor_names(self, obj):
+        return self._get_names(obj.supervisor.all(), 0)
+    
+    def get_supervisor_names2(self, obj):
+        return self._get_names(obj.supervisor.all(), 1)
+    
+    def get_supervisor_names3(self, obj):
+        return self._get_names(obj.supervisor.all(), 2, join=True)
+    
+    def get_the_subject_responsible_names(self, obj):
+        return self._get_names(obj.the_subject_responsible.all(), 0)
+    
+    def get_the_subject_responsible_names2(self, obj):
+        return self._get_names(obj.the_subject_responsible.all(), 1)
+    
+    def get_the_subject_responsible_names3(self, obj):
+        return self._get_names(obj.the_subject_responsible.all(), 2, join=True)
+    
+    def get_production_issue_names(self, obj):
+        return self._get_names(obj.production_issue.all(), 0)
+    
+    def get_production_issue_names2(self, obj):
+        return self._get_names(obj.production_issue.all(), 1)
+    
+    def get_production_issue_names3(self, obj):
+        return self._get_names(obj.production_issue.all(), 2, join=True)
+    
+    def get_supplier_issue_names(self, obj):
+        return self._get_names(obj.supplier_issue.all(), 0)
+    
+    def get_supplier_issue_names2(self, obj):
+        return self._get_names(obj.supplier_issue.all(), 1)
+    
+    def get_supplier_issue_names3(self, obj):
+        return self._get_names(obj.supplier_issue.all(), 2, join=True)
+    
+    def get_customer_issues_names(self, obj):
+        return self._get_names(obj.customer_issues.all(), 0)
+    
+    def get_customer_issues_names2(self, obj):
+        return self._get_names(obj.customer_issues.all(), 1)
+    
+    def get_customer_issues_names3(self, obj):
+        return self._get_names(obj.customer_issues.all(), 2, join=True)
+    
+    def get_other_issues_names(self, obj):
+        return self._get_names(obj.other_issues.all(), 0)
+    
+    def get_other_issues_names2(self, obj):
+        return self._get_names(obj.other_issues.all(), 1)
+    
+    def get_other_issues_names3(self, obj):
+        return self._get_names(obj.other_issues.all(), 2, join=True)
+    
+    def get_area_in_specific_names(self, obj):
+        return self._get_names(obj.area_in_specific.all(), 0)
+    
+    def get_area_in_specific_names2(self, obj):
+        return self._get_names(obj.area_in_specific.all(), 1)
+    
+    def get_area_in_specific_names3(self, obj):
+        return self._get_names(obj.area_in_specific.all(), 2, join=True)
+
+
+
+
+
+    class Meta:
+        model = DashboardModel
+        exclude = [
+            'area', 'client', 'jb_client', 'location', 'supervisor', 'the_subject_responsible',
+            'production_issue', 'supplier_issue', 'customer_issues', 'other_issues', 'area_in_specific'
+        ]
+
+    # Define get methods dynamically
+    def _get_names(self, obj, field_name):
+        values = [getattr(item, 'name', '') for item in getattr(obj, field_name).all()]
+        while len(values) < 3:  # Ensure there are at least 3 items
+            values.append(None)
+        return values
+
+    for field_name in [
+        'area', 'client', 'jb_client', 'location',
+        'supervisor', 'the_subject_responsible',
+        'production_issue', 'supplier_issue',
+        'customer_issues', 'other_issues', 'area_in_specific'
+    ]:
+        for i in range(1, 4):
+            exec(f"def get_{field_name}_names{i}(self, obj): return self._get_names(obj, '{field_name}')[{i - 1}]")
+
+"""
+
+
+
+
+class DashboardModelSerializer(serializers.ModelSerializer):
+    area_names = serializers.SerializerMethodField()
+    area_names2 = serializers.SerializerMethodField()
+    area_names3 = serializers.SerializerMethodField()
+    client_names = serializers.SerializerMethodField()
+    client_names2 = serializers.SerializerMethodField()
+    client_names3 = serializers.SerializerMethodField()
+    jb_client_names = serializers.SerializerMethodField()
+    jb_client_names2 = serializers.SerializerMethodField()
+    jb_client_names3 = serializers.SerializerMethodField()
+    location_names = serializers.SerializerMethodField()
+    location_names2 = serializers.SerializerMethodField()
+    location_names3 = serializers.SerializerMethodField()
+    supervisor_names = serializers.SerializerMethodField()
+    supervisor_names2 = serializers.SerializerMethodField()
+    supervisor_names3 = serializers.SerializerMethodField()
+    the_subject_responsible_names = serializers.SerializerMethodField()
+    the_subject_responsible_names2 = serializers.SerializerMethodField()
+    the_subject_responsible_names3 = serializers.SerializerMethodField()
+    production_issue_names = serializers.SerializerMethodField()
+    production_issue_names2 = serializers.SerializerMethodField()
+    production_issue_names3 = serializers.SerializerMethodField()
+    supplier_issue_names = serializers.SerializerMethodField()
+    supplier_issue_names2 = serializers.SerializerMethodField()
+    supplier_issue_names3 = serializers.SerializerMethodField()
+    customer_issues_names = serializers.SerializerMethodField()
+    customer_issues_names2 = serializers.SerializerMethodField()
+    customer_issues_names3 = serializers.SerializerMethodField()
+    other_issues_names = serializers.SerializerMethodField()
+    other_issues_names2 = serializers.SerializerMethodField()
+    other_issues_names3 = serializers.SerializerMethodField()
+    area_in_specific_names = serializers.SerializerMethodField()
+    area_in_specific_names2 = serializers.SerializerMethodField()
+    area_in_specific_names3 = serializers.SerializerMethodField()
+
+    # Methods for area_names
+    def get_area_names(self, obj):
+        return self.get_item(obj.area.all(), 0)
+    def get_area_names2(self, obj):
+        return self.get_item(obj.area.all(), 1)
+    def get_area_names3(self, obj):
+        return self.get_item(obj.area.all(), 2, True)
+
+    # Methods for client_names
+    def get_client_names(self, obj):
+        return self.get_item(obj.client.all(), 0)
+    def get_client_names2(self, obj):
+        return self.get_item(obj.client.all(), 1)
+    def get_client_names3(self, obj):
+        return self.get_item(obj.client.all(), 2, True)
+
+    # Methods for jb_client_names
+    def get_jb_client_names(self, obj):
+        return self.get_item(obj.jb_client.all(), 0)
+    def get_jb_client_names2(self, obj):
+        return self.get_item(obj.jb_client.all(), 1)
+    def get_jb_client_names3(self, obj):
+        return self.get_item(obj.jb_client.all(), 2, True)
+
+    # Methods for location_names
+    def get_location_names(self, obj):
+        return self.get_item(obj.location.all(), 0)
+    def get_location_names2(self, obj):
+        return self.get_item(obj.location.all(), 1)
+    def get_location_names3(self, obj):
+        return self.get_item(obj.location.all(), 2, True)
+
+    # Methods for supervisor_names
+    def get_supervisor_names(self, obj):
+        return self.get_item(obj.supervisor.all(), 0)
+    def get_supervisor_names2(self, obj):
+        return self.get_item(obj.supervisor.all(), 1)
+    def get_supervisor_names3(self, obj):
+        return self.get_item(obj.supervisor.all(), 2, True)
+
+    # Methods for the_subject_responsible_names
+    def get_the_subject_responsible_names(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 0)
+    def get_the_subject_responsible_names2(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 1)
+    def get_the_subject_responsible_names3(self, obj):
+        return self.get_item(obj.the_subject_responsible.all(), 2, True)
+
+    # Methods for production_issue_names
+    def get_production_issue_names(self, obj):
+        return self.get_item(obj.production_issue.all(), 0)
+    def get_production_issue_names2(self, obj):
+        return self.get_item(obj.production_issue.all(), 1)
+    def get_production_issue_names3(self, obj):
+        return self.get_item(obj.production_issue.all(), 2, True)
+
+    # Methods for supplier_issue_names
+    def get_supplier_issue_names(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 0)
+    def get_supplier_issue_names2(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 1)
+    def get_supplier_issue_names3(self, obj):
+        return self.get_item(obj.supplier_issue.all(), 2, True)
+
+    # Methods for customer_issues_names
+    def get_customer_issues_names(self, obj):
+        return self.get_item(obj.customer_issues.all(), 0)
+    def get_customer_issues_names2(self, obj):
+        return self.get_item(obj.customer_issues.all(), 1)
+    def get_customer_issues_names3(self, obj):
+        return self.get_item(obj.customer_issues.all(), 2, True)
+
+    # Methods for other_issues_names
+    def get_other_issues_names(self, obj):
+        return self.get_item(obj.other_issues.all(), 0)
+    def get_other_issues_names2(self, obj):
+        return self.get_item(obj.other_issues.all(), 1)
+    def get_other_issues_names3(self, obj):
+        return self.get_item(obj.other_issues.all(), 2, True)
+    
+    # Methods for area_in_specific_names
+    def get_area_in_specific_names(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 0)
+    def get_area_in_specific_names2(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 1)
+    def get_area_in_specific_names3(self, obj):
+        return self.get_item(obj.area_in_specific.all(), 2, True)
+    
+
+    
+    def get_item(self, items, index, join_remaining=False):
+        if join_remaining and len(items) > index:
+            return ', '.join(map(str, items[index:]))
+        else:
+            return str(items[index]) if len(items) > index else None
+
+    class Meta:
+        model = DashboardModel
+        exclude = [
+            'area', 'client', 'jb_client', 'location', 'supervisor', 'the_subject_responsible',
+            'production_issue', 'supplier_issue', 'customer_issues', 'other_issues', 'area_in_specific'
+        ]

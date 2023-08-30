@@ -132,7 +132,6 @@
                                 DELETE
                             </a>
                             <input class="btn btn-dark" type=button value="BACK" onClick="window.history.back();return false;">
-
                         </div>
 
                     </div>
@@ -200,6 +199,10 @@
                             <h5 class="mb-0 font-weight-bold ">:</>
                         </div>
                         <div class="col-sm-6">
+                            <!-- 
+ 							BOC 04072023
+                            <p class="text-muted mb-0">{{ the_target_completion_date }}</p>
+                            -->
                             <p class="text-muted mb-0">{{ the_target_completion_date }}</p>
                         </div>
                     </div>
@@ -233,7 +236,7 @@
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                <p class="mb-0"> Area:</p>
+                                <p class="mb-0"> Issues:</p>
                                 </div>
                                 <div class="col-sm-9">
                                         <p>
@@ -248,7 +251,9 @@
                                         {% endif %}  
 
                                         {% if record.supplier_issue.all|length %}
+
                                             {% for issue in record.supplier_issue.all %}
+
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -259,6 +264,7 @@
 
                                         {% if record.customer_issues.all|length %}
                                             {% for issue in record.customer_issues.all %}
+
                                             {% if not forloop.first %}
                                             , 
                                             {% endif %}   
@@ -568,10 +574,12 @@
 					               0d: 0h: 0m 
 					                {% endif %}
 					            </p>
+
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
+
                             <form  method="POST" action="{% url 'selected_pictures_delete' record.pk %}"  style="display: inline;"  >
 						        	{% csrf_token %}
 								    {% if messages %}
@@ -641,6 +649,7 @@
             </div>
         </div>
     </section>
+
 <script type="text/javascript">
 	 function delete_selected() { 
 		var checkboxes = document.getElementsByName("urls");

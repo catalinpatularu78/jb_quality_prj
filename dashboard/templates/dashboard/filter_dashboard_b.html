@@ -3,6 +3,7 @@
 {% block content %}
 
 {% load static %}
+
 {% load templatetags %}
 
 <!-- Page content-->
@@ -165,7 +166,6 @@
 
         	 {% for dash in myFilter_result %} 
          
-
         <tr class="align-top">
             <!-- <th scope="row">{{ forloop.counter }}</th> -->
             
@@ -295,6 +295,7 @@
                 {{ employee_obj }}
 
                 {% endfor %}
+
             </td>
             <!-- <td>
                 <a class="btn btn-danger" href="{% url 'record_delete' dash.pk %}" role="button">DELETE</a>
@@ -305,6 +306,7 @@
         {% endfor %}
 
     </table>
+
 
  <div class="row">
         <div class="col-12">

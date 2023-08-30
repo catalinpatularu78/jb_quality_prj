@@ -5,7 +5,8 @@ from django.shortcuts import render
 from django import forms
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-
+from django.db import IntegrityError 
+from django.core.exceptions import ValidationError
 
 
 # Register your models here.
@@ -76,7 +77,6 @@ class ClientAdmin(admin.ModelAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
-
 class CompanyResponsibleAdmin(admin.ModelAdmin):
     list_display = ['name']
 
@@ -101,9 +101,12 @@ class CompanyResponsibleAdmin(admin.ModelAdmin):
             for x in csv_data:
                 if x == "" : continue
                 fields = x.split(",")
-                created = ClientModel.objects.update_or_create(
+                obj, created = ClientModel.objects.update_or_create(
                     name = fields[0]
                     )
+                if not created:
+                    messages.warning(request, "Duplicate entry detected: {} already exists.".format(fields[0]))
+ 
             url = reverse('admin:index')
             return HttpResponseRedirect(url)
 
@@ -111,6 +114,13 @@ class CompanyResponsibleAdmin(admin.ModelAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
+    
+    def save_model(self, request, obj, form, change):
+        exists = ClientModel.objects.filter(name=obj.name).exclude(pk=obj.pk).exists()
+        if exists:
+            messages.warning(request, f"Duplicate entry detected: {obj.name} already exists.")
+        else:
+            super().save_model(request, obj, form, change)
 
 
 class SpecificAreaOfIssueAdmin(admin.ModelAdmin):
@@ -425,8 +435,6 @@ class QualityEngineerTeamAdmin(admin.ModelAdmin):
         data = {"form": form}
         return render(request, "admin/csv_upload.html", data)
 
-
-
 class PersonResponsibleAdmin(admin.ModelAdmin):
     list_display = ['title']
 
@@ -451,16 +459,28 @@ class PersonResponsibleAdmin(admin.ModelAdmin):
             for x in csv_data:
                 if x == "" : continue
                 fields = x.split(",")
+                
+                exists = PersonResponsible.objects.filter(title=fields[0]).exists()
+                if exists:
+                    messages.warning(request, "Duplicate entry detected: {} already exists.".format(fields[0]))
+                    continue
                 created = PersonResponsible.objects.update_or_create(
                     title = fields[0]
                     )
             url = reverse('admin:index')
             return HttpResponseRedirect(url)
 
-        form = CsvImportForm()
-        data = {"form": form}
-        return render(request, "admin/csv_upload.html", data)
+            form = CsvImportForm()
+            data = {"form": form}
+            return render(request, "admin/csv_upload.html", data)
 
+
+    def save_model(self, request, obj, form, change):
+        exists = PersonResponsible.objects.filter(title=obj.title).exclude(pk=obj.pk).exists()
+        if exists:
+            messages.warning(request, f"Duplicate entry detected: {obj.title} already exists.")
+        else:
+            super().save_model(request, obj, form, change)
 
 
 #ManyToMany

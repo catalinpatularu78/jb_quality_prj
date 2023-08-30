@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max, Min
 from django.contrib import messages
 from django.forms import ValidationError
+
 from django.core.paginator import Paginator
 from urllib.parse import urlparse, parse_qs
 
@@ -39,6 +40,19 @@ from dashboard.models import (
 from dashboard.forms import RecordForm, ImageForm
 decorators = [csrf_exempt]
 
+
+
+#    from rest_framework import generics
+#    from .serializers import DashboardModelSerializer
+
+
+#    class DashboardModelListCreateView(generics.ListCreateAPIView):
+    #    queryset = DashboardModel.objects.all()
+#        serializer_class = DashboardModelSerializer
+
+#    class DashboardModelRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    #    queryset = DashboardModel.objects.all()
+    #    serializer_class = DashboardModelSerializer
 
 class StaffMemberRequiredMixin(UserPassesTestMixin):
 
@@ -152,7 +166,6 @@ class FilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin , ListVie
         context['myFilter_result'] = paginator.page(page)
        
         context['myFilter'] = filter_form
-   
         return context
     
 
@@ -171,8 +184,6 @@ class OperativeFilterDashboardPage(StaffMemberRequiredMixin, LoginRequiredMixin 
         "issue_solved", 
         ]
 
-    
-    
     def get_context_data(self, *args,  **kwargs):
         context = super().get_context_data(*args, **kwargs)
         filter_form = DashboardFilter(self.request.GET,queryset=self.get_queryset())
@@ -203,7 +214,6 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
         context = super().get_context_data(**kwargs)
         pk = self.get_object().id
         record = DashboardModel.objects.get(id=pk)
-
         previous_record = DashboardModel.objects.filter(ncr_number__gt=int(record.ncr_number)).order_by('ncr_number').first()
         next_record =  DashboardModel.objects.filter(ncr_number__lt=int(record.ncr_number)).order_by('ncr_number').last()      
 
@@ -213,7 +223,6 @@ class RecordDetailPage(StaffMemberRequiredMixin, LoginRequiredMixin, DetailView)
             context['previous']=False
         if next_record is None:
             context['next']=False
-
         the_target_completion_date=""
         the_closure_date=""
 
@@ -512,7 +521,6 @@ class RecordUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateView
 
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
-                  
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i)   
                 else:
@@ -636,7 +644,6 @@ class OperativeUpdatePage(StaffMemberRequiredMixin, LoginRequiredMixin , UpdateV
             
             if(d.image_set.all()): #if images are present in the record  
                 if(files): #if new files are loaded
-
                     for i in files:
                         Image.objects.update_or_create(project=f, image=i) #create the new images
                 else:
@@ -678,6 +685,7 @@ class RecordDeletePage( StaffMemberRequiredMixin , LoginRequiredMixin , DeleteVi
     #             context['caution_message'] = "placeholder"
   
     #     return context
+
 
 class SelectedRecordsDeletePage(StaffMemberRequiredMixin, LoginRequiredMixin, CreateView, View):
     model = DashboardModel
